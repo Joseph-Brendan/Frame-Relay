@@ -1,0 +1,24 @@
+{
+  "name": "Button",
+  "description": "Component using undeclared anatomy part in styles",
+  "anatomy": [
+    {
+      "name": "root",
+      "description": "Root element",
+      "required": true
+    }
+  ],
+  "props": [],
+  "base": {
+    "badge": {
+      "background": "{color.primary.500}"
+    }
+  },
+  "variants": [],
+  "states": [],
+  "usage": {
+    "do": ["Declare all anatomy parts"],
+    "dont": ["Style undeclared layers"]
+  },
+  "screenshots": []
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://joseph-brendan.github.io/Frame-Relay/schemas/v1/manifest.schema.json",
+  "kitVersion": "1.0",
+  "name": "Frame-Relay Sample Kit",
+  "generator": {
+    "name": "hand-written",
+    "version": "0.0.0"
+  },
+  "source": {
+    "type": "figma",
+    "fileKey": "SAMPLE",
+    "fileName": "Frame-Relay Sample Kit"
+  },
+  "exportedAt": "2026-10-03T12:00:00.000Z",
+  "tokensFile": "tokens.json",
+  "modes": ["light", "dark"],
+  "components": [
+    {
+      "name": "Button",
+      "file": "components/Button.json"
+    },
+    {
+      "name": "Input",
+      "file": "components/Input.json"
+    },
+    {
+      "name": "Card",
+      "file": "components/Card.json"
+    }
+  ]
+}

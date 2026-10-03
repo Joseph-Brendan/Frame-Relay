@@ -1,0 +1,39 @@
+{
+  "name": "Button",
+  "description": "Component with invalid variant value",
+  "anatomy": [
+    {
+      "name": "root",
+      "description": "Root element",
+      "required": true
+    }
+  ],
+  "props": [
+    {
+      "name": "Size",
+      "type": "variant",
+      "options": ["Small", "Medium", "Large"]
+    }
+  ],
+  "base": {},
+  "variants": [
+    {
+      "props": { "Size": "Small" },
+      "styles": {}
+    },
+    {
+      "props": { "Size": "Medium" },
+      "styles": {}
+    },
+    {
+      "props": { "Size": "Huge" },
+      "styles": {}
+    }
+  ],
+  "states": [],
+  "usage": {
+    "do": ["Use declared options"],
+    "dont": ["Use undeclared values"]
+  },
+  "screenshots": []
+}

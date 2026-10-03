@@ -1,0 +1,162 @@
+{
+  "$schema": "https://joseph-brendan.github.io/Frame-Relay/schemas/v1/component.schema.json",
+  "name": "Input",
+  "description": "Capture single-line textual user input.",
+  "category": "input",
+  "anatomy": [
+    {
+      "name": "root",
+      "description": "Stack container for the input component",
+      "required": true
+    },
+    {
+      "name": "label",
+      "description": "Text caption identifying input purpose",
+      "required": true
+    },
+    {
+      "name": "field",
+      "description": "Interactive box where input value is typed",
+      "required": true
+    },
+    {
+      "name": "helper-text",
+      "description": "Supplementary guidance or error feedback text",
+      "required": false
+    }
+  ],
+  "props": [
+    {
+      "name": "size",
+      "type": "variant",
+      "options": ["Medium"],
+      "default": "Medium",
+      "description": "Height and text sizing of input field"
+    },
+    {
+      "name": "label",
+      "type": "text",
+      "default": "Label",
+      "description": "Label text displayed above field"
+    },
+    {
+      "name": "helperText",
+      "type": "text",
+      "default": "",
+      "description": "Assistive message below field"
+    }
+  ],
+  "layout": {
+    "direction": "column",
+    "gap": "{space.1}",
+    "width": "fill",
+    "height": "hug"
+  },
+  "base": {
+    "root": {
+      "typography": "{typography.body}"
+    },
+    "label": {
+      "color": "{color.neutral.900}",
+      "typography": "{typography.label}"
+    },
+    "field": {
+      "background": "{color.neutral.0}",
+      "borderColor": "{color.neutral.300}",
+      "borderWidth": "{space.1}",
+      "borderRadius": "{radius.sm}",
+      "color": "{color.neutral.900}",
+      "typography": "{typography.body}"
+    },
+    "helper-text": {
+      "color": "{color.neutral.500}",
+      "typography": "{typography.label}"
+    }
+  },
+  "variants": [
+    {
+      "props": {
+        "size": "Medium"
+      },
+      "styles": {
+        "field": {
+          "borderRadius": "{radius.sm}"
+        }
+      }
+    }
+  ],
+  "states": [
+    {
+      "name": "Default",
+      "styles": {}
+    },
+    {
+      "name": "Focus",
+      "styles": {
+        "field": {
+          "borderColor": "{color.focus.ring}",
+          "borderWidth": "{space.1}"
+        }
+      }
+    },
+    {
+      "name": "Error",
+      "styles": {
+        "field": {
+          "borderColor": "{color.danger.500}"
+        },
+        "helper-text": {
+          "color": "{color.danger.500}"
+        }
+      }
+    },
+    {
+      "name": "Disabled",
+      "styles": {
+        "field": {
+          "background": "{color.neutral.100}",
+          "color": "{color.neutral.500}"
+        }
+      }
+    }
+  ],
+  "usage": {
+    "do": [
+      "Always provide a permanent, visible label above the field.",
+      "Use helper text for formatting rules or character limits.",
+      "Show inline validation error messages directly in helper text upon blur or submit."
+    ],
+    "dont": [
+      "Do not use placeholder text as a replacement for a label.",
+      "Do not hide helper text when entering the error state."
+    ]
+  },
+  "accessibility": {
+    "role": "textbox",
+    "notes": [
+      "Label must be linked to field using matching id and htmlFor.",
+      "Helper text must be associated via aria-describedby.",
+      "Set aria-invalid='true' when in the error state."
+    ]
+  },
+  "screenshots": [
+    {
+      "variant": {
+        "size": "Medium"
+      },
+      "state": "Default",
+      "path": "screenshots/Input--Medium--Default.png"
+    },
+    {
+      "variant": {
+        "size": "Medium"
+      },
+      "state": "Focus",
+      "path": "screenshots/Input--Medium--Focus.png"
+    }
+  ],
+  "source": {
+    "figmaNodeId": "1:55",
+    "figmaComponentKey": "inp-key-002"
+  }
+}
