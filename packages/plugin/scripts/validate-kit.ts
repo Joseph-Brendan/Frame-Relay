@@ -11,17 +11,43 @@ async function run(): Promise<void> {
     process.exit(1);
   }
 
-  const resolvedPath = path.resolve(process.cwd(), zipArg);
+  const cleanArg =
+    zipArg.startsWith('/') && !fs.existsSync(zipArg) ? zipArg.replace(/^\/+/, '') : zipArg;
+  let resolvedPath = path.resolve(process.cwd(), cleanArg);
   if (!fs.existsSync(resolvedPath)) {
-    console.error(`Error: File not found at "${resolvedPath}"`);
-    process.exit(1);
+    const workspacePath = path.resolve(process.cwd(), '../../', cleanArg);
+    if (fs.existsSync(workspacePath)) {
+      resolvedPath = workspacePath;
+    } else {
+      console.error(`Error: File or directory not found at "${resolvedPath}"`);
+      process.exit(1);
+    }
   }
 
   console.log(`\nValidating Frame-Relay Kit: ${path.basename(resolvedPath)}`);
   console.log('='.repeat(60));
 
-  const buffer = fs.readFileSync(resolvedPath);
-  const zip = await JSZip.loadAsync(buffer);
+  let zip: JSZip;
+  const stat = fs.statSync(resolvedPath);
+  if (stat.isDirectory()) {
+    zip = new JSZip();
+    const addDir = (dir: string, base: string) => {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        const rel = base ? `${base}/${entry.name}` : entry.name;
+        if (entry.isDirectory()) {
+          addDir(fullPath, rel);
+        } else {
+          zip.file(rel, fs.readFileSync(fullPath));
+        }
+      }
+    };
+    addDir(resolvedPath, '');
+  } else {
+    const buffer = fs.readFileSync(resolvedPath);
+    zip = await JSZip.loadAsync(buffer);
+  }
 
   // Helper to find a file path whether inside a root folder (e.g. frame-relay-kit/) or at root
   const findZipFile = (relativePath: string) => {
