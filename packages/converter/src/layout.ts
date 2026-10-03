@@ -155,7 +155,7 @@ export function extractLayout(
       } else {
         padding[key] = { raw: `${val}px` };
         hasPadding = true;
-        addRawWarning(`padding.${key}`, `${val}px`);
+        addRawWarning(`padding.${String(key)}`, `${val}px`);
       }
     }
   }
