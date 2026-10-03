@@ -5,11 +5,22 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "typecheck": "tsc --noEmit"
+    "dev": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "validate-kit": "tsx scripts/validate-kit.ts"
+  },
+  "dependencies": {
+    "@josephbrendan/converter": "workspace:*",
+    "@josephbrendan/schema": "workspace:*",
+    "jszip": "^3.10.1",
+    "preact": "^10.26.4"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.106.0",
+    "@types/jszip": "^3.4.1",
     "esbuild": "^0.25.0",
+    "tsx": "^4.19.3",
     "typescript": "^5.7.3"
   }
 }

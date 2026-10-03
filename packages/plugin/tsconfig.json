@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": ".",
     "outDir": "dist",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "types": ["@figma/plugin-typings"]
   },
-  "include": ["src"]
+  "include": ["src", "scripts"]
 }
