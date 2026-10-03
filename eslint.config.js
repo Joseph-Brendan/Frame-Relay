@@ -7,4 +7,35 @@ export default tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    files: ['packages/converter/src/**/*.{ts,js}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            { name: 'fs', message: 'Pure converter functions must not use fs.' },
+            { name: 'node:fs', message: 'Pure converter functions must not use fs.' },
+            { name: 'node:fs/promises', message: 'Pure converter functions must not use fs.' },
+            { name: 'path', message: 'Pure converter functions must not use path.' },
+            { name: 'node:path', message: 'Pure converter functions must not use path.' },
+            {
+              name: '@figma/plugin-typings',
+              message: 'Converter must only use plain snapshot objects, not Figma typings.',
+            },
+          ],
+          patterns: [
+            {
+              group: ['*figma*'],
+              message: 'Converter must not import Figma API.',
+            },
+          ],
+        },
+      ],
+      'no-restricted-globals': [
+        'error',
+        { name: 'figma', message: 'figma global is not allowed in pure converter logic.' },
+      ],
+    },
+  },
 );
