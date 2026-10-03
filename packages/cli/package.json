@@ -1,0 +1,36 @@
+{
+  "name": "@josephbrendan/Frame-Relay",
+  "version": "0.0.0",
+  "type": "module",
+  "bin": {
+    "Frame-Relay": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@josephbrendan/converter": "workspace:*",
+    "@josephbrendan/schema": "workspace:*",
+    "cac": "^6.7.14",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
+  }
+}
