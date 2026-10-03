@@ -1,0 +1,22 @@
+{
+  "S:typography-body": {
+    "name": "typography/body",
+    "tokenPath": "typography.body"
+  },
+  "S:typography-label": {
+    "name": "typography/label",
+    "tokenPath": "typography.label"
+  },
+  "S:typography-button": {
+    "name": "typography/button",
+    "tokenPath": "typography.button"
+  },
+  "S:shadow-sm": {
+    "name": "shadow/sm",
+    "tokenPath": "shadow.sm"
+  },
+  "S:shadow-md": {
+    "name": "shadow/md",
+    "tokenPath": "shadow.md"
+  }
+}

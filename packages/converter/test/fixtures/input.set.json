@@ -1,0 +1,227 @@
+{
+  "id": "1:55",
+  "name": "Input",
+  "type": "COMPONENT_SET",
+  "description": "Capture single-line textual user input.\nRole: textbox\nA11y: Label must be linked to field using matching id and htmlFor.\nA11y: Helper text must be associated via aria-describedby.\nA11y: Set aria-invalid='true' when in the error state.\nDo: Use clear, predictable label text above the field.\nDo: Provide helper text for formatting constraints.\nDo: Show inline validation messages after user interaction.\nDon't: Do not use placeholder text as a replacement for a label.\nDon't: Do not hide helper text when entering the error state.",
+  "layoutMode": "VERTICAL",
+  "itemSpacing": 4,
+  "layoutSizingHorizontal": "FILL",
+  "layoutSizingVertical": "HUG",
+  "boundVariables": {
+    "itemSpacing": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" }
+  },
+  "componentPropertyDefinitions": {
+    "Size": {
+      "type": "VARIANT",
+      "defaultValue": "Medium",
+      "variantOptions": ["Medium"]
+    },
+    "Label#1:1": {
+      "type": "TEXT",
+      "defaultValue": "Label"
+    },
+    "Helper Text#1:2": {
+      "type": "TEXT",
+      "defaultValue": ""
+    },
+    "State": {
+      "type": "VARIANT",
+      "defaultValue": "Default",
+      "variantOptions": ["Default", "Focus", "Error", "Disabled"]
+    }
+  },
+  "children": [
+    {
+      "id": "inp-m-def",
+      "name": "Size=Medium, State=Default",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Size": "Medium",
+        "State": "Default"
+      },
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 4,
+      "layoutSizingHorizontal": "FILL",
+      "layoutSizingVertical": "HUG",
+      "boundVariables": {
+        "itemSpacing": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" }
+      },
+      "textStyleId": "S:typography-body",
+      "children": [
+        {
+          "id": "inp-label",
+          "name": "label",
+          "type": "TEXT",
+          "characters": "Label",
+          "textStyleId": "S:typography-label",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.059, "g": 0.09, "b": 0.165 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-900" }
+              }
+            }
+          ],
+          "description": "Text caption identifying input purpose"
+        },
+        {
+          "id": "inp-field",
+          "name": "field",
+          "type": "FRAME",
+          "textStyleId": "S:typography-body",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 1, "g": 1, "b": 1 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+              }
+            }
+          ],
+          "strokes": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.796, "g": 0.835, "b": 0.882 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-300" }
+              }
+            }
+          ],
+          "strokeWeight": 4,
+          "cornerRadius": 6,
+          "boundVariables": {
+            "strokeWeight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" },
+            "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-sm" }
+          },
+          "description": "Interactive box where input value is typed",
+          "children": [
+            {
+              "id": "inp-text",
+              "name": "field-text",
+              "type": "TEXT",
+              "characters": "Placeholder",
+              "textStyleId": "S:typography-body",
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": { "r": 0.059, "g": 0.09, "b": 0.165 },
+                  "boundVariables": {
+                    "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-900" }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "inp-helper",
+          "name": "helper-text",
+          "type": "TEXT",
+          "visible": false,
+          "characters": "",
+          "textStyleId": "S:typography-label",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.392, "g": 0.455, "b": 0.545 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-500" }
+              }
+            }
+          ],
+          "description": "Supplementary guidance or error feedback text"
+        }
+      ]
+    },
+    {
+      "id": "inp-m-focus",
+      "name": "Size=Medium, State=Focus",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Size": "Medium",
+        "State": "Focus"
+      },
+      "children": [
+        {
+          "id": "inp-field-focus",
+          "name": "field",
+          "type": "FRAME",
+          "strokes": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.576, "g": 0.773, "b": 0.992 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-focus-ring" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inp-m-error",
+      "name": "Size=Medium, State=Error",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Size": "Medium",
+        "State": "Error"
+      },
+      "children": [
+        {
+          "id": "inp-field-error",
+          "name": "field",
+          "type": "FRAME",
+          "strokes": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.937, "g": 0.267, "b": 0.267 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-danger-500" }
+              }
+            }
+          ]
+        },
+        {
+          "id": "inp-helper-error",
+          "name": "helper-text",
+          "type": "TEXT",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.937, "g": 0.267, "b": 0.267 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-danger-500" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inp-m-disabled",
+      "name": "Size=Medium, State=Disabled",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Size": "Medium",
+        "State": "Disabled"
+      },
+      "children": [
+        {
+          "id": "inp-field-disabled",
+          "name": "field",
+          "type": "FRAME",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.945, "g": 0.961, "b": 0.976 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-100" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

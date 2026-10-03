@@ -1,0 +1,159 @@
+{
+  "id": "1:88",
+  "name": "Card",
+  "type": "COMPONENT_SET",
+  "description": "Group content and actions in a structured surface container.\nRole: region\nA11y: When interactive, set role='button' or wrap with anchor.\nA11y: Provide aria-labelledby pointing to header title.\nDo: Use Default elevation for standard page sections.\nDo: Use Elevated variant for floating dialogs, menus, or cards over busy backgrounds.\nDon't: Do not nest cards inside other cards.\nDon't: Do not use elevated cards on dark background without testing contrast.",
+  "layoutMode": "VERTICAL",
+  "itemSpacing": 16,
+  "paddingTop": 16,
+  "paddingRight": 16,
+  "paddingBottom": 16,
+  "paddingLeft": 16,
+  "layoutSizingHorizontal": "FILL",
+  "layoutSizingVertical": "HUG",
+  "boundVariables": {
+    "itemSpacing": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "paddingTop": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "paddingRight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "paddingBottom": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "paddingLeft": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+  },
+  "componentPropertyDefinitions": {
+    "Variant": {
+      "type": "VARIANT",
+      "defaultValue": "Default",
+      "variantOptions": ["Default", "Elevated"]
+    }
+  },
+  "children": [
+    {
+      "id": "crd-def",
+      "name": "Variant=Default",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Default"
+      },
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 16,
+      "paddingTop": 16,
+      "paddingRight": 16,
+      "paddingBottom": 16,
+      "paddingLeft": 16,
+      "layoutSizingHorizontal": "FILL",
+      "layoutSizingVertical": "HUG",
+      "boundVariables": {
+        "itemSpacing": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+        "paddingTop": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+        "paddingRight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+        "paddingBottom": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+        "paddingLeft": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-lg" },
+        "strokeWeight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" }
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 1, "g": 1, "b": 1 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+          }
+        }
+      ],
+      "strokes": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.945, "g": 0.961, "b": 0.976 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-100" }
+          }
+        }
+      ],
+      "strokeWeight": 4,
+      "cornerRadius": 16,
+      "effectStyleId": "S:shadow-sm",
+      "children": [
+        {
+          "id": "crd-hdr",
+          "name": "header",
+          "type": "TEXT",
+          "characters": "Card Header",
+          "textStyleId": "S:typography-label",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.059, "g": 0.09, "b": 0.165 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-900" }
+              }
+            }
+          ],
+          "description": "Top section containing title, subtitle, or badge"
+        },
+        {
+          "id": "crd-body",
+          "name": "body",
+          "type": "FRAME",
+          "cornerRadius": 13,
+          "textStyleId": "S:typography-body",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.059, "g": 0.09, "b": 0.165 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-900" }
+              }
+            }
+          ],
+          "description": "Primary content container"
+        },
+        {
+          "id": "crd-ftr",
+          "name": "footer",
+          "type": "FRAME",
+          "visible": false,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.392, "g": 0.455, "b": 0.545 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-500" }
+              }
+            }
+          ],
+          "description": "Bottom action bar or metadata row"
+        }
+      ]
+    },
+    {
+      "id": "crd-elev",
+      "name": "Variant=Elevated",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Elevated"
+      },
+      "effectStyleId": "S:shadow-md",
+      "children": [
+        {
+          "id": "crd-hdr-2",
+          "name": "header",
+          "type": "TEXT",
+          "characters": "Card Header",
+          "textStyleId": "S:typography-label"
+        },
+        {
+          "id": "crd-body-2",
+          "name": "body",
+          "type": "FRAME",
+          "cornerRadius": 13,
+          "textStyleId": "S:typography-body"
+        },
+        {
+          "id": "crd-ftr-2",
+          "name": "footer",
+          "type": "FRAME",
+          "visible": true
+        }
+      ]
+    }
+  ]
+}

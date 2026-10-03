@@ -1,0 +1,60 @@
+{
+  "id": "messy:1",
+  "name": "messy component",
+  "type": "COMPONENT_SET",
+  "componentPropertyDefinitions": {
+    "State": {
+      "type": "VARIANT",
+      "defaultValue": "Default",
+      "variantOptions": ["Active", "Default"]
+    }
+  },
+  "children": [
+    {
+      "id": "messy-child-1",
+      "name": "State=Active",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "State": "Active"
+      },
+      "children": []
+    },
+    {
+      "id": "messy-child-2",
+      "name": "State=Default",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "State": "Default"
+      },
+      "layoutMode": "NONE",
+      "fills": [
+        {
+          "type": "GRADIENT_LINEAR"
+        }
+      ],
+      "topLeftRadius": 4,
+      "topRightRadius": 8,
+      "bottomRightRadius": 12,
+      "bottomLeftRadius": 16,
+      "children": [
+        {
+          "id": "messy-abs-child",
+          "name": "badge",
+          "type": "FRAME",
+          "layoutPositioning": "ABSOLUTE"
+        },
+        {
+          "id": "messy-frame-12",
+          "name": "Frame 12",
+          "type": "FRAME",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 1, "g": 0, "b": 0 }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
