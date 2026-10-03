@@ -24,6 +24,7 @@ Frame-Relay/
 
 - [Kit Format Specification](docs/kit-format.md): Folder layout, field specifications, and annotated schema examples.
 - [Figma Naming Contract](docs/naming-contract.md): Strict naming rules and design constraints for Figma components.
+- [Converter Core Documentation](docs/converter.md): Figma snapshots, mapping tables, warning codes, and converter API.
 
 ## Local Setup
 
