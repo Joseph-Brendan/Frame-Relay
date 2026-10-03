@@ -1,0 +1,14 @@
+{
+  "color": {
+    "primary": {
+      "500": {
+        "$value": "{color.primary.600}",
+        "$type": "color"
+      },
+      "600": {
+        "$value": "{color.primary.500}",
+        "$type": "color"
+      }
+    }
+  }
+}

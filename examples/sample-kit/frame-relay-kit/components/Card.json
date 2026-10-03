@@ -1,0 +1,137 @@
+{
+  "$schema": "https://joseph-brendan.github.io/Frame-Relay/schemas/v1/component.schema.json",
+  "name": "Card",
+  "description": "Group content and actions in a structured surface container.",
+  "category": "layout",
+  "anatomy": [
+    {
+      "name": "root",
+      "description": "Outer boundary container for the card",
+      "required": true
+    },
+    {
+      "name": "header",
+      "description": "Top section containing title, subtitle, or badge",
+      "required": true
+    },
+    {
+      "name": "body",
+      "description": "Primary content container",
+      "required": true
+    },
+    {
+      "name": "footer",
+      "description": "Bottom action bar or metadata row",
+      "required": false
+    }
+  ],
+  "props": [
+    {
+      "name": "variant",
+      "type": "variant",
+      "options": ["Default", "Elevated"],
+      "default": "Default",
+      "description": "Surface elevation style"
+    }
+  ],
+  "layout": {
+    "direction": "column",
+    "gap": "{space.4}",
+    "padding": {
+      "top": "{space.4}",
+      "right": "{space.4}",
+      "bottom": "{space.4}",
+      "left": "{space.4}"
+    },
+    "width": "fill",
+    "height": "hug"
+  },
+  "base": {
+    "root": {
+      "background": "{color.neutral.0}",
+      "borderRadius": "{radius.lg}",
+      "borderColor": "{color.neutral.100}",
+      "borderWidth": "{space.1}"
+    },
+    "header": {
+      "typography": "{typography.label}",
+      "color": "{color.neutral.900}"
+    },
+    "body": {
+      "typography": "{typography.body}",
+      "color": "{color.neutral.900}",
+      "borderRadius": {
+        "raw": "13px"
+      }
+    },
+    "footer": {
+      "color": "{color.neutral.500}"
+    }
+  },
+  "variants": [
+    {
+      "props": {
+        "variant": "Default"
+      },
+      "styles": {
+        "root": {
+          "boxShadow": "{shadow.sm}"
+        }
+      }
+    },
+    {
+      "props": {
+        "variant": "Elevated"
+      },
+      "styles": {
+        "root": {
+          "boxShadow": "{shadow.md}"
+        }
+      }
+    }
+  ],
+  "states": [
+    {
+      "name": "Default",
+      "styles": {}
+    }
+  ],
+  "usage": {
+    "do": [
+      "Use Card to present coherent units of content that belong together.",
+      "Maintain consistent padding across card sections.",
+      "Use Elevated variant to emphasize cards over a flat neutral canvas."
+    ],
+    "dont": [
+      "Do not nest cards within cards unnecessarily.",
+      "Do not crowd multiple primary actions inside the card footer."
+    ]
+  },
+  "accessibility": {
+    "role": "region",
+    "notes": [
+      "Card header acts as a landmark heading for assistive tech.",
+      "Focusable interactive cards must support tab stop navigation."
+    ]
+  },
+  "screenshots": [
+    {
+      "variant": {
+        "variant": "Default"
+      },
+      "state": "Default",
+      "path": "screenshots/Card--Default--Default.png"
+    },
+    {
+      "variant": {
+        "variant": "Elevated"
+      },
+      "state": "Default",
+      "path": "screenshots/Card--Elevated--Default.png"
+    }
+  ],
+  "source": {
+    "figmaNodeId": "1:88",
+    "figmaComponentKey": "crd-key-003"
+  }
+}

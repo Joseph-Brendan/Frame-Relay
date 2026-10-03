@@ -1,9 +1,9 @@
 {
-  "name": "@josephbrendan/Frame-Relay",
+  "name": "@josephbrendan/frame-relay",
   "version": "0.0.0",
   "type": "module",
   "bin": {
-    "Frame-Relay": "dist/cli.js"
+    "frame-relay": "dist/cli.js"
   },
   "files": [
     "dist"

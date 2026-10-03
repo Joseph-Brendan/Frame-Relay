@@ -20,6 +20,11 @@ Frame-Relay/
 └── .github/          # CI/CD workflows
 ```
 
+## Documentation
+
+- [Kit Format Specification](docs/kit-format.md): Folder layout, field specifications, and annotated schema examples.
+- [Figma Naming Contract](docs/naming-contract.md): Strict naming rules and design constraints for Figma components.
+
 ## Local Setup
 
 Ensure you have Node.js 20 or newer installed:

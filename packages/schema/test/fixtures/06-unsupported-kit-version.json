@@ -1,0 +1,15 @@
+{
+  "kitVersion": "2.0",
+  "name": "Unsupported Kit",
+  "generator": {
+    "name": "hand-written",
+    "version": "1.0.0"
+  },
+  "source": {
+    "type": "figma",
+    "fileKey": "TEST",
+    "fileName": "Test"
+  },
+  "exportedAt": "2026-10-03T12:00:00.000Z",
+  "components": []
+}

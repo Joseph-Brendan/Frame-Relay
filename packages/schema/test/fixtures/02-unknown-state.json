@@ -1,0 +1,25 @@
+{
+  "name": "Button",
+  "description": "Component with unknown state Active",
+  "anatomy": [
+    {
+      "name": "root",
+      "description": "Root element",
+      "required": true
+    }
+  ],
+  "props": [],
+  "base": {},
+  "variants": [],
+  "states": [
+    {
+      "name": "Active",
+      "styles": {}
+    }
+  ],
+  "usage": {
+    "do": ["Use standard states"],
+    "dont": ["Invent custom state names"]
+  },
+  "screenshots": []
+}

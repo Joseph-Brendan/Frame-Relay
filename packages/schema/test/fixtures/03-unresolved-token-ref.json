@@ -1,0 +1,24 @@
+{
+  "name": "Button",
+  "description": "Component referencing non-existent token",
+  "anatomy": [
+    {
+      "name": "root",
+      "description": "Root element",
+      "required": true
+    }
+  ],
+  "props": [],
+  "base": {
+    "root": {
+      "background": "{color.doesnotexist}"
+    }
+  },
+  "variants": [],
+  "states": [],
+  "usage": {
+    "do": ["Reference valid tokens"],
+    "dont": ["Reference nonexistent tokens"]
+  },
+  "screenshots": []
+}

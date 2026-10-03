@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "generate": "pnpm --filter @josephbrendan/schema generate",
     "changeset": "changeset"
   },
   "devDependencies": {

@@ -41,3 +41,8 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Verify JSON schema generation
+        run: |
+          pnpm generate
+          git diff --exit-code

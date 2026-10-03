@@ -3,3 +3,4 @@ node_modules
 coverage
 pnpm-lock.yaml
 .changeset/*.json
+packages/schema/json-schema
