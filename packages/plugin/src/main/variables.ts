@@ -1,12 +1,23 @@
-import {
+import type {
   ConverterWarning,
-  createWarning,
   NodeSnapshot,
   StyleIndex,
-  variableNameToTokenPath,
   VariableCollectionSnapshot,
   VariableSnapshot,
 } from '@josephbrendan/converter';
+
+export function variableNameToTokenPath(name: string): string {
+  return name
+    .split('/')
+    .map((segment) =>
+      segment
+        .trim()
+        .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+        .replace(/[\s_]+/g, '-')
+        .toLowerCase(),
+    )
+    .join('.');
+}
 
 export interface ReadVariablesAndStylesResult {
   collections: VariableCollectionSnapshot[];
@@ -140,15 +151,14 @@ export async function readVariablesAndStyles(
             description: externalVar.description || undefined,
           });
 
-          warnings.push(
-            createWarning('RAW_VALUE', {
-              component: 'Tokens',
-              layerPath: externalVar.name,
-              nodeId: externalVar.id,
-              details: `uses a variable "${externalVar.name}" from another library`,
-              fix: 'publish or copy it into this file for a complete kit',
-            }),
-          );
+          warnings.push({
+            code: 'RAW_VALUE',
+            severity: 'warning',
+            component: 'Tokens',
+            layerPath: externalVar.name,
+            nodeId: externalVar.id,
+            message: `Tokens > ${externalVar.name}: uses a variable "${externalVar.name}" from another library. publish or copy it into this file for a complete kit`,
+          });
         }
       } catch {
         // Variable couldn't be loaded or no permission

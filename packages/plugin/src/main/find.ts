@@ -1,4 +1,4 @@
-import { NodeSnapshot } from '@josephbrendan/converter';
+import type { NodeSnapshot } from '@josephbrendan/converter';
 import { IconExportItem, ScopeOption } from '../shared/messages.js';
 import { snapshotNode } from './snapshot.js';
 
