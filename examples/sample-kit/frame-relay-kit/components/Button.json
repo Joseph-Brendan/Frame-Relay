@@ -65,7 +65,6 @@
   "base": {
     "root": {
       "background": "{color.primary.500}",
-      "color": "{color.neutral.0}",
       "borderRadius": "{radius.md}",
       "typography": "{typography.button}"
     },
@@ -174,8 +173,7 @@
       "name": "Disabled",
       "styles": {
         "root": {
-          "background": "{color.neutral.300}",
-          "color": "{color.neutral.500}"
+          "background": "{color.neutral.300}"
         },
         "label": {
           "color": "{color.neutral.500}"

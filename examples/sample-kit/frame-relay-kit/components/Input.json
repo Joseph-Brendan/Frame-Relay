@@ -94,8 +94,15 @@
       "name": "Focus",
       "styles": {
         "field": {
-          "borderColor": "{color.focus.ring}",
-          "borderWidth": "{space.1}"
+          "borderColor": "{color.focus.ring}"
+        }
+      }
+    },
+    {
+      "name": "Disabled",
+      "styles": {
+        "field": {
+          "background": "{color.neutral.100}"
         }
       }
     },
@@ -107,15 +114,6 @@
         },
         "helper-text": {
           "color": "{color.danger.500}"
-        }
-      }
-    },
-    {
-      "name": "Disabled",
-      "styles": {
-        "field": {
-          "background": "{color.neutral.100}",
-          "color": "{color.neutral.500}"
         }
       }
     }
