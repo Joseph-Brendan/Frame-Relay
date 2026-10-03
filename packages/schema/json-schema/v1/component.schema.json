@@ -1,0 +1,1039 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joseph-brendan.github.io/Frame-Relay/schemas/v1/component.schema.json",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[A-Z][a-zA-Z0-9]*$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "action",
+        "input",
+        "display",
+        "layout",
+        "feedback",
+        "navigation"
+      ]
+    },
+    "anatomy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          },
+          "description": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "required"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "variant",
+              "boolean",
+              "text",
+              "instance"
+            ]
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "type": [
+              "string",
+              "boolean",
+              "number"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "layout": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": [
+            "row",
+            "column"
+          ]
+        },
+        "gap": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "raw"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "padding": {
+          "type": "object",
+          "properties": {
+            "top": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "raw": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "raw"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "right": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "raw": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "raw"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "bottom": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "raw": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "raw"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "left": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "raw": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "raw"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "justify": {
+          "type": "string",
+          "enum": [
+            "start",
+            "center",
+            "end",
+            "space-between",
+            "space-around",
+            "space-evenly"
+          ]
+        },
+        "align": {
+          "type": "string",
+          "enum": [
+            "start",
+            "center",
+            "end",
+            "baseline",
+            "stretch"
+          ]
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "hug"
+            },
+            {
+              "type": "string",
+              "const": "fill"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "fixed": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "fixed"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "hug"
+            },
+            {
+              "type": "string",
+              "const": "fill"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "fixed": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "fixed"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "direction"
+      ],
+      "additionalProperties": false
+    },
+    "base": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "background": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "borderColor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "borderWidth": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "borderRadius": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "boxShadow": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "typography": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "opacity": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "iconSize": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "raw"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "props": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": [
+                "string",
+                "boolean",
+                "number"
+              ]
+            }
+          },
+          "styles": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "background": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "color": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "borderColor": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "borderWidth": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "borderRadius": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "boxShadow": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "typography": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "opacity": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "iconSize": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "props",
+          "styles"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "Default",
+              "Hover",
+              "Focus",
+              "Pressed",
+              "Disabled",
+              "Loading",
+              "Error"
+            ]
+          },
+          "styles": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "background": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "color": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "borderColor": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "borderWidth": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "borderRadius": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "boxShadow": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "typography": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "opacity": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "iconSize": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "raw"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "name",
+          "styles"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "do": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dont": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "do",
+        "dont"
+      ],
+      "additionalProperties": false
+    },
+    "accessibility": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "screenshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "variant": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": [
+                "string",
+                "boolean",
+                "number"
+              ]
+            }
+          },
+          "state": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "variant",
+          "state",
+          "path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "figmaNodeId": {
+          "type": "string"
+        },
+        "figmaComponentKey": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "anatomy",
+    "props",
+    "base",
+    "variants",
+    "states",
+    "usage",
+    "screenshots"
+  ],
+  "additionalProperties": false
+}
