@@ -1,0 +1,217 @@
+{
+  "collections": [
+    {
+      "id": "VariableCollectionId:1",
+      "name": "Tokens",
+      "modes": [
+        { "modeId": "1:0", "name": "light" },
+        { "modeId": "1:1", "name": "dark" }
+      ],
+      "defaultModeId": "1:0"
+    }
+  ],
+  "variables": [
+    {
+      "id": "VariableID:color-primary-500",
+      "name": "color/primary/500",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 0.145098, "g": 0.388235, "b": 0.921569 },
+        "1:1": { "r": 0.231373, "g": 0.509804, "b": 0.964706 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:color-primary-600",
+      "name": "color/primary/600",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 0.113725, "g": 0.305882, "b": 0.847059 },
+        "1:1": { "r": 0.145098, "g": 0.388235, "b": 0.921569 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:color-neutral-0",
+      "name": "color/neutral/0",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 1, "g": 1, "b": 1 },
+        "1:1": { "r": 0.058824, "g": 0.090196, "b": 0.164706 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:color-neutral-100",
+      "name": "color/neutral/100",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 0.945098, "g": 0.960784, "b": 0.976471 },
+        "1:1": { "r": 0.117647, "g": 0.160784, "b": 0.231373 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:color-neutral-300",
+      "name": "color/neutral/300",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 0.796078, "g": 0.835294, "b": 0.882353 },
+        "1:1": { "r": 0.2, "g": 0.254902, "b": 0.333333 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:color-neutral-500",
+      "name": "color/neutral/500",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 0.392157, "g": 0.454902, "b": 0.545098 },
+        "1:1": { "r": 0.580392, "g": 0.639216, "b": 0.721569 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:color-neutral-900",
+      "name": "color/neutral/900",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 0.058824, "g": 0.090196, "b": 0.164706 },
+        "1:1": { "r": 0.972549, "g": 0.980392, "b": 0.988235 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:color-danger-500",
+      "name": "color/danger/500",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 0.937255, "g": 0.266667, "b": 0.266667 },
+        "1:1": { "r": 0.972549, "g": 0.443137, "b": 0.443137 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:color-focus-ring",
+      "name": "color/focus/ring",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "1:0": { "r": 0.576471, "g": 0.772549, "b": 0.992157 },
+        "1:1": { "r": 0.113725, "g": 0.305882, "b": 0.847059 }
+      },
+      "scopes": ["ALL_FILLS"]
+    },
+    {
+      "id": "VariableID:radius-sm",
+      "name": "radius/sm",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 6 },
+      "scopes": ["CORNER_RADIUS"]
+    },
+    {
+      "id": "VariableID:radius-md",
+      "name": "radius/md",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 12 },
+      "scopes": ["CORNER_RADIUS"]
+    },
+    {
+      "id": "VariableID:radius-lg",
+      "name": "radius/lg",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 16 },
+      "scopes": ["CORNER_RADIUS"]
+    },
+    {
+      "id": "VariableID:radius-full",
+      "name": "radius/full",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 999 },
+      "scopes": ["CORNER_RADIUS"]
+    },
+    {
+      "id": "VariableID:space-1",
+      "name": "space/1",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 4 },
+      "scopes": ["GAP"]
+    },
+    {
+      "id": "VariableID:space-2",
+      "name": "space/2",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 8 },
+      "scopes": ["GAP"]
+    },
+    {
+      "id": "VariableID:space-3",
+      "name": "space/3",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 12 },
+      "scopes": ["GAP"]
+    },
+    {
+      "id": "VariableID:space-4",
+      "name": "space/4",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 16 },
+      "scopes": ["GAP"]
+    },
+    {
+      "id": "VariableID:space-5",
+      "name": "space/5",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 20 },
+      "scopes": ["GAP"]
+    },
+    {
+      "id": "VariableID:space-6",
+      "name": "space/6",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 24 },
+      "scopes": ["GAP"]
+    },
+    {
+      "id": "VariableID:space-7",
+      "name": "space/7",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 28 },
+      "scopes": ["GAP"]
+    },
+    {
+      "id": "VariableID:space-8",
+      "name": "space/8",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 32 },
+      "scopes": ["GAP"]
+    },
+    {
+      "id": "VariableID:font-family-sans",
+      "name": "font/family/sans",
+      "resolvedType": "STRING",
+      "valuesByMode": { "1:0": "Inter, system-ui, sans-serif" },
+      "scopes": ["FONT_FAMILY"]
+    },
+    {
+      "id": "VariableID:font-weight-400",
+      "name": "font/weight/400",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 400 },
+      "scopes": ["FONT_WEIGHT"]
+    },
+    {
+      "id": "VariableID:font-weight-500",
+      "name": "font/weight/500",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 500 },
+      "scopes": ["FONT_WEIGHT"]
+    },
+    {
+      "id": "VariableID:font-weight-600",
+      "name": "font/weight/600",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "1:0": 600 },
+      "scopes": ["FONT_WEIGHT"]
+    }
+  ]
+}

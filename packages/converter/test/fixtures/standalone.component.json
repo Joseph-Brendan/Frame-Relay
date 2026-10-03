@@ -1,0 +1,49 @@
+{
+  "id": "standalone:1",
+  "name": "Badge",
+  "type": "COMPONENT",
+  "description": "Display a short numeric or contextual status label.\nRole: status\nDo: Keep text concise.\nDon't: Use for interactive actions.",
+  "layoutMode": "HORIZONTAL",
+  "itemSpacing": 4,
+  "paddingTop": 4,
+  "paddingRight": 8,
+  "paddingBottom": 4,
+  "paddingLeft": 8,
+  "layoutSizingHorizontal": "HUG",
+  "layoutSizingVertical": "HUG",
+  "boundVariables": {
+    "itemSpacing": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" },
+    "paddingTop": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" },
+    "paddingRight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-2" },
+    "paddingBottom": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" },
+    "paddingLeft": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-2" },
+    "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-full" }
+  },
+  "fills": [
+    {
+      "type": "SOLID",
+      "boundVariables": {
+        "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-primary-500" }
+      }
+    }
+  ],
+  "cornerRadius": 999,
+  "children": [
+    {
+      "id": "standalone-label",
+      "name": "label",
+      "type": "TEXT",
+      "characters": "New",
+      "textStyleId": "S:typography-label",
+      "fills": [
+        {
+          "type": "SOLID",
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+          }
+        }
+      ],
+      "description": "Badge textual content"
+    }
+  ]
+}

@@ -1,0 +1,535 @@
+{
+  "id": "1:23",
+  "name": "Button",
+  "type": "COMPONENT_SET",
+  "description": "Trigger an immediate action or submission.\nRole: button\nA11y: Supports activation using Enter and Space keys.\nA11y: Sets aria-disabled when in the disabled state.\nA11y: Sets aria-busy when in the loading state.\nDo: Use Primary variant for the single most prominent action on a page or modal.\nDo: Pair with concise, action-oriented verbs (e.g., Save, Submit, Next).\nDo: Include a leading icon when it provides clear functional context.\nDon't: Do not place multiple Primary buttons next to each other.\nDon't: Do not disable a button without informing the user what is missing.\nDon't: Do not wrap button label text onto multiple lines.",
+  "layoutMode": "HORIZONTAL",
+  "itemSpacing": 8,
+  "paddingTop": 8,
+  "paddingRight": 16,
+  "paddingBottom": 8,
+  "paddingLeft": 16,
+  "primaryAxisAlignItems": "CENTER",
+  "counterAxisAlignItems": "CENTER",
+  "layoutSizingHorizontal": "HUG",
+  "layoutSizingVertical": "HUG",
+  "boundVariables": {
+    "itemSpacing": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-2" },
+    "paddingTop": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-2" },
+    "paddingRight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "paddingBottom": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-2" },
+    "paddingLeft": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+  },
+  "componentPropertyDefinitions": {
+    "Variant": {
+      "type": "VARIANT",
+      "defaultValue": "Primary",
+      "variantOptions": ["Primary", "Secondary", "Ghost"]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "defaultValue": "Medium",
+      "variantOptions": ["Medium", "Large"]
+    },
+    "Disabled#4:1": {
+      "type": "BOOLEAN",
+      "defaultValue": false
+    },
+    "Label#12:3": {
+      "type": "TEXT",
+      "defaultValue": "Button"
+    },
+    "State": {
+      "type": "VARIANT",
+      "defaultValue": "Default",
+      "variantOptions": ["Default", "Hover", "Focus", "Pressed", "Disabled", "Loading"]
+    }
+  },
+  "children": [
+    {
+      "id": "btn-p-m-def",
+      "name": "Variant=Primary, Size=Medium, State=Default",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Primary",
+        "Size": "Medium",
+        "State": "Default"
+      },
+      "layoutMode": "HORIZONTAL",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.145, "g": 0.388, "b": 0.922 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-primary-500" }
+          }
+        }
+      ],
+      "cornerRadius": 12,
+      "boundVariables": {
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-md" }
+      },
+      "textStyleId": "S:typography-button",
+      "children": [
+        {
+          "id": "btn-icon-1",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "height": 16,
+          "componentPropertyReferences": { "visible": "Disabled#4:1" },
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          },
+          "description": "Optional leading decorative or semantic icon"
+        },
+        {
+          "id": "btn-label-1",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 1, "g": 1, "b": 1 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+              }
+            }
+          ],
+          "description": "Textual action description"
+        }
+      ]
+    },
+    {
+      "id": "btn-s-m-def",
+      "name": "Variant=Secondary, Size=Medium, State=Default",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Secondary",
+        "Size": "Medium",
+        "State": "Default"
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.945, "g": 0.961, "b": 0.976 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-100" }
+          }
+        }
+      ],
+      "strokes": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.796, "g": 0.835, "b": 0.882 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-300" }
+          }
+        }
+      ],
+      "strokeWeight": 4,
+      "boundVariables": {
+        "strokeWeight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" },
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-md" }
+      },
+      "children": [
+        {
+          "id": "btn-icon-2",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          }
+        },
+        {
+          "id": "btn-label-2",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.059, "g": 0.09, "b": 0.165 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-900" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "btn-g-m-def",
+      "name": "Variant=Ghost, Size=Medium, State=Default",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Ghost",
+        "Size": "Medium",
+        "State": "Default"
+      },
+      "fills": [],
+      "cornerRadius": 12,
+      "boundVariables": {
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-md" }
+      },
+      "children": [
+        {
+          "id": "btn-icon-3",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          }
+        },
+        {
+          "id": "btn-label-3",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.145, "g": 0.388, "b": 0.922 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-primary-500" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "btn-p-l-def",
+      "name": "Variant=Primary, Size=Large, State=Default",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Primary",
+        "Size": "Large",
+        "State": "Default"
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.145, "g": 0.388, "b": 0.922 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-primary-500" }
+          }
+        }
+      ],
+      "cornerRadius": 16,
+      "boundVariables": {
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-lg" }
+      },
+      "textStyleId": "S:typography-button",
+      "children": [
+        {
+          "id": "btn-icon-4",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          }
+        },
+        {
+          "id": "btn-label-4",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 1, "g": 1, "b": 1 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "btn-hover",
+      "name": "Variant=Primary, Size=Medium, State=Hover",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Primary",
+        "Size": "Medium",
+        "State": "Hover"
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.114, "g": 0.306, "b": 0.847 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-primary-600" }
+          }
+        }
+      ],
+      "children": [
+        {
+          "id": "btn-icon-5",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          }
+        },
+        {
+          "id": "btn-label-5",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 1, "g": 1, "b": 1 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "btn-focus",
+      "name": "Variant=Primary, Size=Medium, State=Focus",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Primary",
+        "Size": "Medium",
+        "State": "Focus"
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.145, "g": 0.388, "b": 0.922 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-primary-500" }
+          }
+        }
+      ],
+      "strokes": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.576, "g": 0.773, "b": 0.992 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-focus-ring" }
+          }
+        }
+      ],
+      "strokeWeight": 4,
+      "boundVariables": {
+        "strokeWeight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-1" },
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-md" }
+      },
+      "children": [
+        {
+          "id": "btn-icon-6",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          }
+        },
+        {
+          "id": "btn-label-6",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 1, "g": 1, "b": 1 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "btn-pressed",
+      "name": "Variant=Primary, Size=Medium, State=Pressed",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Primary",
+        "Size": "Medium",
+        "State": "Pressed"
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.114, "g": 0.306, "b": 0.847 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-primary-600" }
+          }
+        }
+      ],
+      "opacity": 0.8,
+      "boundVariables": {
+        "opacity": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-8" },
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-md" }
+      },
+      "children": [
+        {
+          "id": "btn-icon-7",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          }
+        },
+        {
+          "id": "btn-label-7",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 1, "g": 1, "b": 1 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "btn-disabled",
+      "name": "Variant=Primary, Size=Medium, State=Disabled",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Primary",
+        "Size": "Medium",
+        "State": "Disabled"
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.796, "g": 0.835, "b": 0.882 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-300" }
+          }
+        }
+      ],
+      "cornerRadius": 12,
+      "boundVariables": {
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-md" }
+      },
+      "children": [
+        {
+          "id": "btn-icon-8",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          }
+        },
+        {
+          "id": "btn-label-8",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 0.392, "g": 0.455, "b": 0.545 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-500" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "btn-loading",
+      "name": "Variant=Primary, Size=Medium, State=Loading",
+      "type": "COMPONENT",
+      "variantProperties": {
+        "Variant": "Primary",
+        "Size": "Medium",
+        "State": "Loading"
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.145, "g": 0.388, "b": 0.922 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-primary-500" }
+          }
+        }
+      ],
+      "opacity": 0.8,
+      "boundVariables": {
+        "opacity": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-8" },
+        "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-md" }
+      },
+      "children": [
+        {
+          "id": "btn-icon-9",
+          "name": "icon-left",
+          "type": "FRAME",
+          "visible": true,
+          "width": 16,
+          "boundVariables": {
+            "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+          }
+        },
+        {
+          "id": "btn-label-9",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Button",
+          "textStyleId": "S:typography-button",
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": { "r": 1, "g": 1, "b": 1 },
+              "boundVariables": {
+                "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-0" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
