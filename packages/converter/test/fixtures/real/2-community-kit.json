@@ -1,0 +1,441 @@
+{
+  "dumpedAt": "2026-10-03T21:00:00.000Z",
+  "fileName": "Community UI Kit v2",
+  "scope": "file",
+  "collections": [
+    {
+      "id": "VariableCollectionId:comm:1",
+      "name": "Prims",
+      "modes": [
+        {
+          "modeId": "comm:m1",
+          "name": "Light"
+        }
+      ],
+      "defaultModeId": "comm:m1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var:comm:primary",
+      "name": "color/brand/primary",
+      "variableCollectionId": "VariableCollectionId:comm:1",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "comm:m1": {
+          "r": 0.1,
+          "g": 0.4,
+          "b": 0.9,
+          "a": 1
+        }
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "var:comm:surface",
+      "name": "color/surface/default",
+      "variableCollectionId": "VariableCollectionId:comm:1",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "comm:m1": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        }
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "var:comm:text",
+      "name": "color/text/primary",
+      "variableCollectionId": "VariableCollectionId:comm:1",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "comm:m1": {
+          "r": 0.05,
+          "g": 0.05,
+          "b": 0.08,
+          "a": 1
+        }
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "var:comm:radius-sm",
+      "name": "radius/sm",
+      "variableCollectionId": "VariableCollectionId:comm:1",
+      "resolvedType": "FLOAT",
+      "valuesByMode": {
+        "comm:m1": 4
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "var:comm:radius-full",
+      "name": "radius/full",
+      "variableCollectionId": "VariableCollectionId:comm:1",
+      "resolvedType": "FLOAT",
+      "valuesByMode": {
+        "comm:m1": 9999
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "var:comm:space-2",
+      "name": "space/2",
+      "variableCollectionId": "VariableCollectionId:comm:1",
+      "resolvedType": "FLOAT",
+      "valuesByMode": {
+        "comm:m1": 8
+      },
+      "scopes": ["ALL_SCOPES"]
+    }
+  ],
+  "styles": {
+    "style:comm:caption": {
+      "name": "Caption Small",
+      "tokenPath": "typography.caption"
+    }
+  },
+  "components": [
+    {
+      "id": "comm:comp:badge",
+      "name": "Badge",
+      "type": "COMPONENT",
+      "description": "Visual indicator for status or counts.\nRole: status\nDo: Use subtle colors for passive counts.\nDon't: Overuse saturated colors.",
+      "visible": true,
+      "layoutMode": "HORIZONTAL",
+      "layoutPositioning": "AUTO",
+      "itemSpacing": 4,
+      "paddingTop": 4,
+      "paddingRight": 8,
+      "paddingBottom": 4,
+      "paddingLeft": 8,
+      "primaryAxisAlignItems": "CENTER",
+      "counterAxisAlignItems": "CENTER",
+      "layoutSizingHorizontal": "HUG",
+      "layoutSizingVertical": "HUG",
+      "width": 48,
+      "height": 24,
+      "cornerRadius": 9999,
+      "topLeftRadius": 9999,
+      "topRightRadius": 9999,
+      "bottomLeftRadius": 9999,
+      "bottomRightRadius": 9999,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "color": {
+            "r": 0.1,
+            "g": 0.4,
+            "b": 0.9
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "var:comm:primary"
+            }
+          }
+        }
+      ],
+      "boundVariables": {
+        "cornerRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "var:comm:radius-full"
+        }
+      },
+      "componentPropertyDefinitions": {},
+      "children": [
+        {
+          "id": "comm:comp:badge:label",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "layoutPositioning": "AUTO",
+          "layoutSizingHorizontal": "HUG",
+          "layoutSizingVertical": "HUG",
+          "width": 32,
+          "height": 16,
+          "characters": "New",
+          "fontSize": 12,
+          "fontName": {
+            "family": "Inter",
+            "style": "Medium"
+          },
+          "fontWeight": 500,
+          "lineHeight": {
+            "unit": "AUTO"
+          },
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "var:comm:surface"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comm:comp:tag",
+      "name": "Tag",
+      "type": "COMPONENT",
+      "description": "Compact interactive tag or filter pill.\nRole: button\nDo: Use for selectable category filters.\nDon't: Use for static status indicators.",
+      "visible": true,
+      "layoutMode": "HORIZONTAL",
+      "itemSpacing": 8,
+      "paddingTop": 6,
+      "paddingRight": 12,
+      "paddingBottom": 6,
+      "paddingLeft": 12,
+      "primaryAxisAlignItems": "CENTER",
+      "counterAxisAlignItems": "CENTER",
+      "layoutSizingHorizontal": "HUG",
+      "layoutSizingVertical": "HUG",
+      "width": 64,
+      "height": 32,
+      "cornerRadius": 4,
+      "topLeftRadius": 4,
+      "topRightRadius": 4,
+      "bottomLeftRadius": 4,
+      "bottomRightRadius": 4,
+      "strokes": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "color": {
+            "r": 0.1,
+            "g": 0.4,
+            "b": 0.9
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "var:comm:primary"
+            }
+          }
+        }
+      ],
+      "strokeWeight": 1,
+      "boundVariables": {
+        "cornerRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "var:comm:radius-sm"
+        }
+      },
+      "componentPropertyDefinitions": {},
+      "children": [
+        {
+          "id": "comm:comp:tag:label",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "layoutPositioning": "AUTO",
+          "width": 40,
+          "height": 20,
+          "characters": "Design",
+          "fontSize": 14,
+          "fontName": {
+            "family": "Inter",
+            "style": "Regular"
+          },
+          "fontWeight": 400,
+          "lineHeight": {
+            "unit": "AUTO"
+          },
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "color": {
+                "r": 0.05,
+                "g": 0.05,
+                "b": 0.08
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "var:comm:text"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comm:comp:card",
+      "name": "Card",
+      "type": "COMPONENT",
+      "description": "Content container grouping related information.\nRole: region\nDo: Use consistent padding within cards.\nDon't: Nest cards within cards.",
+      "visible": true,
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 16,
+      "paddingTop": 16,
+      "paddingRight": 16,
+      "paddingBottom": 16,
+      "paddingLeft": 16,
+      "primaryAxisAlignItems": "MIN",
+      "counterAxisAlignItems": "MIN",
+      "layoutSizingHorizontal": "FIXED",
+      "layoutSizingVertical": "HUG",
+      "width": 320,
+      "height": 180,
+      "cornerRadius": 4,
+      "topLeftRadius": 4,
+      "topRightRadius": 4,
+      "bottomLeftRadius": 4,
+      "bottomRightRadius": 4,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "var:comm:surface"
+            }
+          }
+        }
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.08
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "radius": 8,
+          "spread": 0
+        }
+      ],
+      "boundVariables": {
+        "cornerRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "var:comm:radius-sm"
+        }
+      },
+      "componentPropertyDefinitions": {},
+      "children": [
+        {
+          "id": "comm:comp:card:header",
+          "name": "header",
+          "type": "FRAME",
+          "visible": true,
+          "layoutMode": "HORIZONTAL",
+          "layoutSizingHorizontal": "FILL",
+          "layoutSizingVertical": "HUG",
+          "width": 288,
+          "height": 24,
+          "children": [
+            {
+              "id": "comm:comp:card:title",
+              "name": "title",
+              "type": "TEXT",
+              "visible": true,
+              "layoutPositioning": "AUTO",
+              "characters": "Card Header",
+              "fontSize": 16,
+              "fontName": {
+                "family": "Inter",
+                "style": "Semi Bold"
+              },
+              "fontWeight": 600,
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "visible": true,
+                  "color": {
+                    "r": 0.05,
+                    "g": 0.05,
+                    "b": 0.08
+                  },
+                  "boundVariables": {
+                    "color": {
+                      "type": "VARIABLE_ALIAS",
+                      "id": "var:comm:text"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "comm:comp:card:body",
+          "name": "body",
+          "type": "FRAME",
+          "visible": true,
+          "layoutMode": "VERTICAL",
+          "layoutSizingHorizontal": "FILL",
+          "layoutSizingVertical": "HUG",
+          "width": 288,
+          "height": 60,
+          "children": [
+            {
+              "id": "comm:comp:card:content",
+              "name": "content",
+              "type": "TEXT",
+              "visible": true,
+              "layoutPositioning": "AUTO",
+              "characters": "Card body description providing useful context for the user.",
+              "fontSize": 14,
+              "fontName": {
+                "family": "Inter",
+                "style": "Regular"
+              },
+              "fontWeight": 400,
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "visible": true,
+                  "color": {
+                    "r": 0.05,
+                    "g": 0.05,
+                    "b": 0.08
+                  },
+                  "boundVariables": {
+                    "color": {
+                      "type": "VARIABLE_ALIAS",
+                      "id": "var:comm:text"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

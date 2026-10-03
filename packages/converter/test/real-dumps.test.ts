@@ -211,49 +211,44 @@ describe('Real Dump Fixture Tests', () => {
 
   describe('File 2: Free Community UI Kit', () => {
     const file2Path = join(realFixturesDir, '2-community-kit.json');
-    const hasFile2 = existsSync(file2Path);
 
-    it.skipIf(!hasFile2)(
-      'converts without throwing, and every spec passes validateComponent',
-      () => {
-        const dump2 = loadJson<RealDumpFile>(file2Path);
-        const { variableIndex } = convertVariables({
-          collections: dump2.collections ?? [],
-          variables: dump2.variables ?? [],
-        });
+    it('converts without throwing, and every spec passes validateComponent', () => {
+      const dump2 = loadJson<RealDumpFile>(file2Path);
+      const { variableIndex } = convertVariables({
+        collections: dump2.collections ?? [],
+        variables: dump2.variables ?? [],
+      });
 
-        expect(dump2.components.length).toBeGreaterThan(0);
+      expect(dump2.components.length).toBeGreaterThan(0);
 
-        for (const comp of dump2.components) {
-          expect(() => {
-            const { spec } = convertComponent({
-              node: comp,
-              variables: variableIndex,
-              styles: dump2.styles,
-            });
+      for (const comp of dump2.components) {
+        expect(() => {
+          const { spec } = convertComponent({
+            node: comp,
+            variables: variableIndex,
+            styles: dump2.styles,
+          });
 
-            if (spec) {
-              const validation = validateComponent(spec);
-              expect(validation.ok).toBe(true);
-            }
-          }).not.toThrow();
-        }
-      },
-    );
+          if (spec) {
+            const validation = validateComponent(spec);
+            expect(validation.ok).toBe(true);
+          }
+        }).not.toThrow();
+      }
+    });
   });
 
   describe('File 3: Deliberately Messy File', () => {
     const file3Path = join(realFixturesDir, '3-messy.json');
-    const hasFile3 = existsSync(file3Path);
 
-    it.skipIf(!hasFile3)('produces the expected warning codes', () => {
+    it('produces all expected warning codes with explanations', () => {
       const dump3 = loadJson<RealDumpFile>(file3Path);
       const { variableIndex } = convertVariables({
         collections: dump3.collections ?? [],
         variables: dump3.variables ?? [],
       });
 
-      const allWarnings: string[] = [];
+      const allWarnings: Array<{ code: string; message: string; component: string }> = [];
 
       for (const comp of dump3.components) {
         const { warnings } = convertComponent({
@@ -261,24 +256,56 @@ describe('Real Dump Fixture Tests', () => {
           variables: variableIndex,
           styles: dump3.styles,
         });
-        allWarnings.push(...warnings.map((w) => w.code));
+        allWarnings.push(
+          ...warnings.map((w) => ({ code: w.code, message: w.message, component: comp.name })),
+        );
       }
 
-      // Expected warnings will be verified against the messy file contents
-      expect(allWarnings.length).toBeGreaterThan(0);
+      const warningCodes = new Set(allWarnings.map((w) => w.code));
+
+      // 1. BAD_COMPONENT_NAME: Snake_case or non-PascalCase component name ("button_v2_draft")
+      expect(warningCodes.has('BAD_COMPONENT_NAME')).toBe(true);
+
+      // 2. NO_AUTO_LAYOUT: Frame has children but layoutMode is 'NONE'
+      expect(warningCodes.has('NO_AUTO_LAYOUT')).toBe(true);
+
+      // 3. ABSOLUTE_CHILD: Child layer uses layoutPositioning: 'ABSOLUTE'
+      expect(warningCodes.has('ABSOLUTE_CHILD')).toBe(true);
+
+      // 4. BAD_PART_NAME: Layer holds visible styling but uses a default Figma name ("Frame 12", "Text 1")
+      expect(warningCodes.has('BAD_PART_NAME')).toBe(true);
+
+      // 5. UNSUPPORTED_PAINT: Fill uses unsupported paint type ("GRADIENT_RADIAL")
+      expect(warningCodes.has('UNSUPPORTED_PAINT')).toBe(true);
+
+      // 6. MIXED_RADIUS: Layer has asymmetric corner radii (tl: 16px, tr: 4px, br: 16px, bl: 4px)
+      expect(warningCodes.has('MIXED_RADIUS')).toBe(true);
+
+      // 7. UNKNOWN_STATE: State variant property uses non-standard state ("Selected" instead of standard states)
+      expect(warningCodes.has('UNKNOWN_STATE')).toBe(true);
+
+      // 8. MISSING_DESCRIPTION: Component lacks a purpose description in Figma
+      expect(warningCodes.has('MISSING_DESCRIPTION')).toBe(true);
+
+      // 9. MISSING_USAGE: Description lacks Do: and Don't: guidance lines
+      expect(warningCodes.has('MISSING_USAGE')).toBe(true);
+
+      // 10. RAW_VALUE: Raw un-tokenized dimensions, spacing, or colors
+      expect(warningCodes.has('RAW_VALUE')).toBe(true);
     });
   });
 
   describe('File 4: Large Library with 300+ Components', () => {
     const file4Path = join(realFixturesDir, '4-large-library.json');
-    const hasFile4 = existsSync(file4Path);
 
-    it.skipIf(!hasFile4)('converts in under 5 seconds total, without throwing', () => {
+    it('converts in under 5 seconds total, without throwing', () => {
       const dump4 = loadJson<RealDumpFile>(file4Path);
       const { variableIndex } = convertVariables({
         collections: dump4.collections ?? [],
         variables: dump4.variables ?? [],
       });
+
+      expect(dump4.components.length).toBeGreaterThanOrEqual(300);
 
       const startTime = performance.now();
 
