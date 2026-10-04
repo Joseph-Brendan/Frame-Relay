@@ -25,17 +25,14 @@ describe('Package Smoke Test', () => {
   it('packs CLI and executes init and sync --from zip in a fresh app', async () => {
     // 1. Pack the CLI package
     const cliPkgDir = path.resolve(__dirname, '..');
-    const packOutput = execSync(`pnpm pack --pack-destination "${packDir}"`, {
+    execSync(`pnpm pack --pack-destination "${packDir}"`, {
       cwd: cliPkgDir,
       encoding: 'utf-8',
     });
-    const tarballMatch = packOutput.match(/([^\s/]+\.tgz)/);
-    const tarballName = tarballMatch
-      ? tarballMatch[1]
-      : fs.readdirSync(packDir).find((f) => f.endsWith('.tgz'));
-    expect(tarballName).toBeDefined();
-
-    const tarballPath = path.join(packDir, tarballName!);
+    const tarballFiles = fs.readdirSync(packDir).filter((f) => f.endsWith('.tgz'));
+    expect(tarballFiles.length).toBeGreaterThan(0);
+    const tarballName = tarballFiles[0];
+    const tarballPath = path.join(packDir, tarballName);
     expect(fs.existsSync(tarballPath)).toBe(true);
 
     // 2. Set up fresh Vite app environment

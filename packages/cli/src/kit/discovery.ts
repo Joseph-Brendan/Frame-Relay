@@ -95,7 +95,7 @@ export function findKitDir(cwd: string, specifiedKitDir?: string): string {
     );
   }
 
-  return dirname(matches[0]);
+  return resolve(dirname(matches[0]));
 }
 
 export function readAndValidateKit(kitDir: string, force = false): LoadedKit {

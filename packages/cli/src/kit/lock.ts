@@ -87,9 +87,13 @@ export function classifyFileChange(
   const diskHash = hashContent(diskContent);
   const normalizedRel = relPath.replace(/\\/g, '/');
 
-  if (lock && lock.files && lock.files[normalizedRel]) {
-    const previousHash = lock.files[normalizedRel];
-    if (diskHash === previousHash) {
+  if (lock && lock.files) {
+    const previousHash =
+      lock.files[normalizedRel] ||
+      lock.files[relPath] ||
+      lock.files[fullPath.replace(/\\/g, '/')] ||
+      lock.files[fullPath];
+    if (previousHash && diskHash === previousHash) {
       // User hasn't changed it since last sync; update safely
       return 'write';
     }

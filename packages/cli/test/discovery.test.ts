@@ -27,7 +27,7 @@ describe('Kit Discovery', () => {
     fs.writeFileSync(path.join(kitDir, 'frame-relay.json'), '{}', 'utf-8');
 
     const discovered = findKitDir(tmpDir);
-    expect(discovered).toBe(kitDir);
+    expect(path.resolve(discovered)).toBe(path.resolve(kitDir));
   });
 
   it('rejects when multiple kits are found and asks for --kit', () => {
