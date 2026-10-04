@@ -1,0 +1,114 @@
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+
+export const MCP_READY = false;
+
+export interface WriteMcpConfigsOptions {
+  cwd: string;
+  enableMcpFlag?: boolean;
+}
+
+export interface McpServerDef {
+  command: string;
+  args: string[];
+}
+
+export function buildServerEntry(cwd: string): McpServerDef {
+  let isDevDep = false;
+  const pkgPath = join(cwd, 'package.json');
+  if (existsSync(pkgPath)) {
+    try {
+      const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
+      if (
+        pkg.devDependencies?.['@josephbrendan/frame-relay'] ||
+        pkg.devDependencies?.['frame-relay'] ||
+        pkg.dependencies?.['@josephbrendan/frame-relay'] ||
+        pkg.dependencies?.['frame-relay']
+      ) {
+        isDevDep = true;
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  if (isDevDep) {
+    return {
+      command: 'npx',
+      args: ['frame-relay', 'mcp'],
+    };
+  }
+
+  return {
+    command: 'npx',
+    args: ['-y', '@josephbrendan/frame-relay', 'mcp'],
+  };
+}
+
+export function mergeMcpConfigFile(
+  filePath: string,
+  serverName: string,
+  entry: McpServerDef,
+): void {
+  let json: Record<string, unknown> = {};
+
+  if (existsSync(filePath)) {
+    try {
+      json = JSON.parse(readFileSync(filePath, 'utf-8'));
+    } catch {
+      json = {};
+    }
+  }
+
+  const existingServers =
+    json.mcpServers && typeof json.mcpServers === 'object'
+      ? (json.mcpServers as Record<string, unknown>)
+      : {};
+
+  json.mcpServers = {
+    ...existingServers,
+    [serverName]: entry,
+  };
+
+  mkdirSync(dirname(filePath), { recursive: true });
+  writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf-8');
+}
+
+export function writeMcpConfigs(
+  opts: string | WriteMcpConfigsOptions,
+  enableMcp?: boolean,
+): {
+  skipped: boolean;
+  message?: string;
+  writtenFiles: string[];
+} {
+  const cwd = typeof opts === 'string' ? opts : opts.cwd;
+  const enableMcpFlag = typeof opts === 'string' ? Boolean(enableMcp) : Boolean(opts.enableMcpFlag);
+
+  if (!MCP_READY && !enableMcpFlag) {
+    return {
+      skipped: true,
+      message: 'MCP setup arrives in the next release.',
+      writtenFiles: [],
+    };
+  }
+
+  const entry = buildServerEntry(cwd);
+  const targets = [
+    join(cwd, '.agents', 'mcp_config.json'),
+    join(cwd, '.cursor', 'mcp.json'),
+    join(cwd, '.mcp.json'),
+  ];
+
+  const writtenFiles: string[] = [];
+
+  for (const t of targets) {
+    mergeMcpConfigFile(t, 'frame-relay', entry);
+    writtenFiles.push(t);
+  }
+
+  return {
+    skipped: false,
+    writtenFiles,
+  };
+}

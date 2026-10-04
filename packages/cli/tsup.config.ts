@@ -8,4 +8,5 @@ export default defineConfig({
   format: ['esm'],
   dts: true,
   clean: true,
+  noExternal: ['@josephbrendan/schema', '@josephbrendan/converter'],
 });

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://joseph-brendan.github.io/Frame-Relay/schemas/v1/config.schema.json",
+  "kitDir": "frame-relay-kit",
+  "framework": "vite",
+  "typescript": true,
+  "cssEntry": "src/index.css",
+  "componentsDir": "src/components/ui",
+  "tokensFile": "src/styles/frame-relay-tokens.css",
+  "agents": {
+    "antigravity": true,
+    "cursor": true,
+    "claude": true
+  },
+  "mcp": true
+}
