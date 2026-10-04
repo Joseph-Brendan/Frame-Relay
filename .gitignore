@@ -5,3 +5,7 @@ coverage/
 *.log
 .env
 .env.*
+*.zip
+frame-relay-kit/
+!examples/demo-app/frame-relay-kit/
+!examples/demo-app/frame-relay-kit/**

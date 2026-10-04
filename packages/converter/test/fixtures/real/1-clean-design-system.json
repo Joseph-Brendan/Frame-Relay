@@ -1,0 +1,306 @@
+{
+  "dumpedAt": "2026-10-03T20:52:06.396Z",
+  "fileName": "Relay Test",
+  "scope": "file",
+  "components": [
+    {
+      "id": "7:16",
+      "name": "Button",
+      "type": "COMPONENT",
+      "visible": true,
+      "layoutMode": "HORIZONTAL",
+      "layoutPositioning": "AUTO",
+      "itemSpacing": 10,
+      "paddingTop": 10,
+      "paddingRight": 10,
+      "paddingBottom": 10,
+      "paddingLeft": 10,
+      "primaryAxisAlignItems": "CENTER",
+      "counterAxisAlignItems": "CENTER",
+      "layoutSizingHorizontal": "HUG",
+      "layoutSizingVertical": "HUG",
+      "width": 78,
+      "height": 42,
+      "cornerRadius": 8,
+      "topLeftRadius": 8,
+      "topRightRadius": 8,
+      "bottomRightRadius": 8,
+      "bottomLeftRadius": 8,
+      "fills": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "color": {
+            "r": 0.3601934015750885,
+            "g": 0.5352698564529419,
+            "b": 0.9781103730201721
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:7:3"
+            }
+          }
+        }
+      ],
+      "strokeWeight": 1,
+      "boundVariables": {
+        "topLeftRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "topRightRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "bottomLeftRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "bottomRightRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "fills": [
+          {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:7:3"
+          }
+        ]
+      },
+      "componentPropertyDefinitions": {},
+      "componentPropertyReferences": {},
+      "children": [
+        {
+          "id": "7:10",
+          "name": "Button",
+          "type": "TEXT",
+          "visible": true,
+          "layoutPositioning": "AUTO",
+          "layoutSizingHorizontal": "HUG",
+          "layoutSizingVertical": "HUG",
+          "width": 58,
+          "height": 22,
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "opacity": 1,
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "boundVariables": {
+                "color": {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:7:4"
+                }
+              }
+            }
+          ],
+          "strokeWeight": 1,
+          "textStyleId": "S:543e9c1037882baf005b6b33ec47e474a7acdb06,",
+          "boundVariables": {
+            "fills": [
+              {
+                "type": "VARIABLE_ALIAS",
+                "id": "VariableID:7:4"
+              }
+            ]
+          },
+          "characters": "Button",
+          "fontSize": 18,
+          "fontName": {
+            "family": "Inter",
+            "style": "Medium"
+          },
+          "fontWeight": 500,
+          "lineHeight": {
+            "unit": "AUTO"
+          },
+          "componentPropertyReferences": {}
+        }
+      ]
+    },
+    {
+      "id": "7:15",
+      "name": "Input",
+      "type": "COMPONENT",
+      "visible": true,
+      "layoutMode": "HORIZONTAL",
+      "layoutPositioning": "AUTO",
+      "itemSpacing": 10,
+      "paddingTop": 8,
+      "paddingRight": 8,
+      "paddingBottom": 8,
+      "paddingLeft": 8,
+      "primaryAxisAlignItems": "MIN",
+      "counterAxisAlignItems": "CENTER",
+      "layoutSizingHorizontal": "FIXED",
+      "layoutSizingVertical": "HUG",
+      "width": 214,
+      "height": 40,
+      "cornerRadius": 8,
+      "topLeftRadius": 8,
+      "topRightRadius": 8,
+      "bottomRightRadius": 8,
+      "bottomLeftRadius": 8,
+      "strokes": [
+        {
+          "type": "SOLID",
+          "visible": true,
+          "opacity": 1,
+          "color": {
+            "r": 0.47172480821609497,
+            "g": 0.47172480821609497,
+            "b": 0.6500074863433838
+          },
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:7:6"
+            }
+          }
+        }
+      ],
+      "strokeWeight": 1,
+      "boundVariables": {
+        "paddingLeft": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "paddingTop": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "paddingRight": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "paddingBottom": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "topLeftRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "topRightRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "bottomLeftRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "bottomRightRadius": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:7:12"
+        },
+        "strokes": [
+          {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:7:6"
+          }
+        ]
+      },
+      "componentPropertyDefinitions": {},
+      "componentPropertyReferences": {},
+      "children": []
+    }
+  ],
+  "collections": [
+    {
+      "id": "VariableCollectionId:7:2",
+      "name": "Collection 1",
+      "modes": [
+        {
+          "modeId": "7:0",
+          "name": "Mode 1"
+        }
+      ],
+      "defaultModeId": "7:0"
+    }
+  ],
+  "variables": [
+    {
+      "id": "VariableID:7:3",
+      "name": "Primary color",
+      "variableCollectionId": "VariableCollectionId:7:2",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "7:0": {
+          "r": 0.3601934015750885,
+          "g": 0.5352698564529419,
+          "b": 0.9781103730201721,
+          "a": 1
+        }
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "VariableID:7:4",
+      "name": "On Primary Color",
+      "variableCollectionId": "VariableCollectionId:7:2",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "7:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        }
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "VariableID:7:6",
+      "name": "Secondary Color",
+      "variableCollectionId": "VariableCollectionId:7:2",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "7:0": {
+          "r": 0.47172480821609497,
+          "g": 0.47172480821609497,
+          "b": 0.6500074863433838,
+          "a": 1
+        }
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "VariableID:7:7",
+      "name": "On Secondary Color",
+      "variableCollectionId": "VariableCollectionId:7:2",
+      "resolvedType": "COLOR",
+      "valuesByMode": {
+        "7:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        }
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "VariableID:7:12",
+      "name": "Corner",
+      "variableCollectionId": "VariableCollectionId:7:2",
+      "resolvedType": "FLOAT",
+      "valuesByMode": {
+        "7:0": 8
+      },
+      "scopes": ["ALL_SCOPES"]
+    }
+  ],
+  "styles": {
+    "S:543e9c1037882baf005b6b33ec47e474a7acdb06,": {
+      "name": "Button text",
+      "tokenPath": "button-text"
+    }
+  },
+  "icons": []
+}

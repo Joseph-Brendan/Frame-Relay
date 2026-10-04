@@ -1,9 +1,19 @@
 {
   "name": "Frame-Relay",
-  "id": "REPLACE_WITH_FIGMA_PLUGIN_ID",
+  "id": "1688306391908778327",
   "api": "1.0.0",
   "main": "dist/code.js",
   "ui": "dist/ui.html",
   "editorType": ["figma"],
-  "documentAccess": "dynamic-page"
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["ws://localhost:47321", "ws://localhost:47322", "ws://localhost:47323"],
+    "devAllowedDomains": [
+      "ws://localhost:47321",
+      "ws://localhost:47322",
+      "ws://localhost:47323",
+      "http://localhost:47321"
+    ],
+    "reasoning": "Frame-Relay live mode connects only to a local server on your own computer. No data leaves your machine."
+  }
 }

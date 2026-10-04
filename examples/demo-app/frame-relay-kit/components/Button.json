@@ -1,0 +1,245 @@
+{
+  "$schema": "https://joseph-brendan.github.io/Frame-Relay/schemas/v1/component.schema.json",
+  "name": "Button",
+  "description": "Trigger an immediate action or submission.",
+  "category": "action",
+  "anatomy": [
+    {
+      "name": "root",
+      "description": "Outer interactive container and boundary",
+      "required": true
+    },
+    {
+      "name": "icon-left",
+      "description": "Optional leading decorative or semantic icon",
+      "required": false
+    },
+    {
+      "name": "label",
+      "description": "Textual action description",
+      "required": true
+    }
+  ],
+  "props": [
+    {
+      "name": "variant",
+      "type": "variant",
+      "options": ["Primary", "Secondary", "Ghost"],
+      "default": "Primary",
+      "description": "Visual priority of the action"
+    },
+    {
+      "name": "size",
+      "type": "variant",
+      "options": ["Medium", "Large"],
+      "default": "Medium",
+      "description": "Physical footprint and typography scale"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether interactions are suppressed"
+    },
+    {
+      "name": "label",
+      "type": "text",
+      "default": "Button",
+      "description": "Text content displayed within the button"
+    }
+  ],
+  "layout": {
+    "direction": "row",
+    "gap": "{space.2}",
+    "padding": {
+      "top": "{space.2}",
+      "right": "{space.4}",
+      "bottom": "{space.2}",
+      "left": "{space.4}"
+    },
+    "justify": "center",
+    "align": "center",
+    "width": "hug",
+    "height": "hug"
+  },
+  "base": {
+    "root": {
+      "background": "{color.primary.500}",
+      "borderRadius": "{radius.md}",
+      "typography": "{typography.button}"
+    },
+    "label": {
+      "color": "{color.neutral.0}",
+      "typography": "{typography.button}"
+    },
+    "icon-left": {
+      "iconSize": "{space.4}"
+    }
+  },
+  "variants": [
+    {
+      "props": {
+        "variant": "Primary"
+      },
+      "styles": {
+        "root": {
+          "background": "{color.primary.500}",
+          "color": "{color.neutral.0}"
+        }
+      }
+    },
+    {
+      "props": {
+        "variant": "Secondary"
+      },
+      "styles": {
+        "root": {
+          "background": "{color.neutral.100}",
+          "color": "{color.neutral.900}",
+          "borderColor": "{color.neutral.300}",
+          "borderWidth": "{space.1}"
+        },
+        "label": {
+          "color": "{color.neutral.900}"
+        }
+      }
+    },
+    {
+      "props": {
+        "variant": "Ghost"
+      },
+      "styles": {
+        "root": {
+          "color": "{color.primary.500}"
+        },
+        "label": {
+          "color": "{color.primary.500}"
+        }
+      }
+    },
+    {
+      "props": {
+        "size": "Medium"
+      },
+      "styles": {
+        "root": {
+          "borderRadius": "{radius.md}"
+        }
+      }
+    },
+    {
+      "props": {
+        "size": "Large"
+      },
+      "styles": {
+        "root": {
+          "borderRadius": "{radius.lg}"
+        }
+      }
+    }
+  ],
+  "states": [
+    {
+      "name": "Default",
+      "styles": {}
+    },
+    {
+      "name": "Hover",
+      "styles": {
+        "root": {
+          "background": "{color.primary.600}"
+        }
+      }
+    },
+    {
+      "name": "Focus",
+      "styles": {
+        "root": {
+          "borderColor": "{color.focus.ring}",
+          "borderWidth": "{space.1}"
+        }
+      }
+    },
+    {
+      "name": "Pressed",
+      "styles": {
+        "root": {
+          "background": "{color.primary.600}",
+          "opacity": "{space.8}"
+        }
+      }
+    },
+    {
+      "name": "Disabled",
+      "styles": {
+        "root": {
+          "background": "{color.neutral.300}"
+        },
+        "label": {
+          "color": "{color.neutral.500}"
+        }
+      }
+    },
+    {
+      "name": "Loading",
+      "styles": {
+        "root": {
+          "opacity": "{space.8}"
+        }
+      }
+    }
+  ],
+  "usage": {
+    "do": [
+      "Use Primary variant for the single most prominent action on a page or modal.",
+      "Pair with concise, action-oriented verbs (e.g., Save, Submit, Next).",
+      "Include a leading icon when it provides clear functional context."
+    ],
+    "dont": [
+      "Do not place multiple Primary buttons next to each other.",
+      "Do not disable a button without informing the user what is missing.",
+      "Do not wrap button label text onto multiple lines."
+    ]
+  },
+  "accessibility": {
+    "role": "button",
+    "notes": [
+      "Supports activation using Enter and Space keys.",
+      "Sets aria-disabled when in the disabled state.",
+      "Sets aria-busy when in the loading state."
+    ]
+  },
+  "screenshots": [
+    {
+      "variant": {
+        "variant": "Primary",
+        "size": "Medium",
+        "disabled": false
+      },
+      "state": "Default",
+      "path": "screenshots/Button--Primary-Medium-false--Default.png"
+    },
+    {
+      "variant": {
+        "variant": "Primary",
+        "size": "Medium",
+        "disabled": false
+      },
+      "state": "Hover",
+      "path": "screenshots/Button--Primary-Medium-false--Hover.png"
+    },
+    {
+      "variant": {
+        "variant": "Secondary",
+        "size": "Medium",
+        "disabled": false
+      },
+      "state": "Default",
+      "path": "screenshots/Button--Secondary-Medium-false--Default.png"
+    }
+  ],
+  "source": {
+    "figmaNodeId": "1:23",
+    "figmaComponentKey": "btn-key-001"
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "dumpedAt": "2026-10-03T21:05:00.000Z",
+  "fileName": "Messy WIP Scratchpad",
+  "scope": "file",
+  "collections": [],
+  "variables": [],
+  "styles": {},
+  "components": [
+    {
+      "id": "messy:comp:1",
+      "name": "button_v2_draft",
+      "type": "COMPONENT",
+      "description": "",
+      "visible": true,
+      "layoutMode": "NONE",
+      "width": 120,
+      "height": 48,
+      "cornerRadius": 0,
+      "topLeftRadius": 16,
+      "topRightRadius": 4,
+      "bottomRightRadius": 16,
+      "bottomLeftRadius": 4,
+      "fills": [
+        {
+          "type": "GRADIENT_RADIAL",
+          "visible": true
+        }
+      ],
+      "componentPropertyDefinitions": {},
+      "children": [
+        {
+          "id": "messy:layer:frame12",
+          "name": "Frame 12",
+          "type": "FRAME",
+          "visible": true,
+          "layoutPositioning": "ABSOLUTE",
+          "width": 32,
+          "height": 32,
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "color": {
+                "r": 0.9,
+                "g": 0.2,
+                "b": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "id": "messy:layer:text",
+          "name": "Text 1",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Click Me",
+          "fills": [
+            {
+              "type": "SOLID",
+              "visible": true,
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "messy:set:tabs",
+      "name": "Tabs",
+      "type": "COMPONENT_SET",
+      "description": "Tab item without usage guidance.",
+      "visible": true,
+      "componentPropertyDefinitions": {
+        "State#1:1": {
+          "type": "VARIANT",
+          "defaultValue": "Selected",
+          "variantOptions": ["Default", "Selected"]
+        }
+      },
+      "children": [
+        {
+          "id": "messy:tab:default",
+          "name": "State=Default",
+          "type": "COMPONENT",
+          "visible": true,
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 8,
+          "paddingTop": 8,
+          "paddingRight": 16,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "width": 80,
+          "height": 36,
+          "variantProperties": {
+            "State": "Default"
+          },
+          "children": []
+        },
+        {
+          "id": "messy:tab:selected",
+          "name": "State=Selected",
+          "type": "COMPONENT",
+          "visible": true,
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 8,
+          "paddingTop": 8,
+          "paddingRight": 16,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "width": 80,
+          "height": 36,
+          "variantProperties": {
+            "State": "Selected"
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}
