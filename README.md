@@ -23,6 +23,7 @@ Frame-Relay/
 ## Documentation
 
 - [CLI Documentation](docs/cli.md): Commands, flags, configuration, safe re-sync, and check rules.
+- [MCP Server Documentation](docs/mcp.md): Local MCP server, 7 agent tools, resources, and client setup (Antigravity, Cursor, Claude Code).
 - [Kit Format Specification](docs/kit-format.md): Folder layout, field specifications, and annotated schema examples.
 - [Figma Naming Contract](docs/naming-contract.md): Strict naming rules and design constraints for Figma components.
 - [Converter Core Documentation](docs/converter.md): Figma snapshots, mapping tables, warning codes, and converter API.
@@ -39,6 +40,12 @@ npx @josephbrendan/frame-relay sync --from ./frame-relay-kit.zip
 
 # Verify your application code for design system compliance
 npx @josephbrendan/frame-relay check
+
+# Check project health and MCP server connectivity
+npx @josephbrendan/frame-relay doctor
+
+# Run the local MCP server for AI agents
+npx @josephbrendan/frame-relay mcp
 ```
 
 Ensure you have Node.js 20 or newer installed:

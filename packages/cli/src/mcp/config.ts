@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
-export const MCP_READY = false;
+export const MCP_READY = true;
 
 export interface WriteMcpConfigsOptions {
   cwd: string;
@@ -111,4 +111,70 @@ export function writeMcpConfigs(
     skipped: false,
     writtenFiles,
   };
+}
+
+export interface McpConfigSnippets {
+  antigravity: { file: string; config: { mcpServers: Record<string, McpServerDef> } };
+  antigravityGlobal: { file: string; config: { mcpServers: Record<string, McpServerDef> } };
+  cursor: { file: string; config: { mcpServers: Record<string, McpServerDef> } };
+  claude: { file: string; config: { mcpServers: Record<string, McpServerDef> } };
+}
+
+export function getMcpConfigSnippets(cwd: string = process.cwd()): McpConfigSnippets {
+  const localEntry = buildServerEntry(cwd);
+  const globalEntry: McpServerDef = {
+    command: 'npx',
+    args: ['-y', '@josephbrendan/frame-relay', 'mcp'],
+  };
+
+  return {
+    antigravity: {
+      file: '.agents/mcp_config.json',
+      config: {
+        mcpServers: {
+          'frame-relay': localEntry,
+        },
+      },
+    },
+    antigravityGlobal: {
+      file: '~/.gemini/config/mcp_config.json',
+      config: {
+        mcpServers: {
+          'frame-relay': globalEntry,
+        },
+      },
+    },
+    cursor: {
+      file: '.cursor/mcp.json',
+      config: {
+        mcpServers: {
+          'frame-relay': localEntry,
+        },
+      },
+    },
+    claude: {
+      file: '.mcp.json',
+      config: {
+        mcpServers: {
+          'frame-relay': localEntry,
+        },
+      },
+    },
+  };
+}
+
+export function printMcpConfig(cwd: string = process.cwd()): void {
+  const snippets = getMcpConfigSnippets(cwd);
+
+  process.stdout.write(`// Antigravity (Project: ${snippets.antigravity.file})\n`);
+  process.stdout.write(JSON.stringify(snippets.antigravity.config, null, 2) + '\n\n');
+
+  process.stdout.write(`// Antigravity (Global: ${snippets.antigravityGlobal.file})\n`);
+  process.stdout.write(JSON.stringify(snippets.antigravityGlobal.config, null, 2) + '\n\n');
+
+  process.stdout.write(`// Cursor (${snippets.cursor.file})\n`);
+  process.stdout.write(JSON.stringify(snippets.cursor.config, null, 2) + '\n\n');
+
+  process.stdout.write(`// Claude Code (${snippets.claude.file})\n`);
+  process.stdout.write(JSON.stringify(snippets.claude.config, null, 2) + '\n');
 }

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "frame-relay": {
+      "command": "npx",
+      "args": ["-y", "@josephbrendan/frame-relay", "mcp"]
+    }
+  }
+}

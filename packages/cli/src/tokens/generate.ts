@@ -187,10 +187,14 @@ export function generateTokensCss(tokensFile: TokensFile): string {
 }
 
 export function addTokensImportToCssEntry(cssContent: string, tokensRelativePath: string): string {
-  const importStatement = `@import "${tokensRelativePath.replace(/\\/g, '/')}";`;
-  if (cssContent.includes(importStatement)) {
+  const normalizedPath = tokensRelativePath.replace(/\\/g, '/');
+  const escaped = normalizedPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const existingImportRegex = new RegExp(`@import\\s+["']${escaped}["'];?`);
+  if (existingImportRegex.test(cssContent)) {
     return cssContent;
   }
+
+  const importStatement = `@import "${normalizedPath}";`;
 
   // Find @import "tailwindcss"
   const twImportRegex = /(@import\s+["']tailwindcss["'];?)/;

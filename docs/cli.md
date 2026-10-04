@@ -109,12 +109,32 @@ frame-relay check [paths...] [--json]
 
 ### 4. `frame-relay mcp`
 
-A stub for the Frame-Relay Model Context Protocol (MCP) server. Phase 6 will introduce the full MCP server.
+Runs the local Model Context Protocol (MCP) server over stdio for AI agent integration (Antigravity, Cursor, Claude Code).
 
 ```bash
-frame-relay mcp
-# Prints: "The MCP server ships in the next release" and exits with code 1.
+frame-relay mcp [--root <dir>] [--print-config]
 ```
+
+- `--root <dir>`: Explicit project root directory (otherwise resolved via `--root`, `FRAME_RELAY_ROOT`, or upward walk).
+- `--print-config`: Prints ready-to-paste JSON configuration snippets for Antigravity, Cursor, and Claude Code.
+- For complete documentation on all 7 MCP tools, resources, and client setup, see [docs/mcp.md](mcp.md).
+
+### 5. `frame-relay doctor`
+
+Verifies project health, environment requirements, design kit integrity, generated files, and MCP server connectivity.
+
+```bash
+frame-relay doctor [--cwd <dir>]
+```
+
+**Checked Items:**
+
+1. **Node.js Version**: Confirms Node >= 20.
+2. **Config File**: Confirms `frame-relay.config.json` exists and is valid.
+3. **Design Kit**: Confirms design kit files exist and pass validation.
+4. **Generated Files**: Verifies presence of components, token stylesheets, and utility helpers.
+5. **MCP Config Files**: Checks client configuration files (`.agents/mcp_config.json`, `.cursor/mcp.json`, `.mcp.json`).
+6. **MCP Server Startup**: Verifies `frame-relay mcp` initializes cleanly.
 
 ---
 

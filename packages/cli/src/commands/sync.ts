@@ -231,16 +231,20 @@ export async function runSync(options: SyncOptions = {}): Promise<SyncSummary> {
       componentsDir: effectiveConfig.componentsDir,
       hasPathAlias: env.hasPathAlias,
       agentsConfig: effectiveConfig.agents,
+      mcpEnabled: effectiveConfig.mcp !== false,
     });
     summary.agentFiles.push(...agentRulesRes.writtenFiles);
   }
 
   // 8. MCP Config Writer
   const mcpRes = writeMcpConfigs({ cwd, enableMcpFlag: options.mcp });
-  if (mcpRes.skipped && mcpRes.message) {
-    p.log.info(pc.dim(mcpRes.message));
-  } else if (!mcpRes.skipped && mcpRes.writtenFiles.length > 0) {
+  if (!mcpRes.skipped && mcpRes.writtenFiles.length > 0) {
     p.log.success(pc.green(`Updated MCP config files: ${mcpRes.writtenFiles.length}`));
+    p.log.info(
+      pc.cyan(
+        "In Antigravity: open the agent panel's ... menu > MCP Servers > Manage MCP Servers, then click Refresh.",
+      ),
+    );
   }
 
   // 9. Update Lockfile

@@ -5,6 +5,7 @@ export interface WriteAgentRulesOptions {
   cwd: string;
   componentsDir: string;
   hasPathAlias: boolean;
+  mcpEnabled?: boolean;
   agentsConfig?: {
     antigravity?: boolean;
     cursor?: boolean;
@@ -15,12 +16,16 @@ export interface WriteAgentRulesOptions {
 export const FRAME_RELAY_START_TAG = '<!-- frame-relay:start -->';
 export const FRAME_RELAY_END_TAG = '<!-- frame-relay:end -->';
 
-export function makeCoreRulesBlock(componentsDir: string, hasPathAlias: boolean): string {
+export function makeCoreRulesBlock(
+  componentsDir: string,
+  hasPathAlias: boolean,
+  mcpEnabled: boolean = true,
+): string {
   const importBase = hasPathAlias
     ? `@/${componentsDir.replace(/^src\//, '')}`
     : `./${componentsDir}`;
 
-  return [
+  const lines = [
     FRAME_RELAY_START_TAG,
     '# Frame-Relay Design Rules',
     'You are building UI with the Frame-Relay design system. Follow these mandatory rules:',
@@ -28,8 +33,17 @@ export function makeCoreRulesBlock(componentsDir: string, hasPathAlias: boolean)
     '2. **Tokens only**: Never write raw hex colors (`#...`), rgb/rgba, or Tailwind arbitrary values (`bg-[#...]`, `p-[10px]`). Use token utilities (`bg-primary-500`, `rounded-md`, `p-4`, `text-body`).',
     '3. **Component States**: Use props (`disabled`, `loading`) or ARIA attributes (`aria-invalid="true"`) to trigger component states.',
     '4. **Catalog Reference**: For component props, anatomy, guidelines, and visual screenshot paths, consult `.frame-relay/components.md`.',
-    FRAME_RELAY_END_TAG,
-  ].join('\n');
+  ];
+
+  if (mcpEnabled) {
+    lines.push(
+      '5. **MCP Tools**: Before building UI, call list_components and get_component. After editing UI files, call check_file and fix every issue.',
+    );
+  }
+
+  lines.push(FRAME_RELAY_END_TAG);
+
+  return lines.join('\n');
 }
 
 export function replaceOrAppendBlock(
@@ -56,7 +70,8 @@ export function writeAgentRules(opts: WriteAgentRulesOptions): { writtenFiles: s
   const writtenFiles: string[] = [];
 
   const agents = agentsConfig ?? { antigravity: true, cursor: true, claude: true };
-  const block = makeCoreRulesBlock(componentsDir, hasPathAlias);
+  const mcpEnabled = opts.mcpEnabled !== false;
+  const block = makeCoreRulesBlock(componentsDir, hasPathAlias, mcpEnabled);
 
   // 1. AGENTS.md (Root workspace rules)
   const agentsMdPath = join(cwd, 'AGENTS.md');
@@ -81,15 +96,20 @@ export function writeAgentRules(opts: WriteAgentRulesOptions): { writtenFiles: s
     }
     const agyRulePath = join(agyRuleDir, 'frame-relay.md');
     // Workspace rules in Antigravity are markdown files active for the workspace
-    const agyContent = [
+    const agyLines = [
       '# Frame-Relay Design Rules',
       '',
       `1. **Always use kit components**: Never write raw HTML \`<button>\`, \`<input>\`, \`<select>\`, \`<textarea>\`. Import from \`${hasPathAlias ? `@/${componentsDir.replace(/^src\//, '')}` : `./${componentsDir}`}\`.`,
       '2. **Tokens only**: Never write raw hex colors or arbitrary values (e.g. `bg-[#123]`, `p-[10px]`). Use design token classes (`bg-primary-500`, `rounded-md`, `p-4`, `text-body`).',
       '3. **Component States**: Trigger states via declared props (`disabled`, `loading`) or ARIA attributes (`aria-invalid="true"`).',
       '4. **Catalog Reference**: For component props, anatomy, and guidelines, consult `.frame-relay/components.md`.',
-    ].join('\n');
-    writeFileSync(agyRulePath, agyContent + '\n', 'utf-8');
+    ];
+    if (mcpEnabled) {
+      agyLines.push(
+        '5. **MCP Tools**: Before building UI, call list_components and get_component. After editing UI files, call check_file and fix every issue.',
+      );
+    }
+    writeFileSync(agyRulePath, agyLines.join('\n') + '\n', 'utf-8');
     writtenFiles.push('.agents/rules/frame-relay.md');
   }
 
@@ -100,7 +120,7 @@ export function writeAgentRules(opts: WriteAgentRulesOptions): { writtenFiles: s
       mkdirSync(cursorDir, { recursive: true });
     }
     const cursorRulePath = join(cursorDir, 'frame-relay.mdc');
-    const cursorContent = [
+    const cursorLines = [
       '---',
       'description: Frame-Relay design system rules and token enforcement',
       'alwaysApply: true',
@@ -111,8 +131,13 @@ export function writeAgentRules(opts: WriteAgentRulesOptions): { writtenFiles: s
       `1. Always use kit components from \`${hasPathAlias ? `@/${componentsDir.replace(/^src\//, '')}` : `./${componentsDir}`}\`. Never write raw HTML form/button elements.`,
       '2. Style with design token classes (`bg-primary-500`, `rounded-md`, `p-4`, `text-body`). Never hardcode hex codes or arbitrary values.',
       '3. Check `.frame-relay/components.md` for complete props and usage guidelines.',
-    ].join('\n');
-    writeFileSync(cursorRulePath, cursorContent + '\n', 'utf-8');
+    ];
+    if (mcpEnabled) {
+      cursorLines.push(
+        '4. Before building UI, call MCP tools list_components and get_component. After editing UI, call check_file and fix every issue.',
+      );
+    }
+    writeFileSync(cursorRulePath, cursorLines.join('\n') + '\n', 'utf-8');
     writtenFiles.push('.cursor/rules/frame-relay.mdc');
   }
 

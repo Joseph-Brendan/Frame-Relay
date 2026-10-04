@@ -8,3 +8,4 @@ alwaysApply: true
 1. Always use kit components from `@/components/ui`. Never write raw HTML form/button elements.
 2. Style with design token classes (`bg-primary-500`, `rounded-md`, `p-4`, `text-body`). Never hardcode hex codes or arbitrary values.
 3. Check `.frame-relay/components.md` for complete props and usage guidelines.
+4. Before building UI, call MCP tools list_components and get_component. After editing UI, call check_file and fix every issue.

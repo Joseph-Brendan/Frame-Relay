@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { cac } from 'cac';
 import { runCheck } from './commands/check.js';
+import { runDoctor } from './commands/doctor.js';
 import { runInit } from './commands/init.js';
-import { runMcpStub } from './commands/mcp.js';
+import { runMcpCommand } from './commands/mcp.js';
 import { runSync } from './commands/sync.js';
 import { VERSION } from './index.js';
 
@@ -59,10 +60,33 @@ cli
     }
   });
 
-// Command: mcp (stub)
-cli.command('mcp', 'Run the local MCP server').action(() => {
-  runMcpStub();
-});
+// Command: doctor
+cli
+  .command('doctor', 'Check environment, configuration, and MCP server health')
+  .option('--cwd <dir>', 'Current working directory')
+  .option('--verbose', 'Show detailed output')
+  .action(async (options) => {
+    try {
+      await runDoctor(options);
+    } catch (err) {
+      console.error(err instanceof Error ? err.message : String(err));
+      process.exit(1);
+    }
+  });
+
+// Command: mcp
+cli
+  .command('mcp', 'Run the local MCP server')
+  .option('--root <dir>', 'Explicit project root folder')
+  .option('--print-config', 'Print ready-to-paste MCP config snippets for AI clients')
+  .action(async (options) => {
+    try {
+      await runMcpCommand(options);
+    } catch (err) {
+      process.stderr.write(`${err instanceof Error ? err.message : String(err)}\n`);
+      process.exit(1);
+    }
+  });
 
 cli.help();
 cli.version(VERSION);

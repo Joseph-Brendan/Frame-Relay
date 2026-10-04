@@ -78,4 +78,17 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: ['packages/cli/src/mcp/**/*.{ts,js}'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "CallExpression[callee.object.name='console'][callee.property.name='log']",
+          message:
+            'console.log is banned inside src/mcp/. Use the logger module (writing to stderr) instead.',
+        },
+      ],
+    },
+  },
 );
