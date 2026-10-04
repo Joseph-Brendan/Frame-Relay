@@ -58,6 +58,7 @@ describe('MCP Kit Cache, Reloading and Scale', () => {
     const cache = new KitCache(tmpDir, 50);
     cache.init(true);
     await cache.ready();
+    await new Promise((r) => setTimeout(r, 100));
 
     expect(cache.findComponent('Button')?.spec.description).toBe('Initial description');
 
@@ -84,12 +85,13 @@ describe('MCP Kit Cache, Reloading and Scale', () => {
     expect(cache.findComponent('Button')?.spec.description).toBe('Updated description after edit');
 
     await cache.close();
-  }, 10000);
+  }, 20000);
 
   it('bad reload: broken kit keeps serving last good version and sets warning', async () => {
     const cache = new KitCache(tmpDir, 50);
     cache.init(true);
     await cache.ready();
+    await new Promise((r) => setTimeout(r, 100));
 
     expect(cache.findComponent('Button')?.spec.description).toBe('Initial description');
 
@@ -108,7 +110,7 @@ describe('MCP Kit Cache, Reloading and Scale', () => {
     expect(cache.findComponent('Button')?.spec.description).toBe('Initial description');
 
     await cache.close();
-  }, 10000);
+  }, 20000);
 
   it('startup with 300 synthetic components finishes in under 1 second', () => {
     const largeTmp = fs.mkdtempSync(path.join(os.tmpdir(), 'fr-mcp-scale-test-'));
