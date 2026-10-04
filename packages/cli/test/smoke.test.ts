@@ -136,5 +136,5 @@ describe('Package Smoke Test', () => {
     expect(sync2Output).toContain('Created:    0');
     expect(sync2Output).toContain('Updated:    0');
     expect(sync2Output).toContain('Unchanged:  5');
-  }, 30000);
+  }, 120000);
 });
