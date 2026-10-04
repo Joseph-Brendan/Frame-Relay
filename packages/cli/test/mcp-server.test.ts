@@ -199,8 +199,13 @@ describe('MCP Server Integration Tests', () => {
     });
 
     let stdout = '';
-    proc.stdout.on('data', (d) => {
-      stdout += d.toString();
+    const receivedData = new Promise<void>((resolve) => {
+      proc.stdout.on('data', (d) => {
+        stdout += d.toString();
+        if (stdout.includes('\n')) {
+          resolve();
+        }
+      });
     });
 
     // Send JSON-RPC initialize request
@@ -218,7 +223,7 @@ describe('MCP Server Integration Tests', () => {
 
     proc.stdin.write(initReq);
 
-    await new Promise((r) => setTimeout(r, 600));
+    await Promise.race([receivedData, new Promise((r) => setTimeout(r, 10000))]);
     proc.kill();
 
     const lines = stdout.trim().split('\n').filter(Boolean);
