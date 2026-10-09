@@ -1,0 +1,18 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "demo-app": "0.0.0",
+    "@josephbrendan/frame-relay": "0.0.0",
+    "@josephbrendan/converter": "0.0.0",
+    "@josephbrendan/plugin": "0.0.0",
+    "@josephbrendan/schema": "0.0.0"
+  },
+  "changesets": [
+    "add-cli-commands",
+    "add-converter-core",
+    "add-kit-format-v1-schemas",
+    "add-mcp-server",
+    "live-mode"
+  ]
+}
