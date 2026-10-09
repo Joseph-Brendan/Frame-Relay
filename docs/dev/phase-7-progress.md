@@ -5,12 +5,12 @@ tick items as they land instead of rewriting history.
 
 ## Stage 1: protocol and converter
 
-- [ ] `packages/schema/src/live.ts`: zod schemas for all 12 messages (6 plugin-to-server, 5 server-to-plugin, selection component/frame variants), `LIVE_PORTS`, `MAX_MESSAGE_BYTES`, `LIVE_ERROR_CODES`
-- [ ] Protocol tests: every message round-trips, bad messages rejected (missing/wrong `v`, unknown type, bad error code, mismatched selection kind)
-- [ ] `summarizeFrame` in `packages/converter` returning `FrameSummary` (name, layout, size, childCount, componentInstances, tokenReferences, rawValues)
-- [ ] summarizeFrame tests: hand-made frame fixture and the four real dump fixtures
-- [ ] Full pipeline green: install, format:check, lint, typecheck, build, test
-- [ ] Committed and pushed
+- [x] `packages/schema/src/live.ts`: zod schemas for all 12 messages (6 plugin-to-server, 5 server-to-plugin, selection component/frame variants), `LIVE_PORTS`, `MAX_MESSAGE_BYTES`, `LIVE_ERROR_CODES`
+- [x] Protocol tests: every message round-trips, bad messages rejected (missing/wrong `v`, unknown type, bad error code, mismatched selection kind)
+- [x] `summarizeFrame` in `packages/converter` returning `FrameSummary` (name, layout, size, childCount, componentInstances, tokenReferences, rawValues)
+- [x] summarizeFrame tests: hand-made frame fixture and the four real dump fixtures
+- [x] Full pipeline green: install, format:check, lint, typecheck, build, test
+- [x] Committed and pushed
 
 ## Stage 2: server bridge, MCP tools, CLI and agent config
 
@@ -62,3 +62,31 @@ tick items as they land instead of rewriting history.
 ## Decisions and notes
 
 Append new entries at the end; do not rewrite earlier ones.
+
+### Stage 1 (2026-10-09)
+
+- Branch base: `phase-7-live` stacks on `fix/pre-phase-7` (`a35fc07`), not `main`, because the
+  agent-session setup (AGENTS.md, /verify, docs/dev) and the pre-Phase-7 audit fixes only exist
+  there (PR #6 is open). Confirmed with the owner before branching.
+- The selection message is a discriminated union on `kind` nested inside the plugin-to-server
+  union, so `spec` is type-checked against `kind`: `ComponentSpecSchema` for `kind: "component"`,
+  `FrameSummarySchema` for `kind: "frame"`.
+- `pair.code` accepts any string at the schema level. Format enforcement stays in the bridge so a
+  mistyped code can answer `BAD_CODE` instead of `BAD_MESSAGE`.
+- `FrameSummary` lives in `packages/schema/src/live.ts` (not the converter) because the plugin, the
+  server and the converter all need the type, and the converter already depends on the schema.
+- `summarizeFrame(node, variables = {}, styles = {})` reuses `extractLayout` and
+  `extractStyleBlock`, so live summaries use the same normalization and token mapping as exported
+  specs. No parser or mapping logic was duplicated.
+- `componentInstances` de-duplicates INSTANCE nodes by `mainComponentName` and sorts; token
+  references and raw values are also de-duplicated and sorted. Layout is always returned, matching
+  `convertComponent`.
+- Added optional `mainComponentName` to `NodeSnapshot`. Stage 3 must populate it in the plugin's
+  `snapshotNode` for INSTANCE nodes, otherwise instance names cannot appear in frame summaries.
+- `MAX_MESSAGE_BYTES` is `6 * 1024 * 1024` bytes (6 MiB).
+- `summarizeFrame` returns exactly the seven spec fields and no warnings. Stage 3 currently has no
+  frame warnings to put in `selection.warnings`; if the Live tab needs them, add a separate warning
+  pass there rather than changing the `FrameSummary` shape.
+- Stage 2 imports the protocol from `@josephbrendan/schema/live` through the package root export
+  (`@josephbrendan/schema`). Keep `LIVE_PORTS` and `MAX_MESSAGE_BYTES` as the only source of those
+  values; do not redefine them in the bridge.
