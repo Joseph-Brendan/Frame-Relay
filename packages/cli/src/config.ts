@@ -15,8 +15,9 @@ export const FrameRelayConfigSchema = z.object({
       antigravity: z.boolean().default(true),
       cursor: z.boolean().default(true),
       claude: z.boolean().default(true),
+      opencode: z.boolean().default(true),
     })
-    .default({ antigravity: true, cursor: true, claude: true }),
+    .default({ antigravity: true, cursor: true, claude: true, opencode: true }),
   mcp: z.boolean().default(true),
 });
 

@@ -74,6 +74,54 @@ export function mergeMcpConfigFile(
   writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf-8');
 }
 
+export const OPENCODE_CONFIG_FILENAME = 'opencode.json';
+
+export interface OpencodeServerDef {
+  type: 'local';
+  command: string[];
+  enabled: boolean;
+}
+
+export function buildOpencodeServerEntry(cwd: string): OpencodeServerDef {
+  const entry = buildServerEntry(cwd);
+  return {
+    type: 'local',
+    command: [entry.command, ...entry.args],
+    enabled: true,
+  };
+}
+
+/**
+ * Merges the frame-relay MCP server into opencode.json without removing other keys or servers.
+ * OpenCode reads AGENTS.md for rules, so no extra rules file is written for it.
+ */
+export function mergeOpencodeConfigFile(filePath: string, entry: OpencodeServerDef): void {
+  let json: Record<string, unknown> = {};
+
+  if (existsSync(filePath)) {
+    try {
+      json = JSON.parse(readFileSync(filePath, 'utf-8'));
+    } catch {
+      json = {};
+    }
+  }
+
+  if (typeof json.$schema !== 'string') {
+    json.$schema = 'https://opencode.ai/config.json';
+  }
+
+  const existingMcp =
+    json.mcp && typeof json.mcp === 'object' ? (json.mcp as Record<string, unknown>) : {};
+
+  json.mcp = {
+    ...existingMcp,
+    'frame-relay': entry,
+  };
+
+  mkdirSync(dirname(filePath), { recursive: true });
+  writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf-8');
+}
+
 export function writeMcpConfigs(
   opts: string | WriteMcpConfigsOptions,
   enableMcp?: boolean,
@@ -107,6 +155,10 @@ export function writeMcpConfigs(
     writtenFiles.push(t);
   }
 
+  const opencodePath = join(cwd, OPENCODE_CONFIG_FILENAME);
+  mergeOpencodeConfigFile(opencodePath, buildOpencodeServerEntry(cwd));
+  writtenFiles.push(opencodePath);
+
   return {
     skipped: false,
     writtenFiles,
@@ -118,6 +170,13 @@ export interface McpConfigSnippets {
   antigravityGlobal: { file: string; config: { mcpServers: Record<string, McpServerDef> } };
   cursor: { file: string; config: { mcpServers: Record<string, McpServerDef> } };
   claude: { file: string; config: { mcpServers: Record<string, McpServerDef> } };
+  opencode: {
+    file: string;
+    config: {
+      $schema: string;
+      mcp: Record<string, OpencodeServerDef>;
+    };
+  };
 }
 
 export function getMcpConfigSnippets(cwd: string = process.cwd()): McpConfigSnippets {
@@ -160,6 +219,15 @@ export function getMcpConfigSnippets(cwd: string = process.cwd()): McpConfigSnip
         },
       },
     },
+    opencode: {
+      file: OPENCODE_CONFIG_FILENAME,
+      config: {
+        $schema: 'https://opencode.ai/config.json',
+        mcp: {
+          'frame-relay': buildOpencodeServerEntry(cwd),
+        },
+      },
+    },
   };
 }
 
@@ -176,5 +244,8 @@ export function printMcpConfig(cwd: string = process.cwd()): void {
   process.stdout.write(JSON.stringify(snippets.cursor.config, null, 2) + '\n\n');
 
   process.stdout.write(`// Claude Code (${snippets.claude.file})\n`);
-  process.stdout.write(JSON.stringify(snippets.claude.config, null, 2) + '\n');
+  process.stdout.write(JSON.stringify(snippets.claude.config, null, 2) + '\n\n');
+
+  process.stdout.write(`// OpenCode (${snippets.opencode.file})\n`);
+  process.stdout.write(JSON.stringify(snippets.opencode.config, null, 2) + '\n');
 }

@@ -87,6 +87,7 @@ export async function runInit(options: InitOptions = {}): Promise<void> {
       antigravity: true,
       cursor: true,
       claude: true,
+      opencode: true,
     },
     mcp: true,
   };
