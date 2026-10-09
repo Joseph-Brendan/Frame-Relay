@@ -97,15 +97,25 @@ describe('MCP Server Integration Tests', () => {
     );
   });
 
-  it('get_tokens returns tokens with group filter and mode', async () => {
-    const tokensRes = await client.callTool({
+  it('get_tokens applies dark mode overrides from frame-relay extensions', async () => {
+    const lightRes = await client.callTool({
+      name: 'get_tokens',
+      arguments: { group: 'color' },
+    });
+    const lightText = (lightRes.content[0] as { type: string; text: string }).text;
+    expect(lightText).toContain('# Design Tokens');
+    expect(lightText).toContain('color.primary.500');
+    expect(lightText).toContain('--fr-color-primary-500');
+    expect(lightText).toContain('#2563eb');
+    expect(lightText).not.toContain('#3b82f6');
+
+    const darkRes = await client.callTool({
       name: 'get_tokens',
       arguments: { group: 'color', mode: 'dark' },
     });
-    const text = (tokensRes.content[0] as { type: string; text: string }).text;
-    expect(text).toContain('# Design Tokens');
-    expect(text).toContain('color.primary.500');
-    expect(text).toContain('--fr-color-primary-500');
+    const darkText = (darkRes.content[0] as { type: string; text: string }).text;
+    expect(darkText).toContain('#3b82f6');
+    expect(darkText).not.toBe(lightText);
   });
 
   it('get_screenshot returns valid PNG image content and variant/state text', async () => {

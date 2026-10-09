@@ -339,9 +339,9 @@ export function registerMcpTools(server: McpServer, cache: KitCache): void {
 
         let val = typeof t.$value === 'string' ? t.$value : JSON.stringify(t.$value);
         if (mode && t.$extensions && typeof t.$extensions === 'object') {
-          const figmaExt = (t.$extensions as Record<string, unknown>)['com.figma'] as
+          const frameRelayExt = (t.$extensions as Record<string, unknown>)['frame-relay'] as
             Record<string, unknown> | undefined;
-          const modeValues = figmaExt?.modes as Record<string, unknown> | undefined;
+          const modeValues = frameRelayExt?.modes as Record<string, unknown> | undefined;
           if (modeValues && modeValues[mode] !== undefined) {
             val = String(modeValues[mode]);
           }
