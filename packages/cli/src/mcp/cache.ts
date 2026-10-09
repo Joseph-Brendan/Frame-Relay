@@ -6,7 +6,7 @@ import {
   FlattenedToken,
   flattenTokens,
   MANIFEST_FILENAME,
-} from '@josephbrendan/schema';
+} from '@frame-relay/schema';
 import { FrameRelayConfig, loadConfig } from '../config.js';
 import { LoadedKit, readAndValidateKit } from '../kit/discovery.js';
 import { logger } from './logger.js';

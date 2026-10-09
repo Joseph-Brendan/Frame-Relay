@@ -1,5 +1,5 @@
 {
-  "name": "@josephbrendan/frame-relay",
+  "name": "@frame-relay/cli",
   "version": "0.1.0-beta.0",
   "description": "Turn your Figma components into a design kit your AI coding agent follows.",
   "license": "MIT",
@@ -65,8 +65,8 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@josephbrendan/converter": "workspace:*",
-    "@josephbrendan/schema": "workspace:*",
+    "@frame-relay/converter": "workspace:*",
+    "@frame-relay/schema": "workspace:*",
     "@types/ws": "^8.18.2",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3"

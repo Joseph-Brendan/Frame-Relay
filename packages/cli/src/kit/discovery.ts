@@ -9,7 +9,7 @@ import {
   SUPPORTED_KIT_VERSIONS,
   TokensFile,
   validateKit,
-} from '@josephbrendan/schema';
+} from '@frame-relay/schema';
 
 export interface LoadedKit {
   kitDir: string;
@@ -121,7 +121,7 @@ export function readAndValidateKit(kitDir: string, force = false): LoadedKit {
     throw new Error(
       `Kit version "${kitVersion}" is unsupported.\n` +
         `This version of Frame-Relay supports: ${SUPPORTED_KIT_VERSIONS.join(', ')}.\n` +
-        `Please update @josephbrendan/frame-relay to the latest version.`,
+        `Please update @frame-relay/cli to the latest version.`,
     );
   }
 

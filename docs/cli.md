@@ -10,22 +10,22 @@ Run via `npx` or install into your project:
 
 ```bash
 # Initialize Frame-Relay in your project
-npx @josephbrendan/frame-relay init
+npx @frame-relay/cli init
 
 # Sync tokens, components, and agent rules from an exported kit zip
-npx @josephbrendan/frame-relay sync --from ./frame-relay-kit.zip
+npx @frame-relay/cli sync --from ./frame-relay-kit.zip
 
 # Verify your codebase for design system compliance
-npx @josephbrendan/frame-relay check
+npx @frame-relay/cli check
 ```
 
 Or install as a development dependency:
 
 ```bash
-pnpm add -D @josephbrendan/frame-relay
-# or: npm install -D @josephbrendan/frame-relay
-# or: yarn add -D @josephbrendan/frame-relay
-# or: bun add -d @josephbrendan/frame-relay
+pnpm add -D @frame-relay/cli
+# or: npm install -D @frame-relay/cli
+# or: yarn add -D @frame-relay/cli
+# or: bun add -d @frame-relay/cli
 ```
 
 ---

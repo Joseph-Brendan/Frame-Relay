@@ -1,4 +1,4 @@
-import { TokensFile, validateTokens } from '@josephbrendan/schema';
+import { TokensFile, validateTokens } from '@frame-relay/schema';
 import { ConverterWarning, createWarning } from './warnings.js';
 import { VariableAliasSnapshot, VariableIndex } from './snapshot.js';
 
@@ -295,7 +295,7 @@ export function convertVariables(input: ConvertVariablesInput): ConvertVariables
     setDeepProperty(tokens, pathSegments, tokenDef);
   }
 
-  // Validate the generated tokens against @josephbrendan/schema
+  // Validate the generated tokens against @frame-relay/schema
   const validation = validateTokens(tokens);
   if (!validation.ok) {
     for (const err of validation.errors) {

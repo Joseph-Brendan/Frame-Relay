@@ -203,14 +203,7 @@ describe('Package Smoke Test', () => {
       }
       throw installError;
     }
-    const cliEntry = path.join(
-      appDir,
-      'node_modules',
-      '@josephbrendan',
-      'frame-relay',
-      'dist',
-      'cli.js',
-    );
+    const cliEntry = path.join(appDir, 'node_modules', '@frame-relay', 'cli', 'dist', 'cli.js');
     expect(fs.existsSync(cliEntry)).toBe(true);
 
     // 3. Create zip of the sample kit

@@ -118,10 +118,10 @@ importers:
         specifier: ^4.6.5
         version: 4.6.5
     devDependencies:
-      '@josephbrendan/converter':
+      '@frame-relay/converter':
         specifier: workspace:*
         version: link:../converter
-      '@josephbrendan/schema':
+      '@frame-relay/schema':
         specifier: workspace:*
         version: link:../schema
       '@types/ws':
@@ -136,7 +136,7 @@ importers:
 
   packages/converter:
     dependencies:
-      '@josephbrendan/schema':
+      '@frame-relay/schema':
         specifier: workspace:*
         version: link:../schema
     devDependencies:
@@ -149,10 +149,10 @@ importers:
 
   packages/plugin:
     dependencies:
-      '@josephbrendan/converter':
+      '@frame-relay/converter':
         specifier: workspace:*
         version: link:../converter
-      '@josephbrendan/schema':
+      '@frame-relay/schema':
         specifier: workspace:*
         version: link:../schema
       jszip:

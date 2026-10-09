@@ -1,5 +1,5 @@
 import { createServer } from 'node:net';
-import { LIVE_PORTS } from '@josephbrendan/schema';
+import { LIVE_PORTS } from '@frame-relay/schema';
 
 export interface LivePortState {
   port: number;

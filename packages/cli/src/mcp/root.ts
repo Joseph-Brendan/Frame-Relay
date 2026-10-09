@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
-import { MANIFEST_FILENAME } from '@josephbrendan/schema';
+import { MANIFEST_FILENAME } from '@frame-relay/schema';
 
 export interface ResolveRootResult {
   root: string;

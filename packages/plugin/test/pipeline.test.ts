@@ -9,8 +9,8 @@ import {
   convertVariables,
   NodeSnapshot,
   StyleIndex,
-} from '@josephbrendan/converter';
-import { validateKit, ComponentSpec, Manifest, TokensFile } from '@josephbrendan/schema';
+} from '@frame-relay/converter';
+import { validateKit, ComponentSpec, Manifest, TokensFile } from '@frame-relay/schema';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

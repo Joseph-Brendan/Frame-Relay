@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, relative } from 'node:path';
-import { flattenTokens, TokensFile } from '@josephbrendan/schema';
+import { flattenTokens, TokensFile } from '@frame-relay/schema';
 
 export interface GenerateTokensCssOptions {
   tokens: TokensFile;

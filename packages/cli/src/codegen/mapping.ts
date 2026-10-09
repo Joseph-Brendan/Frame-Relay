@@ -1,4 +1,4 @@
-import { Layout, Padding, StyleBlock, StyleValue } from '@josephbrendan/schema';
+import { Layout, Padding, StyleBlock, StyleValue } from '@frame-relay/schema';
 
 export interface StyleMappingResult {
   classes: string[];

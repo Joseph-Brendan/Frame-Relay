@@ -2,7 +2,7 @@
   "mcpServers": {
     "frame-relay": {
       "command": "npx",
-      "args": ["-y", "@josephbrendan/frame-relay", "mcp"]
+      "args": ["-y", "@frame-relay/cli", "mcp"]
     }
   }
 }

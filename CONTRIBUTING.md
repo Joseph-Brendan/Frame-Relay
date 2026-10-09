@@ -71,7 +71,7 @@ The scope is the package name. Write the subject in the imperative mood.
 
 ## Changesets
 
-Any change that affects the published package (`@josephbrendan/frame-relay`) needs a changeset.
+Any change that affects the published package (`@frame-relay/cli`) needs a changeset.
 Run:
 
 ```bash

@@ -87,8 +87,8 @@ Append new entries at the end; do not rewrite earlier ones.
 - `summarizeFrame` returns exactly the seven spec fields and no warnings. Stage 3 currently has no
   frame warnings to put in `selection.warnings`; if the Live tab needs them, add a separate warning
   pass there rather than changing the `FrameSummary` shape.
-- Stage 2 imports the protocol from `@josephbrendan/schema/live` through the package root export
-  (`@josephbrendan/schema`). Keep `LIVE_PORTS` and `MAX_MESSAGE_BYTES` as the only source of those
+- Stage 2 imports the protocol from `@frame-relay/schema/live` through the package root export
+  (`@frame-relay/schema`). Keep `LIVE_PORTS` and `MAX_MESSAGE_BYTES` as the only source of those
   values; do not redefine them in the bridge.
 
 ### Stage 2 (2026-10-09)
@@ -114,7 +114,7 @@ Append new entries at the end; do not rewrite earlier ones.
   `.gitignore` once, preserving existing content.
 - OpenCode config is merged separately from the `mcpServers` files: `opencode.json` keeps every
   other key and every other `mcp` server, adds `$schema` only when absent, and uses
-  `["npx", "-y", "@josephbrendan/frame-relay", "mcp"]` unless the package is a local dependency.
+  `["npx", "-y", "@frame-relay/cli", "mcp"]` unless the package is a local dependency.
   `agents.opencode` exists in the config but writes no rules file because OpenCode reads `AGENTS.md`.
 - `get_live_selection` precedence: live selection first; otherwise `fallbackName` returns the
   exported spec; otherwise running+unpaired returns the code and steps, running+paired+empty asks for
@@ -209,8 +209,8 @@ Append new entries at the end; do not rewrite earlier ones.
     `sync` emits unformatted CSS/Markdown, so re-running `sync` will keep reporting a tokens
     conflict and reformatting `.frame-relay/components.md`. Fix by making the generators
     Prettier-stable or by hashing the formatted output; out of scope for Phase 7.
-- Changeset `.changeset/live-mode.md` bumps `@josephbrendan/frame-relay`, `@josephbrendan/schema`,
-  `@josephbrendan/converter` and `@josephbrendan/plugin` (minor each), matching the repo convention
+- Changeset `.changeset/live-mode.md` bumps `@frame-relay/cli`, `@frame-relay/schema`,
+  `@frame-relay/converter` and `@frame-relay/plugin` (minor each), matching the repo convention
   of including private workspace packages.
 - Verification: `/verify` full pipeline plus schema diff and plugin bundle checks are green;
   `pnpm test` is 227 tests across 28 files.

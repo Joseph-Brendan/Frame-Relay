@@ -2,7 +2,7 @@
 
 **Turn your Figma components into a design kit your AI coding agent follows.**
 
-[![npm beta](https://img.shields.io/npm/v/@josephbrendan/frame-relay/beta?label=npm%20beta)](https://www.npmjs.com/package/@josephbrendan/frame-relay)
+[![npm beta](https://img.shields.io/npm/v/@frame-relay/cli/beta?label=npm%20beta)](https://www.npmjs.com/package/@frame-relay/cli)
 [![CI](https://github.com/Joseph-Brendan/Frame-Relay/actions/workflows/ci.yml/badge.svg)](https://github.com/Joseph-Brendan/Frame-Relay/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
@@ -44,11 +44,11 @@ npm install tailwindcss @tailwindcss/vite
 # 3. In Figma: run the Frame-Relay plugin, open the Export tab, click Export Kit (.zip)
 
 # 4. Set up Frame-Relay and sync the kit
-npx @josephbrendan/frame-relay@beta init --yes
-npx @josephbrendan/frame-relay@beta sync --from ~/Downloads/frame-relay-kit-my-file.zip
+npx @frame-relay/cli@beta init --yes
+npx @frame-relay/cli@beta sync --from ~/Downloads/frame-relay-kit-my-file.zip
 
 # 5. Check the setup
-npx @josephbrendan/frame-relay@beta doctor
+npx @frame-relay/cli@beta doctor
 ```
 
 Open the folder in OpenCode (or your AI tool), then ask: "Build a settings page with the kit
@@ -73,7 +73,7 @@ Full walkthrough: [Getting started](./docs/getting-started.md). Ideas first:
 | **Claude Code** | `.mcp.json` and `CLAUDE.md`                                  |
 
 Until the stable release, the package is published with the `beta` tag only. The simplest setup is
-to install it as a dev dependency once: `npm install -D @josephbrendan/frame-relay@beta`. Sync then
+to install it as a dev dependency once: `npm install -D @frame-relay/cli@beta`. Sync then
 writes a command that uses the local install, and the MCP server starts without changes.
 
 ## Documentation

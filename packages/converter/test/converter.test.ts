@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { ComponentSpec, validateComponent } from '@josephbrendan/schema';
+import { ComponentSpec, validateComponent } from '@frame-relay/schema';
 import {
   assembleKit,
   convertComponent,

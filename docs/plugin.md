@@ -17,7 +17,7 @@ The plugin operates with a strict process boundary:
 
 2. **UI Thread (`src/ui/`)**:
    - Executes inside an iframe with full DOM access and native CSS variables matching Figma's theme colors.
-   - Runs pure token and component conversion (`@josephbrendan/converter`), runs schema validation (`@josephbrendan/schema`), assembles kit files, and builds ZIP archives using `JSZip`.
+   - Runs pure token and component conversion (`@frame-relay/converter`), runs schema validation (`@frame-relay/schema`), assembles kit files, and builds ZIP archives using `JSZip`.
    - In live mode, **only this iframe opens the WebSocket** to the local MCP bridge and sends the converted selection.
    - Never accesses the `figma` API.
 

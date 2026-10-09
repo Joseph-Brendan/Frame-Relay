@@ -3,7 +3,7 @@
   "kitName": "Frame-Relay Sample Kit",
   "exportedAt": "2026-10-03T12:00:00.000Z",
   "files": {
-    "src/styles/frame-relay-tokens.css": "80f35f63f112486649c75f322607e018d03e6e7ed7f6e52e9703b2219d193cc0",
+    "src/styles/frame-relay-tokens.css": "83c59f5f56a963736a2ef411c936f1addbc59e476a992c36eced21e1da0cf848",
     "src/lib/cn.ts": "9304a861c8673bee09e0f12de31773abbde503b02e59dfd74763ddec2e37cf05",
     "src/components/ui/Button.tsx": "f24e9b08ba25e5e7639b59a182f3e6428df0f77dd6800ecd5503091211b5e486",
     "src/components/ui/Input.tsx": "06fd35aa5facc074260c90a553bc17e191d50beaa29802a587f7d10336262e56",

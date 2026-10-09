@@ -13,7 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
-    "generate": "pnpm --filter @josephbrendan/schema generate",
+    "generate": "pnpm --filter @frame-relay/schema generate",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",

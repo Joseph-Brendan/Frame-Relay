@@ -1,4 +1,4 @@
-# @josephbrendan/plugin
+# @frame-relay/plugin
 
 Figma plugin for **Frame-Relay** that lints design systems and exports agent-ready design kits.
 
@@ -16,16 +16,16 @@ From the repository root or inside `packages/plugin`:
 
 ```bash
 # Build production bundle (dist/code.js and dist/ui.html)
-pnpm --filter @josephbrendan/plugin build
+pnpm --filter @frame-relay/plugin build
 
 # Start watch mode for active development
-pnpm --filter @josephbrendan/plugin dev
+pnpm --filter @frame-relay/plugin dev
 
 # Run TypeScript type check
-pnpm --filter @josephbrendan/plugin typecheck
+pnpm --filter @frame-relay/plugin typecheck
 
 # Run test suite
-pnpm --filter @josephbrendan/plugin test
+pnpm --filter @frame-relay/plugin test
 ```
 
 Build outputs:
@@ -60,7 +60,7 @@ Build outputs:
 You can validate any generated `.zip` package from the command line using the built-in validator:
 
 ```bash
-pnpm --filter @josephbrendan/plugin validate-kit path/to/frame-relay-kit.zip
+pnpm --filter @frame-relay/plugin validate-kit path/to/frame-relay-kit.zip
 ```
 
-The script unzips the archive in memory, validates the manifest and all component and token schemas with `@josephbrendan/schema`, checks that all referenced 2x screenshots and SVG icons exist, and reports errors or passes with exit code `0`.
+The script unzips the archive in memory, validates the manifest and all component and token schemas with `@frame-relay/schema`, checks that all referenced 2x screenshots and SVG icons exist, and reports errors or passes with exit code `0`.

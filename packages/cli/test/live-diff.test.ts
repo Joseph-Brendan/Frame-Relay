@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { ComponentSpec } from '@josephbrendan/schema';
+import type { ComponentSpec } from '@frame-relay/schema';
 import { diffComponentSpecs } from '../src/index.js';
 
 function makeSpec(overrides: Partial<ComponentSpec> = {}): ComponentSpec {

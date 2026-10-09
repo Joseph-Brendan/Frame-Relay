@@ -3,7 +3,7 @@
   "mcp": {
     "frame-relay": {
       "type": "local",
-      "command": ["npx", "-y", "@josephbrendan/frame-relay", "mcp"],
+      "command": ["npx", "-y", "@frame-relay/cli", "mcp"],
       "enabled": true
     }
   }

@@ -1,4 +1,4 @@
-# @josephbrendan/frame-relay
+# @frame-relay/cli
 
 ## 0.1.0-beta.0
 

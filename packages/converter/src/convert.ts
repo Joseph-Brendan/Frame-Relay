@@ -7,7 +7,7 @@ import {
   ManifestSource,
   ManifestGenerator,
   Manifest,
-} from '@josephbrendan/schema';
+} from '@frame-relay/schema';
 import { isNodeSnapshot, NodeSnapshot, StyleIndex, VariableIndex } from './snapshot.js';
 import { ConverterWarning, createWarning } from './warnings.js';
 import { parseDescription } from './description.js';
@@ -269,7 +269,7 @@ export function assembleKit(options: AssembleKitOptions): AssembleKitResult {
     files[`components/${comp.name}.json`] = JSON.stringify(comp, null, 2);
   }
 
-  // Validate entire kit using validateKit from @josephbrendan/schema
+  // Validate entire kit using validateKit from @frame-relay/schema
   const componentsRecord: Record<string, unknown> = {};
   for (const comp of components) {
     componentsRecord[`components/${comp.name}.json`] = comp;
