@@ -180,10 +180,10 @@ describe('MCP Server Integration Tests', () => {
     );
   });
 
-  it('get_live_selection returns stub message', async () => {
+  it('get_live_selection reports that live mode is not running', async () => {
     const liveRes = await client.callTool({ name: 'get_live_selection', arguments: {} });
     expect((liveRes.content[0] as { type: string; text: string }).text).toContain(
-      'Live mode is not available in this version. Use get_component and get_screenshot with the exported kit.',
+      'Live mode is not running. Call start_live',
     );
   });
 

@@ -39,6 +39,7 @@ describe('Configuration & Init', () => {
     const parsed = FrameRelayConfigSchema.parse(validConfig);
     expect(parsed.framework).toBe('vite');
     expect(parsed.agents?.antigravity).toBe(true);
+    expect(parsed.agents?.opencode).toBe(true);
   });
 
   it('rejects invalid configuration fields', () => {
@@ -95,7 +96,7 @@ describe('Configuration & Init', () => {
       cssEntry: 'src/index.css',
       componentsDir: 'src/components/ui',
       tokensFile: 'src/styles/frame-relay-tokens.css',
-      agents: { antigravity: true, cursor: true, claude: true },
+      agents: { antigravity: true, cursor: true, claude: true, opencode: true },
       mcp: true,
     };
 

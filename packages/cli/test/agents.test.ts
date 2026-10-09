@@ -63,6 +63,11 @@ Footer instructions that must stay here.
     expect(match).not.toBeNull();
     const lines = match![1].trim().split('\n');
     expect(lines.length).toBeLessThan(40);
+
+    expect(updated).toContain(
+      "If the user mentions their Figma selection or says 'match this', call get_live_selection.",
+    );
+    expect(updated).toContain('call start_live and show the user the code');
   });
 
   it('updates CLAUDE.md importing @AGENTS.md between marker blocks', () => {
@@ -91,6 +96,7 @@ Footer instructions that must stay here.
     expect(fs.existsSync(agyPath)).toBe(true);
     const agyContent = fs.readFileSync(agyPath, 'utf-8');
     expect(agyContent).toContain('# Frame-Relay Design Rules');
+    expect(agyContent).toContain('get_live_selection');
 
     const cursorPath = path.join(tmpDir, '.cursor/rules/frame-relay.mdc');
     expect(fs.existsSync(cursorPath)).toBe(true);

@@ -20,10 +20,11 @@ describe('MCP Config Writer & --print-config', () => {
   it('writeMcpConfigs writes configs by default now that MCP_READY is true', () => {
     const res = writeMcpConfigs(tmpDir);
     expect(res.skipped).toBe(false);
-    expect(res.writtenFiles.length).toBe(3);
+    expect(res.writtenFiles.length).toBe(4);
     expect(fs.existsSync(path.join(tmpDir, '.agents/mcp_config.json'))).toBe(true);
     expect(fs.existsSync(path.join(tmpDir, '.cursor/mcp.json'))).toBe(true);
     expect(fs.existsSync(path.join(tmpDir, '.mcp.json'))).toBe(true);
+    expect(fs.existsSync(path.join(tmpDir, 'opencode.json'))).toBe(true);
   });
 
   it('merges frame-relay server into existing mcp config preserving other servers', () => {
@@ -51,6 +52,60 @@ describe('MCP Config Writer & --print-config', () => {
     ]);
   });
 
+  it('merges opencode.json keeping other keys and other MCP servers', () => {
+    const initialConfig = {
+      $schema: 'https://opencode.ai/config.json',
+      theme: 'dark',
+      mcp: {
+        otherServer: {
+          type: 'local',
+          command: ['node', 'other.js'],
+          enabled: true,
+        },
+      },
+    };
+    fs.writeFileSync(
+      path.join(tmpDir, 'opencode.json'),
+      JSON.stringify(initialConfig, null, 2),
+      'utf-8',
+    );
+
+    writeMcpConfigs(tmpDir);
+
+    const updated = JSON.parse(fs.readFileSync(path.join(tmpDir, 'opencode.json'), 'utf-8'));
+    expect(updated.theme).toBe('dark');
+    expect(updated.mcp.otherServer).toEqual(initialConfig.mcp.otherServer);
+    expect(updated.mcp['frame-relay']).toEqual({
+      type: 'local',
+      command: ['npx', '-y', '@josephbrendan/frame-relay', 'mcp'],
+      enabled: true,
+    });
+  });
+
+  it('uses the local frame-relay command in opencode.json for devDependency projects', () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'package.json'),
+      JSON.stringify({ devDependencies: { '@josephbrendan/frame-relay': '^1.0.0' } }),
+    );
+
+    writeMcpConfigs(tmpDir);
+
+    const updated = JSON.parse(fs.readFileSync(path.join(tmpDir, 'opencode.json'), 'utf-8'));
+    expect(updated.mcp['frame-relay'].command).toEqual(['npx', 'frame-relay', 'mcp']);
+  });
+
+  it('preserves an existing custom $schema in opencode.json', () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'opencode.json'),
+      JSON.stringify({ $schema: 'https://example.com/schema.json' }),
+    );
+
+    writeMcpConfigs(tmpDir);
+
+    const updated = JSON.parse(fs.readFileSync(path.join(tmpDir, 'opencode.json'), 'utf-8'));
+    expect(updated.$schema).toBe('https://example.com/schema.json');
+  });
+
   it('uses local npx frame-relay mcp when package is in devDependencies', () => {
     fs.writeFileSync(
       path.join(tmpDir, 'package.json'),
@@ -69,13 +124,15 @@ describe('MCP Config Writer & --print-config', () => {
     expect(agyConfig.mcpServers['frame-relay'].args).toEqual(['frame-relay', 'mcp']);
   });
 
-  it('--print-config output parses as valid JSON for each client', () => {
+  it('--print-config output parses as valid JSON for each client including OpenCode', () => {
     const snippets = getMcpConfigSnippets(tmpDir);
 
     expect(snippets.antigravity.config.mcpServers['frame-relay']).toBeDefined();
     expect(snippets.antigravityGlobal.config.mcpServers['frame-relay']).toBeDefined();
     expect(snippets.cursor.config.mcpServers['frame-relay']).toBeDefined();
     expect(snippets.claude.config.mcpServers['frame-relay']).toBeDefined();
+    expect(snippets.opencode.config.mcp['frame-relay']).toBeDefined();
+    expect(snippets.opencode.file).toBe('opencode.json');
 
     // Test running through CLI
     const output = execSync(`node "${cliPath}" mcp --print-config --root "${tmpDir}"`, {
@@ -88,11 +145,13 @@ describe('MCP Config Writer & --print-config', () => {
       .map((s) => s.trim())
       .filter(Boolean);
 
-    expect(jsonBlocks.length).toBe(4);
+    expect(jsonBlocks.length).toBe(5);
     for (const block of jsonBlocks) {
       const parsed = JSON.parse(block);
-      expect(parsed.mcpServers).toBeDefined();
-      expect(parsed.mcpServers['frame-relay']).toBeDefined();
+      const hasServer =
+        parsed.mcpServers?.['frame-relay'] !== undefined ||
+        parsed.mcp?.['frame-relay'] !== undefined;
+      expect(hasServer).toBe(true);
     }
   });
 });
