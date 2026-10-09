@@ -1,0 +1,27 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Joseph-Brendan/frame-relay",
+  "description": "MCP server for the Frame-Relay design kit: components, tokens and live Figma selections.",
+  "version": "0.1.0-beta.0",
+  "repository": {
+    "url": "https://github.com/Joseph-Brendan/Frame-Relay",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@josephbrendan/frame-relay",
+      "version": "0.1.0-beta.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "runtimeArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ]
+    }
+  ]
+}
