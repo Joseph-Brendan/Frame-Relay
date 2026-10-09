@@ -1,16 +1,43 @@
 {
   "name": "@josephbrendan/frame-relay",
   "version": "0.1.0-beta.0",
+  "description": "Turn your Figma components into a design kit your AI coding agent follows.",
+  "license": "MIT",
+  "author": "Joseph Brendan",
   "type": "module",
   "bin": {
     "frame-relay": "dist/cli.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "beta"
   },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joseph-Brendan/Frame-Relay.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://joseph-brendan.github.io/Frame-Relay/",
+  "bugs": {
+    "url": "https://github.com/Joseph-Brendan/Frame-Relay/issues"
+  },
+  "keywords": [
+    "figma",
+    "mcp",
+    "design-system",
+    "ai-agents",
+    "tailwind",
+    "react"
+  ],
+  "mcpName": "io.github.Joseph-Brendan/frame-relay",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -21,7 +48,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepack": "node scripts/copy-npm-files.mjs"
   },
   "dependencies": {
     "@babel/parser": "^7.29.9",

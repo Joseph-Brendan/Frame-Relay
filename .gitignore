@@ -13,3 +13,5 @@ frame-relay-kit/
 docs/.vitepress/cache/
 docs/.vitepress/dist/
 docs/dev/STATUS.md
+packages/cli/README.md
+packages/cli/LICENSE
