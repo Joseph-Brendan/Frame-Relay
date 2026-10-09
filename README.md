@@ -1,6 +1,6 @@
 # Frame-Relay
 
-A free, open-source toolkit that turns Figma components into an agent-ready design kit. It has four parts: a Figma plugin that exports the kit, a converter shared by export and live mode, a CLI that writes code and agent rules into a project, and a local MCP server that AI agents query. License: MIT.
+A free, open-source toolkit that turns Figma components into an agent-ready design kit. It has five parts: a Figma plugin that exports the kit and streams live selections, a converter shared by export and live mode, a CLI that writes code and agent rules into a project, a local MCP server that AI agents query, and a localhost live bridge for "match this" moments. License: MIT.
 
 Status: early development
 
@@ -23,11 +23,12 @@ Frame-Relay/
 ## Documentation
 
 - [CLI Documentation](docs/cli.md): Commands, flags, configuration, safe re-sync, and check rules.
-- [MCP Server Documentation](docs/mcp.md): Local MCP server, 7 agent tools, resources, and client setup (Antigravity, Cursor, Claude Code).
+- [MCP Server Documentation](docs/mcp.md): Local MCP server, 10 agent tools, resources, and client setup (Antigravity, Cursor, Claude Code, OpenCode).
+- [Live Mode](docs/live-mode.md): Pairing, the plugin's Live tab, live tools, security model, and troubleshooting.
 - [Kit Format Specification](docs/kit-format.md): Folder layout, field specifications, and annotated schema examples.
 - [Figma Naming Contract](docs/naming-contract.md): Strict naming rules and design constraints for Figma components.
 - [Converter Core Documentation](docs/converter.md): Figma snapshots, mapping tables, warning codes, and converter API.
-- [Plugin Documentation](docs/plugin.md): Figma plugin architecture, export pipeline, and Developer Mode.
+- [Plugin Documentation](docs/plugin.md): Figma plugin architecture, export pipeline, Live tab, and Developer Mode.
 
 ## Quickstart
 
@@ -46,7 +47,18 @@ npx @josephbrendan/frame-relay doctor
 
 # Run the local MCP server for AI agents
 npx @josephbrendan/frame-relay mcp
+
+# Or start it with live mode so the agent can see your Figma selection
+npx @josephbrendan/frame-relay mcp --live
+
+# Check whether live mode is running and show the pairing state
+npx @josephbrendan/frame-relay live
 ```
+
+`sync` configures MCP for Antigravity, Cursor, Claude Code and OpenCode. For OpenCode it merges a
+`frame-relay` entry into `opencode.json` without touching other keys; OpenCode reads the generated
+`AGENTS.md` rules file. See [docs/mcp.md](docs/mcp.md#4-opencode) and
+[docs/live-mode.md](docs/live-mode.md).
 
 Ensure you have Node.js 20 or newer installed:
 

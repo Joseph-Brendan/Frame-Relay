@@ -1,12 +1,13 @@
 # Local MCP Server (`frame-relay mcp`)
 
-The Frame-Relay MCP (Model Context Protocol) server is a local, stdio-based server that gives AI coding assistants (such as Google Antigravity, Cursor, and Claude Code) full query access to your design system.
+The Frame-Relay MCP (Model Context Protocol) server is a local, stdio-based server that gives AI coding assistants (such as Google Antigravity, Cursor, Claude Code and OpenCode) full query access to your design system.
 
 It reads your exported `frame-relay-kit/` and `frame-relay.config.json`, answering questions about available components, token values, styling guidelines, interactive states, visual screenshots, and rule compliance.
 
 - **Offline & Private**: Runs locally on your machine over stdio. Needs no Figma access, no network, and never writes files.
 - **Instant Synchronization**: Watches kit files with Chokidar and hot-reloads within 300ms without restarting the server.
 - **Fail-Safe**: If a kit file edit has validation errors, the server keeps serving the last valid kit and reports a clear warning.
+- **Live Mode (optional)**: A localhost WebSocket bridge lets the agent read your current Figma selection. See [Live Mode](live-mode.md).
 
 ---
 
@@ -29,7 +30,7 @@ No Frame-Relay kit found from <path>. Run `npx frame-relay sync`, or set FRAME_R
 
 ## MCP Tools
 
-The server exposes 7 specialized tools designed for AI agents:
+The server exposes 10 specialized tools designed for AI agents:
 
 ### 1. `get_kit_info`
 
@@ -165,10 +166,53 @@ export function Example() {
   _Suggested Fix_: Use a design token class such as bg-primary-500 or text-primary-500.
 ```
 
-### 7. `get_live_selection`
+### 7. `start_live`
 
-- **When to call**: Inspect current Figma selection in live mode.
-- **Result**: `Live mode is not available in this version. Use get_component and get_screenshot with the exported kit.` (Phase 7 feature).
+- **When to call**: Call when the user wants live mode or mentions their Figma selection.
+- **Input**: None.
+- **Result**: Starts the localhost bridge (or returns its state when already running) and returns the pairing code plus the exact steps to show the user:
+
+```markdown
+# Live Mode Started
+
+- **Port**: 47321
+- **Pairing code**: `123456`
+
+Show this to the user:
+
+> Open the Frame-Relay plugin in Figma, go to the Live tab, enter code 123456, and click Connect.
+```
+
+### 8. `stop_live`
+
+- **When to call**: Call when the user is done with live mode.
+- **Input**: None.
+- **Result**: Stops the bridge, clears the session and deletes `.frame-relay/live.json`.
+
+### 9. `get_live_status`
+
+- **When to call**: Call to check whether live mode is running, whether a plugin is paired, and when the last selection arrived.
+- **Input**: None.
+- **Result**:
+
+```markdown
+# Live Mode Status
+
+- **Running**: yes
+- **Port**: 47321
+- **Paired**: yes
+- **Connected file**: Relay Test
+- **Last selection**: Button (component, 12s ago)
+```
+
+### 10. `get_live_selection`
+
+- **When to call**: Call when the user says "match this" or refers to their Figma selection.
+- **Input**:
+  - `fallbackName` _(optional string)_: Component name from the exported kit to return when live mode has no selection.
+- **Result**: The selection meta, the component spec or frame summary, the PNG preview as MCP image content, and the warnings. For a component that also exists in the exported kit, it lists every difference in plain English and ends with `Figma has changed since the last export. Re-export the kit and run sync.` When unavailable it returns the pairing code and steps, asks the user to select a layer, or (with `fallbackName`) returns the exported spec.
+
+See [Live Mode](live-mode.md) for pairing, the plugin tab, and the security model.
 
 ---
 
@@ -204,7 +248,7 @@ When you run `frame-relay sync`, Frame-Relay automatically writes the local conf
 1. Open the Antigravity agent panel.
 2. Click the `...` menu in the top right.
 3. Select **MCP Servers** > **Manage MCP Servers**.
-4. Click **Refresh**. The `frame-relay` server and all 7 tools will appear active.
+4. Click **Refresh**. The `frame-relay` server and all 10 tools will appear active.
 
 _Global Antigravity Configuration:_
 To enable Frame-Relay globally across all workspaces, add the snippet to `~/.gemini/config/mcp_config.json`.
@@ -239,21 +283,56 @@ To enable Frame-Relay globally across all workspaces, add the snippet to `~/.gem
 }
 ```
 
+### 4. OpenCode
+
+`frame-relay sync` merges the server into your project's `opencode.json` without touching other
+keys or MCP servers:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "frame-relay": {
+      "type": "local",
+      "command": ["npx", "-y", "@josephbrendan/frame-relay", "mcp"],
+      "enabled": true
+    }
+  }
+}
+```
+
+When `@josephbrendan/frame-relay` is already a dependency of the project, the command becomes
+`["npx", "frame-relay", "mcp"]` instead. OpenCode reads `AGENTS.md`, so `sync` does not write a
+separate rules file for it. Restart OpenCode (or reload the project) after the first sync.
+
 ---
 
 ## CLI Helper Commands
 
 ### Printing Config Snippets
 
-To view ready-to-paste JSON configurations for any client:
+To view ready-to-paste JSON configurations for every client (Antigravity, Cursor, Claude Code and
+OpenCode):
 
 ```bash
 frame-relay mcp --print-config
 ```
 
+### Running with Live Mode
+
+To start the live bridge with the server at startup:
+
+```bash
+frame-relay mcp --live
+```
+
+Agents can also start the bridge on demand with the `start_live` tool. See
+[Live Mode](live-mode.md).
+
 ### Diagnosing Server & Project Health
 
-To check your Node version, configuration, design kit, generated files, and MCP server startup:
+To check your Node version, configuration, design kit, generated files, live ports, and MCP server
+startup:
 
 ```bash
 frame-relay doctor
@@ -273,6 +352,12 @@ Or test a local project root:
 
 ```bash
 npx @modelcontextprotocol/inspector node /path/to/frame-relay/packages/cli/dist/cli.js mcp --root /path/to/my-app
+```
+
+To test live mode, start the built CLI with the bridge enabled:
+
+```bash
+npx @modelcontextprotocol/inspector node /path/to/frame-relay/packages/cli/dist/cli.js mcp --root /path/to/my-app --live
 ```
 
 ---
@@ -298,3 +383,11 @@ npx @modelcontextprotocol/inspector node /path/to/frame-relay/packages/cli/dist/
 ### Stdout JSON-RPC Errors
 
 - Frame-Relay enforces strict stdout isolation. All server diagnostic logs are written exclusively to `stderr`. Never add `console.log` statements in server code.
+
+### Live Mode Issues
+
+- **All live ports in use**: close the other Frame-Relay live session or MCP server; `frame-relay doctor` shows which ports are free.
+- **Plugin will not connect**: confirm the server is running and the pairing code is current; codes expire after 10 minutes and rotate after three wrong attempts.
+- **Agent does not call live tools**: re-run `frame-relay sync` so the live instruction is present in `AGENTS.md` and `.agents/rules/frame-relay.md`.
+
+Full troubleshooting lives in [Live Mode](live-mode.md).
