@@ -52,12 +52,12 @@ tick items as they land instead of rewriting history.
 
 ## Stage 4: end-to-end tests, docs and PR
 
-- [ ] End-to-end MCP test: spawn built CLI, `start_live`, fake plugin sends Button selection, `get_live_selection` checks spec, image and diff
-- [ ] All eight bridge scenarios covered (right/wrong/3 wrong/expired code, valid/invalid resume, origin, oversized, heartbeat, busy ports)
-- [ ] All existing tests pass; export mode still works
-- [ ] `docs/live-mode.md` (what/when, pairing, Live tab, tools, security model, troubleshooting)
-- [ ] Update `docs/mcp.md`, `docs/plugin.md`, `docs/cli.md`, README (incl. OpenCode setup)
-- [ ] Open PR from `phase-7-live`, keep commits (never squash stacked PRs)
+- [x] End-to-end MCP test: spawn built CLI, `start_live`, fake plugin sends Button selection, `get_live_selection` checks spec, image and diff
+- [x] All eight bridge scenarios covered (right/wrong/3 wrong/expired code, valid/invalid resume, origin, oversized, heartbeat, busy ports)
+- [x] All existing tests pass; export mode still works
+- [x] `docs/live-mode.md` (what/when, pairing, Live tab, tools, security model, troubleshooting)
+- [x] Update `docs/mcp.md`, `docs/plugin.md`, `docs/cli.md`, README (incl. OpenCode setup)
+- [x] Open PR from `phase-7-live`, keep commits (never squash stacked PRs)
 
 ## Decisions and notes
 
@@ -181,3 +181,36 @@ Append new entries at the end; do not rewrite earlier ones.
 - Tests: 9 resolver tests with fake nodes, 13 client tests with a mocked `WebSocket` (including the
   exact backoff sequence), 2 snapshot tests for `mainComponentName`, and the live UI/main messages
   added to the typed message round-trip test.
+
+### Stage 4 (2026-10-09)
+
+- The end-to-end test (`packages/cli/test/mcp-live.test.ts`) now imports the real plugin resolver
+  (`packages/plugin/src/main/live-resolve.ts`) and builds every wire selection through
+  `convertComponent`/`summarizeFrame`, so it follows the plugin's actual resolution path: component
+  set, variant (resolves to the set), instance (resolves to the standalone main component), plain
+  frame, then a mock network drop + `resume`, then `bye` (which correctly invalidates the token and
+  answers `BAD_TOKEN`). The server is started with `start_live` on demand; `mcp --live` startup
+  stays covered by the stdout-purity test.
+- Empty selection: the wire protocol intentionally has no empty `selection` message, so the test
+  simulates the real plugin (sends nothing, UI shows the hint) and asserts the server keeps the last
+  selection unchanged. See the Stage 3 decision.
+- First CI run failed on a flaky assertion in `live-bridge.test.ts`: `live.json` timestamps can
+  contain the substring `1:2`, so the test now asserts the exact live.json key shape
+  (`code`, `codeExpiresAt`, `paired`, `port`, `startedAt`) instead of a substring search. Verified
+  with five repeat runs. CI is green on the second run (all four jobs).
+- PR #7 is based on `main` as requested, but the branch is still stacked on `fix/pre-phase-7`
+  (PR #6); the PR body tells the owner to merge #6 first or merge in order. No commits were
+  squashed.
+- `examples/demo-app` sync kept the committed `frame-relay-tokens.css` (only formatting differed),
+  restored `.frame-relay/lock.json`, and committed the meaningful updates: live rule in `AGENTS.md`
+  and `.agents/rules/frame-relay.md`, new `opencode.json`, new `.gitignore` with
+  `.frame-relay/live.json`, and `agents.opencode: true` in the config.
+  - Follow-up (not fixed): the demo-app's generated files are Prettier-formatted in git, but
+    `sync` emits unformatted CSS/Markdown, so re-running `sync` will keep reporting a tokens
+    conflict and reformatting `.frame-relay/components.md`. Fix by making the generators
+    Prettier-stable or by hashing the formatted output; out of scope for Phase 7.
+- Changeset `.changeset/live-mode.md` bumps `@josephbrendan/frame-relay`, `@josephbrendan/schema`,
+  `@josephbrendan/converter` and `@josephbrendan/plugin` (minor each), matching the repo convention
+  of including private workspace packages.
+- Verification: `/verify` full pipeline plus schema diff and plugin bundle checks are green;
+  `pnpm test` is 227 tests across 28 files.
