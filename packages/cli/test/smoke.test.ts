@@ -18,13 +18,43 @@ interface RunError extends Error {
 }
 
 /**
+ * Quotes one argument for cmd.exe, using the standard Windows argv quoting rules. Only used on
+ * Windows, where .cmd files must run through a shell.
+ */
+function quoteWindowsArg(arg: string): string {
+  if (arg.length > 0 && !/[\s"]/.test(arg)) return arg;
+  let quoted = '"';
+  let backslashes = 0;
+  for (const ch of arg) {
+    if (ch === '\\') {
+      backslashes += 1;
+      quoted += ch;
+    } else if (ch === '"') {
+      quoted += '\\'.repeat(backslashes + 1) + '"';
+      backslashes = 0;
+    } else {
+      backslashes = 0;
+      quoted += ch;
+    }
+  }
+  quoted += '\\'.repeat(backslashes) + '"';
+  return quoted;
+}
+
+/**
  * Runs a command with spawn and promises. Spawn keeps the Vitest worker's event loop free while
  * npm and the CLI work, which avoids the Windows "Timeout calling onTaskUpdate" worker stall.
+ * Windows needs a shell for .cmd files, so arguments are quoted for cmd.exe there.
  * Resolves with the captured output and rejects with the same output attached on failure.
  */
 function run(command: string, args: string[], options: { cwd: string }): Promise<RunResult> {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { cwd: options.cwd, stdio: ['ignore', 'pipe', 'pipe'] });
+    const isWindows = process.platform === 'win32';
+    const child = spawn(command, isWindows ? args.map(quoteWindowsArg) : args, {
+      cwd: options.cwd,
+      shell: isWindows,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
     let stdout = '';
     let stderr = '';
 
@@ -58,7 +88,7 @@ function run(command: string, args: string[], options: { cwd: string }): Promise
   });
 }
 
-/** On Windows, .cmd files must be resolved explicitly when spawning without a shell. */
+/** On Windows, the package managers are .cmd files. The shell resolves them. */
 function packageManagerBin(name: 'npm' | 'pnpm'): string {
   return process.platform === 'win32' ? `${name}.cmd` : name;
 }
