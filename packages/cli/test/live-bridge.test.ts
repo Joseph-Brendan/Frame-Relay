@@ -394,7 +394,14 @@ describe('LiveBridge', () => {
 
     const onDisk = readFileSync(join(root, '.frame-relay', 'live.json'), 'utf-8');
     expect(onDisk).not.toContain('Hero Card');
-    expect(onDisk).not.toContain('1:2');
+    // live.json holds pairing state only; the selection never gets serialized to disk.
+    expect(Object.keys(JSON.parse(onDisk)).sort()).toEqual([
+      'code',
+      'codeExpiresAt',
+      'paired',
+      'port',
+      'startedAt',
+    ]);
     plugin.close();
   });
 
