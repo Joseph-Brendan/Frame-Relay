@@ -6,7 +6,9 @@ export default defineConfig({
     index: 'src/index.ts',
   },
   format: ['esm'],
-  dts: true,
+  // Resolve types from the private workspace packages so the published .d.ts files are
+  // self-contained and do not import packages that are not on npm.
+  dts: { resolve: ['@josephbrendan/schema', '@josephbrendan/converter'] },
   clean: true,
   noExternal: ['@josephbrendan/schema', '@josephbrendan/converter'],
 });
