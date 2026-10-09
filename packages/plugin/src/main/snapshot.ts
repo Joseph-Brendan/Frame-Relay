@@ -359,6 +359,17 @@ export function snapshotNode(node: unknown): NodeSnapshot {
     snapshot.componentPropertyReferences = JSON.parse(JSON.stringify(compRefs));
   }
 
+  // Main component name on instances, used by live frame summaries
+  if (type === 'INSTANCE') {
+    const mainComponent = safeGet<unknown>(n, 'mainComponent', undefined);
+    if (mainComponent && typeof mainComponent === 'object') {
+      const mainName = safeGet<string | undefined>(mainComponent, 'name', undefined);
+      if (typeof mainName === 'string' && mainName.length > 0) {
+        snapshot.mainComponentName = mainName;
+      }
+    }
+  }
+
   // Recursively snapshot children
   const rawChildren = safeGet<unknown[] | undefined>(n, 'children', undefined);
   if (Array.isArray(rawChildren)) {

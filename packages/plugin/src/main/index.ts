@@ -10,6 +10,13 @@ import {
   getAncestorPage,
   snapshotComponentsInBatches,
 } from './find.js';
+import {
+  clearStoredLiveToken,
+  getStoredLiveTokens,
+  setStoredLiveToken,
+  startLiveWatching,
+  stopLiveWatching,
+} from './live.js';
 import { runScreenshotJobs } from './screenshots.js';
 import { readVariablesAndStyles } from './variables.js';
 
@@ -299,6 +306,31 @@ export async function main(): Promise<void> {
 
       case 'RESIZE_WINDOW': {
         figma.ui.resize(msg.width, msg.height);
+        break;
+      }
+
+      case 'LIVE_SET_ACTIVE': {
+        if (msg.active) {
+          startLiveWatching();
+        } else {
+          stopLiveWatching();
+        }
+        break;
+      }
+
+      case 'LIVE_GET_TOKENS': {
+        const tokens = await getStoredLiveTokens();
+        postToUI({ version: 1, type: 'LIVE_TOKENS', tokens });
+        break;
+      }
+
+      case 'LIVE_SET_TOKEN': {
+        await setStoredLiveToken(msg.port, msg.token);
+        break;
+      }
+
+      case 'LIVE_CLEAR_TOKEN': {
+        await clearStoredLiveToken(msg.port);
         break;
       }
     }
