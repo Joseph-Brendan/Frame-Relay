@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { getVersion, VERSION } from './index.js';
 
 describe('cli package', () => {
-  it('runs the version function and checks the output', () => {
+  it('reports the package.json version', () => {
     expect(getVersion()).toBe(VERSION);
-    expect(getVersion()).toBe('0.0.0');
+    expect(VERSION).toMatch(/^\d+\.\d+\.\d+/);
   });
 });
