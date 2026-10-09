@@ -9,7 +9,8 @@
   "agents": {
     "antigravity": true,
     "cursor": true,
-    "claude": true
+    "claude": true,
+    "opencode": true
   },
   "mcp": true
 }

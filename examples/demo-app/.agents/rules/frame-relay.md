@@ -5,3 +5,4 @@
 3. **Component States**: Trigger states via declared props (`disabled`, `loading`) or ARIA attributes (`aria-invalid="true"`).
 4. **Catalog Reference**: For component props, anatomy, and guidelines, consult `.frame-relay/components.md`.
 5. **MCP Tools**: Before building UI, call list_components and get_component. After editing UI files, call check_file and fix every issue.
+6. **Live mode**: If the user mentions their Figma selection or says 'match this', call get_live_selection. If live mode isn't running, call start_live and show the user the code.
