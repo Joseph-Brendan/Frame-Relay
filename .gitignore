@@ -6,8 +6,10 @@ coverage/
 .env
 .env.*
 *.zip
+*.tgz
 frame-relay-kit/
 !examples/demo-app/frame-relay-kit/
 !examples/demo-app/frame-relay-kit/**
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+docs/dev/STATUS.md
