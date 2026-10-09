@@ -3,7 +3,7 @@ import { isAbsolute, join, relative, resolve } from 'node:path';
 import fg from 'fast-glob';
 import { z } from 'zod';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { ComponentSpec } from '@josephbrendan/schema';
+import { ComponentSpec } from '@frame-relay/schema';
 import { checkFile, CheckViolation } from '../check/index.js';
 import { VERSION } from '../index.js';
 import { LiveBridge, formatAge, LiveSelectionRecord } from '../live/bridge.js';

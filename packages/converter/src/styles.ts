@@ -1,4 +1,4 @@
-import { StyleBlock } from '@josephbrendan/schema';
+import { StyleBlock } from '@frame-relay/schema';
 import { NodeSnapshot, StyleIndex, VariableAliasSnapshot, VariableIndex } from './snapshot.js';
 import { ConverterWarning, createWarning } from './warnings.js';
 import { rgbaToHex } from './tokens.js';

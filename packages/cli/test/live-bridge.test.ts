@@ -4,7 +4,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import WebSocket from 'ws';
-import { MAX_MESSAGE_BYTES } from '@josephbrendan/schema';
+import { MAX_MESSAGE_BYTES } from '@frame-relay/schema';
 import { LiveBridge, readLiveJson } from '../src/index.js';
 
 type WireMessage = Record<string, unknown>;

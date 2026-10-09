@@ -1,4 +1,4 @@
-import { AccessibilitySpec, UsageGuideline } from '@josephbrendan/schema';
+import { AccessibilitySpec, UsageGuideline } from '@frame-relay/schema';
 import { ConverterWarning, createWarning } from './warnings.js';
 
 export interface ParseDescriptionResult {

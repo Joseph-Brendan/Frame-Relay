@@ -4,7 +4,7 @@ import type {
   StyleIndex,
   VariableCollectionSnapshot,
   VariableSnapshot,
-} from '@josephbrendan/converter';
+} from '@frame-relay/converter';
 
 export function variableNameToTokenPath(name: string): string {
   return name

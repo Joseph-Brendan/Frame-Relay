@@ -6,8 +6,8 @@ import {
   STATE_NAMES,
   StateName,
   StyleBlock,
-} from '@josephbrendan/schema';
-import { AnatomyPart } from '@josephbrendan/schema';
+} from '@frame-relay/schema';
+import { AnatomyPart } from '@frame-relay/schema';
 import { NodeSnapshot, StyleIndex, VariableIndex } from './snapshot.js';
 import { ConverterWarning, createWarning } from './warnings.js';
 import { extractStyleBlock } from './styles.js';

@@ -1,4 +1,4 @@
-# @josephbrendan/converter
+# @frame-relay/converter
 
 ## 0.1.0-beta.0
 
@@ -12,4 +12,4 @@
 - Updated dependencies [fefcffb]
 - Updated dependencies [aee3a67]
 - Updated dependencies [34e1020]
-  - @josephbrendan/schema@0.1.0-beta.0
+  - @frame-relay/schema@0.1.0-beta.0

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import JSZip from 'jszip';
-import { validateKit, ComponentSpec, Manifest, TokensFile } from '@josephbrendan/schema';
+import { validateKit, ComponentSpec, Manifest, TokensFile } from '@frame-relay/schema';
 
 async function run(): Promise<void> {
   const zipArg = process.argv[2];

@@ -1,7 +1,7 @@
 import { JSX } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { convertComponent, convertVariables, summarizeFrame } from '@josephbrendan/converter';
-import type { SelectionMessage } from '@josephbrendan/schema';
+import { convertComponent, convertVariables, summarizeFrame } from '@frame-relay/converter';
+import type { SelectionMessage } from '@frame-relay/schema';
 import {
   isMainToUIMessage,
   LiveSelectionEventMessage,

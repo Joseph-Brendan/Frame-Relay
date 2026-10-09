@@ -45,11 +45,7 @@ describe('MCP Config Writer & --print-config', () => {
     const updated = JSON.parse(fs.readFileSync(path.join(cursorMcpDir, 'mcp.json'), 'utf-8'));
     expect(updated.mcpServers.existingServer).toBeDefined();
     expect(updated.mcpServers['frame-relay']).toBeDefined();
-    expect(updated.mcpServers['frame-relay'].args).toEqual([
-      '-y',
-      '@josephbrendan/frame-relay',
-      'mcp',
-    ]);
+    expect(updated.mcpServers['frame-relay'].args).toEqual(['-y', '@frame-relay/cli', 'mcp']);
   });
 
   it('merges opencode.json keeping other keys and other MCP servers', () => {
@@ -77,7 +73,7 @@ describe('MCP Config Writer & --print-config', () => {
     expect(updated.mcp.otherServer).toEqual(initialConfig.mcp.otherServer);
     expect(updated.mcp['frame-relay']).toEqual({
       type: 'local',
-      command: ['npx', '-y', '@josephbrendan/frame-relay', 'mcp'],
+      command: ['npx', '-y', '@frame-relay/cli', 'mcp'],
       enabled: true,
     });
   });
@@ -85,7 +81,7 @@ describe('MCP Config Writer & --print-config', () => {
   it('uses the local frame-relay command in opencode.json for devDependency projects', () => {
     fs.writeFileSync(
       path.join(tmpDir, 'package.json'),
-      JSON.stringify({ devDependencies: { '@josephbrendan/frame-relay': '^1.0.0' } }),
+      JSON.stringify({ devDependencies: { '@frame-relay/cli': '^1.0.0' } }),
     );
 
     writeMcpConfigs(tmpDir);
@@ -111,7 +107,7 @@ describe('MCP Config Writer & --print-config', () => {
       path.join(tmpDir, 'package.json'),
       JSON.stringify({
         devDependencies: {
-          '@josephbrendan/frame-relay': '^1.0.0',
+          '@frame-relay/cli': '^1.0.0',
         },
       }),
     );

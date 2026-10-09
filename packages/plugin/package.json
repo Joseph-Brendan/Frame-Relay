@@ -1,5 +1,5 @@
 {
-  "name": "@josephbrendan/plugin",
+  "name": "@frame-relay/plugin",
   "version": "0.1.0-beta.0",
   "private": true,
   "type": "module",
@@ -11,8 +11,8 @@
     "validate-kit": "tsx scripts/validate-kit.ts"
   },
   "dependencies": {
-    "@josephbrendan/converter": "workspace:*",
-    "@josephbrendan/schema": "workspace:*",
+    "@frame-relay/converter": "workspace:*",
+    "@frame-relay/schema": "workspace:*",
     "jszip": "^3.10.1",
     "preact": "^10.26.4"
   },

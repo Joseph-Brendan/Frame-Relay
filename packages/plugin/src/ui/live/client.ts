@@ -5,7 +5,7 @@ import {
   type LiveErrorCode,
   type SelectionMessage,
   type ServerToPluginMessage,
-} from '@josephbrendan/schema';
+} from '@frame-relay/schema';
 
 export type LiveConnectionStatus =
   | { state: 'disconnected' }

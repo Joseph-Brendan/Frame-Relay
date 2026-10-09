@@ -1,4 +1,4 @@
-import { Layout, Padding, StyleValue } from '@josephbrendan/schema';
+import { Layout, Padding, StyleValue } from '@frame-relay/schema';
 import { NodeSnapshot, VariableAliasSnapshot, VariableIndex } from './snapshot.js';
 import { ConverterWarning, createWarning } from './warnings.js';
 

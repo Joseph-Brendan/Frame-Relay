@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import type { FrameSummary, VariableIndex } from '@josephbrendan/schema';
+import type { FrameSummary, VariableIndex } from '@frame-relay/schema';
 import { convertVariables, NodeSnapshot, summarizeFrame } from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);

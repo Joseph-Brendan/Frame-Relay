@@ -3,7 +3,7 @@ import type {
   NodeSnapshot,
   PaintSnapshot,
   VariableAliasSnapshot,
-} from '@josephbrendan/converter';
+} from '@frame-relay/converter';
 
 /**
  * Safely accesses a property on a node, returning a fallback if accessing throws.

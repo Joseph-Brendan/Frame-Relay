@@ -1,4 +1,4 @@
-import { ComponentSpec } from '@josephbrendan/schema';
+import { ComponentSpec } from '@frame-relay/schema';
 
 export interface GenerateComponentsMdOptions {
   components: ComponentSpec[];

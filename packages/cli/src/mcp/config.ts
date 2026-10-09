@@ -17,9 +17,9 @@ export function buildServerEntry(cwd: string): McpServerDef {
     try {
       const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
       if (
-        pkg.devDependencies?.['@josephbrendan/frame-relay'] ||
+        pkg.devDependencies?.['@frame-relay/cli'] ||
         pkg.devDependencies?.['frame-relay'] ||
-        pkg.dependencies?.['@josephbrendan/frame-relay'] ||
+        pkg.dependencies?.['@frame-relay/cli'] ||
         pkg.dependencies?.['frame-relay']
       ) {
         isDevDep = true;
@@ -38,7 +38,7 @@ export function buildServerEntry(cwd: string): McpServerDef {
 
   return {
     command: 'npx',
-    args: ['-y', '@josephbrendan/frame-relay', 'mcp'],
+    args: ['-y', '@frame-relay/cli', 'mcp'],
   };
 }
 
@@ -168,7 +168,7 @@ export function getMcpConfigSnippets(cwd: string = process.cwd()): McpConfigSnip
   const localEntry = buildServerEntry(cwd);
   const globalEntry: McpServerDef = {
     command: 'npx',
-    args: ['-y', '@josephbrendan/frame-relay', 'mcp'],
+    args: ['-y', '@frame-relay/cli', 'mcp'],
   };
 
   return {

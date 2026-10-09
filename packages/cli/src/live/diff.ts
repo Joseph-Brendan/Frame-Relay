@@ -6,7 +6,7 @@ import type {
   Layout,
   StyleBlock,
   StyleValue,
-} from '@josephbrendan/schema';
+} from '@frame-relay/schema';
 
 const STYLE_PROPS: (keyof StyleBlock)[] = [
   'background',

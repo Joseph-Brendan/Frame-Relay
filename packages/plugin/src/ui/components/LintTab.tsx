@@ -1,6 +1,6 @@
 import { JSX } from 'preact';
 import { useState } from 'preact/hooks';
-import { ConverterWarning, WarningSeverity } from '@josephbrendan/converter';
+import { ConverterWarning, WarningSeverity } from '@frame-relay/converter';
 import { ScopeOption } from '../../shared/messages.js';
 
 export interface LintTabProps {

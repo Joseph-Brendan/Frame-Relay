@@ -1,4 +1,4 @@
-import { FrameSummary, Layout, StyleValue } from '@josephbrendan/schema';
+import { FrameSummary, Layout, StyleValue } from '@frame-relay/schema';
 import { isNodeSnapshot, NodeSnapshot, StyleIndex, VariableIndex } from './snapshot.js';
 import { extractLayout } from './layout.js';
 import { extractStyleBlock } from './styles.js';

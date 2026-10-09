@@ -1,4 +1,4 @@
-import { ComponentSpec } from '@josephbrendan/schema';
+import { ComponentSpec } from '@frame-relay/schema';
 import { layoutToClasses, stateToPrefix, styleBlockToClasses } from './mapping.js';
 
 export interface BuildCvaResult {

@@ -7,8 +7,8 @@ import {
   convertComponent,
   convertVariables,
   NodeSnapshot,
-} from '@josephbrendan/converter';
-import { ComponentSpec, TokensFile, validateKit } from '@josephbrendan/schema';
+} from '@frame-relay/converter';
+import { ComponentSpec, TokensFile, validateKit } from '@frame-relay/schema';
 import {
   IconExportItem,
   isMainToUIMessage,

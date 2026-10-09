@@ -1,4 +1,4 @@
-import { AnatomyPart, PART_NAME_REGEX } from '@josephbrendan/schema';
+import { AnatomyPart, PART_NAME_REGEX } from '@frame-relay/schema';
 import { NodeSnapshot } from './snapshot.js';
 import { ConverterWarning, createWarning } from './warnings.js';
 

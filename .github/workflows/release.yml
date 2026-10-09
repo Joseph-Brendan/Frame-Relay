@@ -63,11 +63,11 @@ jobs:
         if: steps.changesets.outputs.hasChangesets == 'false' && vars.NPM_PUBLISH_ENABLED == 'true'
         run: |
           VERSION=$(node -p "require('./packages/cli/package.json').version")
-          if npm view "@josephbrendan/frame-relay@${VERSION}" version > /dev/null 2>&1; then
-            echo "@josephbrendan/frame-relay@${VERSION} is already on npm. Nothing to publish."
+          if npm view "@frame-relay/cli@${VERSION}" version > /dev/null 2>&1; then
+            echo "@frame-relay/cli@${VERSION} is already on npm. Nothing to publish."
             exit 0
           fi
           (cd packages/cli && npm publish --access public --tag beta --provenance)
-          TAG="@josephbrendan/frame-relay@${VERSION}"
+          TAG="@frame-relay/cli@${VERSION}"
           git tag "$TAG"
           git push origin "$TAG"

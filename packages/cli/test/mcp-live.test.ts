@@ -11,7 +11,7 @@ import {
   summarizeFrame,
   type NodeSnapshot,
   type StyleIndex,
-} from '@josephbrendan/converter';
+} from '@frame-relay/converter';
 import { resolveLiveTarget } from '../../plugin/src/main/live-resolve.js';
 
 const cliPath = path.resolve(__dirname, '../dist/cli.js');

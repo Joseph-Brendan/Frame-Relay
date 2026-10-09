@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MAX_MESSAGE_BYTES, type SelectionMessage } from '@josephbrendan/schema';
+import { MAX_MESSAGE_BYTES, type SelectionMessage } from '@frame-relay/schema';
 import {
   LiveClient,
   LiveClientOptions,

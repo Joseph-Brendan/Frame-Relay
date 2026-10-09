@@ -10,7 +10,7 @@ import {
   type PluginToServerMessage,
   type SelectionMessage,
   type ServerToPluginMessage,
-} from '@josephbrendan/schema';
+} from '@frame-relay/schema';
 import { logger } from '../mcp/logger.js';
 import { deleteLiveJson, writeLiveJson, type LiveJsonState } from './state.js';
 

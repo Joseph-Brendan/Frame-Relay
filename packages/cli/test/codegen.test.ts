@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ComponentSpec } from '@josephbrendan/schema';
+import { ComponentSpec } from '@frame-relay/schema';
 import {
   renderButtonTemplate,
   renderInputTemplate,

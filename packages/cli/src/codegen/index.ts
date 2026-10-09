@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { ComponentSpec } from '@josephbrendan/schema';
+import { ComponentSpec } from '@frame-relay/schema';
 import { formatCode } from './format.js';
 import { selectTemplate } from './templates.js';
 

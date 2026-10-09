@@ -8,7 +8,7 @@ export default defineConfig({
   format: ['esm'],
   // Resolve types from the private workspace packages so the published .d.ts files are
   // self-contained and do not import packages that are not on npm.
-  dts: { resolve: ['@josephbrendan/schema', '@josephbrendan/converter'] },
+  dts: { resolve: ['@frame-relay/schema', '@frame-relay/converter'] },
   clean: true,
-  noExternal: ['@josephbrendan/schema', '@josephbrendan/converter'],
+  noExternal: ['@frame-relay/schema', '@frame-relay/converter'],
 });

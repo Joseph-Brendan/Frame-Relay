@@ -4,7 +4,7 @@ import {
   StyleIndex,
   VariableCollectionSnapshot,
   VariableSnapshot,
-} from '@josephbrendan/converter';
+} from '@frame-relay/converter';
 
 export const PROTOCOL_VERSION = 1 as const;
 
