@@ -121,7 +121,9 @@ A `StyleBlock` contains optional `StyleValue` fields:
 
 ## 4. Annotated Button Example
 
-```json
+The example below uses comments to explain each block. Remove the comments to get valid JSON.
+
+```jsonc
 {
   "$schema": "https://joseph-brendan.github.io/Frame-Relay/schemas/v1/component.schema.json",
   "name": "Button",
@@ -132,7 +134,7 @@ A `StyleBlock` contains optional `StyleValue` fields:
   "anatomy": [
     { "name": "root", "description": "Interactive container", "required": true },
     { "name": "icon-left", "description": "Optional leading icon", "required": false },
-    { "name": "label", "description": "Button label text", "required": true }
+    { "name": "label", "description": "Button label text", "required": true },
   ],
 
   /* 2. Public component properties */
@@ -141,9 +143,9 @@ A `StyleBlock` contains optional `StyleValue` fields:
       "name": "variant",
       "type": "variant",
       "options": ["Primary", "Secondary", "Ghost"],
-      "default": "Primary"
+      "default": "Primary",
     },
-    { "name": "disabled", "type": "boolean", "default": false }
+    { "name": "disabled", "type": "boolean", "default": false },
   ],
 
   /* 3. Auto layout settings for root part */
@@ -154,12 +156,12 @@ A `StyleBlock` contains optional `StyleValue` fields:
       "top": "{space.2}",
       "right": "{space.4}",
       "bottom": "{space.2}",
-      "left": "{space.4}"
+      "left": "{space.4}",
     },
     "justify": "center",
     "align": "center",
     "width": "hug",
-    "height": "hug"
+    "height": "hug",
   },
 
   /* 4. Default baseline appearance */
@@ -168,9 +170,9 @@ A `StyleBlock` contains optional `StyleValue` fields:
       "background": "{color.primary.500}",
       "color": "{color.neutral.0}",
       "borderRadius": "{radius.md}",
-      "typography": "{typography.button}"
+      "typography": "{typography.button}",
     },
-    "label": { "color": "{color.neutral.0}", "typography": "{typography.button}" }
+    "label": { "color": "{color.neutral.0}", "typography": "{typography.button}" },
   },
 
   /* 5. Variant visual overrides */
@@ -179,27 +181,27 @@ A `StyleBlock` contains optional `StyleValue` fields:
       "props": { "variant": "Secondary" },
       "styles": {
         "root": { "background": "{color.neutral.100}", "color": "{color.neutral.900}" },
-        "label": { "color": "{color.neutral.900}" }
-      }
-    }
+        "label": { "color": "{color.neutral.900}" },
+      },
+    },
   ],
 
   /* 6. Interactive state overrides */
   "states": [
     { "name": "Default", "styles": {} },
-    { "name": "Hover", "styles": { "root": { "background": "{color.primary.600}" } } }
+    { "name": "Hover", "styles": { "root": { "background": "{color.primary.600}" } } },
   ],
 
   /* 7. Usage guidelines for agents & devs */
   "usage": {
     "do": ["Use Primary variant for the main intended action on a screen"],
-    "dont": ["Do not place more than one Primary button in the same container"]
+    "dont": ["Do not place more than one Primary button in the same container"],
   },
 
   /* 8. Accessibility roles and expectations */
   "accessibility": {
     "role": "button",
-    "notes": ["Supports activation via Enter and Space keys"]
+    "notes": ["Supports activation via Enter and Space keys"],
   },
 
   /* 9. Visual screenshot references */
@@ -207,8 +209,8 @@ A `StyleBlock` contains optional `StyleValue` fields:
     {
       "variant": { "variant": "Primary", "disabled": false },
       "state": "Default",
-      "path": "screenshots/Button--Primary-false--Default.png"
-    }
-  ]
+      "path": "screenshots/Button--Primary-false--Default.png",
+    },
+  ],
 }
 ```

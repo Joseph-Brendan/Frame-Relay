@@ -1,77 +1,104 @@
 # Frame-Relay
 
-A free, open-source toolkit that turns Figma components into an agent-ready design kit. It has five parts: a Figma plugin that exports the kit and streams live selections, a converter shared by export and live mode, a CLI that writes code and agent rules into a project, a local MCP server that AI agents query, and a localhost live bridge for "match this" moments. License: MIT.
+**Turn your Figma components into a design kit your AI coding agent follows.**
 
-Status: early development
+[![npm beta](https://img.shields.io/npm/v/@josephbrendan/frame-relay/beta?label=npm%20beta)](https://www.npmjs.com/package/@josephbrendan/frame-relay)
+[![CI](https://github.com/Joseph-Brendan/Frame-Relay/actions/workflows/ci.yml/badge.svg)](https://github.com/Joseph-Brendan/Frame-Relay/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-## Repository Structure
+**Status: public beta.** Commands below install the `beta` tag of the CLI. Expect rough edges and
+tell us what you find with the [beta feedback form](https://github.com/Joseph-Brendan/Frame-Relay/issues/new?template=beta_feedback.yml).
 
-```text
-Frame-Relay/
-├── packages/
-│   ├── schema/       # Core schema definitions and kit specification
-│   ├── converter/    # Intermediate representation converter
-│   ├── plugin/       # Figma plugin for exporting design kits
-│   └── cli/          # CLI tool for code generation and agent rules
-├── examples/
-│   ├── sample-kit/   # Hand-written kit used for testing (Phase 2)
-│   └── demo-app/     # Vite + React app target (Phase 5)
-├── docs/             # Documentation site (Phase 9)
-└── .github/          # CI/CD workflows
+Frame-Relay is for designers who already work with AI coding tools like OpenCode or Antigravity,
+and for small teams that want their Figma system to stay the source of truth while AI writes the
+UI. You keep designing in Figma. Your agent gets exact components, tokens and rules instead of
+guessing from screenshots.
+
+## How it works
+
+1. **Design in Figma.** Build components the usual way, using the [naming contract](./docs/naming-contract.md)
+   so exports stay predictable.
+2. **Export with the plugin.** The Frame-Relay plugin turns your file into a kit: component specs,
+   design tokens, icons and screenshots as plain JSON and image files.
+3. **Run sync.** One command writes React + Tailwind components, token CSS, rule files for your AI,
+   and MCP client configs into your project.
+4. **Build with your AI agent.** Your agent reads the kit through the MCP server, then builds
+   screens that match the design. Rules files keep it from inventing raw buttons or hard-coded
+   colors.
+
+**Live mode** is the optional fifth step: pair Figma with your agent and let it read the layer you
+have selected. See [Live mode](./docs/live-mode.md). Export mode always works without it.
+
+## 60-second quickstart
+
+```bash
+# 1. Create a React + TypeScript app (Vite shown here; any React app works)
+npm create vite@latest my-app -- --template react-ts
+cd my-app
+
+# 2. Add Tailwind CSS v4
+npm install tailwindcss @tailwindcss/vite
+# Then add the tailwindcss() plugin to vite.config.ts and
+# `@import "tailwindcss";` to src/index.css.
+
+# 3. In Figma: run the Frame-Relay plugin, open the Export tab, click Export Kit (.zip)
+
+# 4. Set up Frame-Relay and sync the kit
+npx @josephbrendan/frame-relay@beta init --yes
+npx @josephbrendan/frame-relay@beta sync --from ~/Downloads/frame-relay-kit-my-file.zip
+
+# 5. Check the setup
+npx @josephbrendan/frame-relay@beta doctor
 ```
+
+Open the folder in OpenCode (or your AI tool), then ask: "Build a settings page with the kit
+components." The agent calls the MCP server for the component list, props and tokens, and builds.
+
+**Getting the Figma plugin:** Frame-Relay is coming to Figma Community. Until it is approved, open
+Figma desktop, go to Plugins, Development, Import plugin from manifest, and pick
+[`packages/plugin/manifest.json`](./packages/plugin/manifest.json) from this repo.
+
+Full walkthrough: [Getting started](./docs/getting-started.md). Ideas first:
+[Concepts](./docs/concepts.md).
+
+## Supported AI tools
+
+`sync` writes the setup for each tool it finds, so the agent can start using the kit right away.
+
+| Tool            | What sync writes                                             |
+| :-------------- | :----------------------------------------------------------- |
+| **Antigravity** | `.agents/mcp_config.json` and `.agents/rules/frame-relay.md` |
+| **OpenCode**    | `opencode.json` (merged, other keys kept) and `AGENTS.md`    |
+| **Cursor**      | `.cursor/mcp.json` and `.cursor/rules/frame-relay.mdc`       |
+| **Claude Code** | `.mcp.json` and `CLAUDE.md`                                  |
+
+Until the stable release, the package is published with the `beta` tag only. The simplest setup is
+to install it as a dev dependency once: `npm install -D @josephbrendan/frame-relay@beta`. Sync then
+writes a command that uses the local install, and the MCP server starts without changes.
 
 ## Documentation
 
-- [CLI Documentation](docs/cli.md): Commands, flags, configuration, safe re-sync, and check rules.
-- [MCP Server Documentation](docs/mcp.md): Local MCP server, 10 agent tools, resources, and client setup (Antigravity, Cursor, Claude Code, OpenCode).
-- [Live Mode](docs/live-mode.md): Pairing, the plugin's Live tab, live tools, security model, and troubleshooting.
-- [Kit Format Specification](docs/kit-format.md): Folder layout, field specifications, and annotated schema examples.
-- [Figma Naming Contract](docs/naming-contract.md): Strict naming rules and design constraints for Figma components.
-- [Converter Core Documentation](docs/converter.md): Figma snapshots, mapping tables, warning codes, and converter API.
-- [Plugin Documentation](docs/plugin.md): Figma plugin architecture, export pipeline, Live tab, and Developer Mode.
+| Page                                               | What it covers                                                   |
+| :------------------------------------------------- | :--------------------------------------------------------------- |
+| [Getting started](./docs/getting-started.md)       | First-time walkthrough from an empty folder to an AI-built page. |
+| [Concepts](./docs/concepts.md)                     | The kit, sync, rules files, MCP, check, doctor and live mode.    |
+| [CLI commands](./docs/cli.md)                      | Every command, its flags and the files it writes.                |
+| [Figma plugin](./docs/plugin.md)                   | The Lint, Export and Live tabs, plus warnings and the icon rule. |
+| [Live mode](./docs/live-mode.md)                   | Pairing, the Live tab, live tools, security and troubleshooting. |
+| [MCP server](./docs/mcp.md)                        | The 10 tools your agent calls, resources and client setup.       |
+| [Kit format](./docs/kit-format.md)                 | Folder layout and every field in the kit JSON files.             |
+| [Converter](./docs/converter.md)                   | How Figma data maps to kit specs, including every warning code.  |
+| [Figma naming contract](./docs/naming-contract.md) | The naming rules that keep exports clean.                        |
+| [JSON schemas](./docs/schemas.md)                  | Stable URLs for the manifest, tokens and component schemas.      |
 
-## Quickstart
+The same docs are published at **https://joseph-brendan.github.io/Frame-Relay/**.
 
-```bash
-# Initialize Frame-Relay in your React + Tailwind v4 project
-npx @josephbrendan/frame-relay init
+## Contributing
 
-# Sync design tokens, components, and agent rules from an exported kit zip
-npx @josephbrendan/frame-relay sync --from ./frame-relay-kit.zip
+Setup, commands, branch naming and release notes are in [CONTRIBUTING.md](./CONTRIBUTING.md).
+Security reports: [SECURITY.md](./SECURITY.md). What we collect: nothing, see
+[PRIVACY.md](./PRIVACY.md).
 
-# Verify your application code for design system compliance
-npx @josephbrendan/frame-relay check
+## License
 
-# Check project health and MCP server connectivity
-npx @josephbrendan/frame-relay doctor
-
-# Run the local MCP server for AI agents
-npx @josephbrendan/frame-relay mcp
-
-# Or start it with live mode so the agent can see your Figma selection
-npx @josephbrendan/frame-relay mcp --live
-
-# Check whether live mode is running and show the pairing state
-npx @josephbrendan/frame-relay live
-```
-
-`sync` configures MCP for Antigravity, Cursor, Claude Code and OpenCode. For OpenCode it merges a
-`frame-relay` entry into `opencode.json` without touching other keys; OpenCode reads the generated
-`AGENTS.md` rules file. See [docs/mcp.md](docs/mcp.md#4-opencode) and
-[docs/live-mode.md](docs/live-mode.md).
-
-Ensure you have Node.js 20 or newer installed:
-
-```bash
-# Enable pnpm via Corepack
-corepack enable
-
-# Install workspace dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Run test suite
-pnpm test
-```
+[MIT](./LICENSE), copyright (c) 2026 Joseph Brendan.

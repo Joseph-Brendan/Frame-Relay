@@ -1,0 +1,48 @@
+name: Beta feedback
+description: Tell us how the public beta went, good or bad
+title: '[Beta]: '
+labels: ['beta-feedback']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for trying the public beta. Rough edges are expected. Honest feedback is the
+        most useful thing you can give us.
+  - type: input
+    id: tool-used
+    attributes:
+      label: Tool used
+      description: Which part of Frame-Relay did you try?
+      placeholder: CLI, Figma plugin, MCP server, live mode, docs
+    validations:
+      required: true
+  - type: input
+    id: ai-agent
+    attributes:
+      label: AI agent used
+      description: Which AI coding tool did you use?
+      placeholder: OpenCode, Antigravity, Cursor, Claude Code, other, none
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What did you try to do?
+      description: Describe your goal, not just the steps.
+      placeholder: I wanted to build a settings page that uses my Figma components.
+    validations:
+      required: true
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened?
+      description: What worked, what did not, and any error messages.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag in screenshots of the plugin, your editor or the terminal if they help.
+    validations:
+      required: false

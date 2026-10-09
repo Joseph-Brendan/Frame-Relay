@@ -14,6 +14,9 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "generate": "pnpm --filter @josephbrendan/schema generate",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "changeset": "changeset"
   },
   "devDependencies": {
@@ -24,6 +27,7 @@
     "prettier": "^3.5.1",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.0",
+    "vitepress": "^1.6.4",
     "vitest": "^3.0.5"
   }
 }
