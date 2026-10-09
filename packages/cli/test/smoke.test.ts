@@ -2,8 +2,66 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
-import { execSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import JSZip from 'jszip';
+
+interface RunResult {
+  stdout: string;
+  stderr: string;
+  output: string;
+}
+
+interface RunError extends Error {
+  stdout?: string;
+  stderr?: string;
+  code?: number | null;
+}
+
+/**
+ * Runs a command with spawn and promises. Spawn keeps the Vitest worker's event loop free while
+ * npm and the CLI work, which avoids the Windows "Timeout calling onTaskUpdate" worker stall.
+ * Resolves with the captured output and rejects with the same output attached on failure.
+ */
+function run(command: string, args: string[], options: { cwd: string }): Promise<RunResult> {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, { cwd: options.cwd, stdio: ['ignore', 'pipe', 'pipe'] });
+    let stdout = '';
+    let stderr = '';
+
+    child.stdout.on('data', (chunk: Buffer) => {
+      stdout += chunk.toString();
+    });
+    child.stderr.on('data', (chunk: Buffer) => {
+      stderr += chunk.toString();
+    });
+
+    child.on('error', (err) => {
+      const error = err as RunError;
+      error.stdout = stdout;
+      error.stderr = stderr;
+      reject(error);
+    });
+
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve({ stdout, stderr, output: `${stdout}${stderr}` });
+        return;
+      }
+      const error = new Error(
+        `Command failed with exit code ${code}: ${command} ${args.join(' ')}`,
+      ) as RunError;
+      error.stdout = stdout;
+      error.stderr = stderr;
+      error.code = code;
+      reject(error);
+    });
+  });
+}
+
+/** On Windows, .cmd files must be resolved explicitly when spawning without a shell. */
+function packageManagerBin(name: 'npm' | 'pnpm'): string {
+  return process.platform === 'win32' ? `${name}.cmd` : name;
+}
 
 /**
  * Returns a reason when an install failure comes from the public npm registry (offline, broken
@@ -44,9 +102,8 @@ describe('Package Smoke Test', () => {
   it('packs CLI and executes init and sync --from zip in a fresh app', async (ctx) => {
     // 1. Pack the CLI package
     const cliPkgDir = path.resolve(__dirname, '..');
-    execSync(`pnpm pack --pack-destination "${packDir}"`, {
+    await run(packageManagerBin('pnpm'), ['pack', '--pack-destination', packDir], {
       cwd: cliPkgDir,
-      encoding: 'utf-8',
     });
     const tarballFiles = fs.readdirSync(packDir).filter((f) => f.endsWith('.tgz'));
     expect(tarballFiles.length).toBeGreaterThan(0);
@@ -84,18 +141,23 @@ describe('Package Smoke Test', () => {
     // Install the packed tarball into the fresh temp Vite app.
     // The packed CLI pulls its runtime dependencies from the public npm registry. When the
     // registry is unavailable or serves a broken tarball, skip this network-dependent test
-    // instead of failing the suite (see docs/dev/STATUS.md, problem 3). Real packaging errors
-    // still fail the test.
+    // instead of failing the suite. Real packaging errors still fail the test.
     let installError: unknown = null;
     for (let attempt = 1; attempt <= 2; attempt += 1) {
       try {
-        execSync(
-          `npm install --no-audit --no-fund --fetch-retries=1 --fetch-retry-mintimeout=1000 ` +
-            `--fetch-retry-maxtimeout=3000 --fetch-timeout=20000 "${tarballPath}"`,
-          {
-            cwd: appDir,
-            stdio: 'pipe',
-          },
+        await run(
+          packageManagerBin('npm'),
+          [
+            'install',
+            '--no-audit',
+            '--no-fund',
+            '--fetch-retries=1',
+            '--fetch-retry-mintimeout=1000',
+            '--fetch-retry-maxtimeout=3000',
+            '--fetch-timeout=20000',
+            tarballPath,
+          ],
+          { cwd: appDir },
         );
         installError = null;
         break;
@@ -144,19 +206,19 @@ describe('Package Smoke Test', () => {
     fs.writeFileSync(kitZipPath, zipBuffer);
 
     // 4. Run `frame-relay init --yes`
-    const initOutput = execSync(`node "${cliEntry}" init --yes`, {
+    const initResult = await run(process.execPath, [cliEntry, 'init', '--yes'], {
       cwd: appDir,
-      encoding: 'utf-8',
     });
-    expect(initOutput.toLowerCase()).toContain('initialization complete');
+    expect(initResult.output.toLowerCase()).toContain('initialization complete');
     expect(fs.existsSync(path.join(appDir, 'frame-relay.config.json'))).toBe(true);
 
     // 5. Run `frame-relay sync --from sample-kit.zip --yes`
-    const syncOutput = execSync(`node "${cliEntry}" sync --from "${kitZipPath}" --yes`, {
-      cwd: appDir,
-      encoding: 'utf-8',
-    });
-    expect(syncOutput).toContain('Sync Complete!');
+    const syncResult = await run(
+      process.execPath,
+      [cliEntry, 'sync', '--from', kitZipPath, '--yes'],
+      { cwd: appDir },
+    );
+    expect(syncResult.output).toContain('Sync Complete!');
 
     // 6. Verify written files
     expect(fs.existsSync(path.join(appDir, 'src/styles/frame-relay-tokens.css'))).toBe(true);
@@ -173,12 +235,11 @@ describe('Package Smoke Test', () => {
     expect(fs.existsSync(path.join(appDir, 'CLAUDE.md'))).toBe(true);
 
     // 7. Verify safe re-sync: running a second time reports files as unchanged
-    const sync2Output = execSync(`node "${cliEntry}" sync --yes`, {
+    const sync2Result = await run(process.execPath, [cliEntry, 'sync', '--yes'], {
       cwd: appDir,
-      encoding: 'utf-8',
     });
-    expect(sync2Output).toContain('Created:    0');
-    expect(sync2Output).toContain('Updated:    0');
-    expect(sync2Output).toContain('Unchanged:  5');
-  }, 120000);
+    expect(sync2Result.output).toContain('Created:    0');
+    expect(sync2Result.output).toContain('Updated:    0');
+    expect(sync2Result.output).toContain('Unchanged:  5');
+  }, 300000);
 });
