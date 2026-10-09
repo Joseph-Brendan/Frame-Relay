@@ -4,6 +4,7 @@ import { runMcpServer } from '../mcp/server.js';
 export interface McpCommandOptions {
   root?: string;
   printConfig?: boolean;
+  live?: boolean;
 }
 
 export async function runMcpCommand(options: McpCommandOptions = {}): Promise<void> {
@@ -12,5 +13,5 @@ export async function runMcpCommand(options: McpCommandOptions = {}): Promise<vo
     return;
   }
 
-  await runMcpServer({ root: options.root });
+  await runMcpServer({ root: options.root, live: options.live });
 }

@@ -8,6 +8,7 @@ import { generateComponentFiles } from '../codegen/index.js';
 import { detectEnvironment, loadConfig } from '../config.js';
 import { findKitDir, readAndValidateKit, unzipKit } from '../kit/discovery.js';
 import { classifyFileChange, hashContent, loadLock, LockFile, saveLock } from '../kit/lock.js';
+import { ensureLiveJsonIgnored } from '../live/state.js';
 import { writeMcpConfigs } from '../mcp/config.js';
 import { addTokensImportToCssEntry, generateTokensCss } from '../tokens/generate.js';
 
@@ -50,7 +51,7 @@ export async function runSync(options: SyncOptions = {}): Promise<SyncSummary> {
     cssEntry: 'src/index.css',
     componentsDir: 'src/components/ui',
     tokensFile: 'src/styles/frame-relay-tokens.css',
-    agents: { antigravity: true, cursor: true, claude: true },
+    agents: { antigravity: true, cursor: true, claude: true, opencode: true },
     mcp: true,
   };
 
@@ -234,6 +235,9 @@ export async function runSync(options: SyncOptions = {}): Promise<SyncSummary> {
       mcpEnabled: effectiveConfig.mcp !== false,
     });
     summary.agentFiles.push(...agentRulesRes.writtenFiles);
+
+    // Keep live pairing codes out of version control.
+    ensureLiveJsonIgnored(cwd);
   }
 
   // 8. MCP Config Writer

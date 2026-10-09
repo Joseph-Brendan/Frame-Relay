@@ -3,6 +3,7 @@ import { cac } from 'cac';
 import { runCheck } from './commands/check.js';
 import { runDoctor } from './commands/doctor.js';
 import { runInit } from './commands/init.js';
+import { runLiveCommand } from './commands/live.js';
 import { runMcpCommand } from './commands/mcp.js';
 import { runSync } from './commands/sync.js';
 import { VERSION } from './index.js';
@@ -74,11 +75,25 @@ cli
     }
   });
 
+// Command: live
+cli
+  .command('live', 'Show whether live mode is running and its pairing state')
+  .option('--cwd <dir>', 'Current working directory')
+  .action(async (options) => {
+    try {
+      await runLiveCommand(options);
+    } catch (err) {
+      console.error(err instanceof Error ? err.message : String(err));
+      process.exit(1);
+    }
+  });
+
 // Command: mcp
 cli
   .command('mcp', 'Run the local MCP server')
   .option('--root <dir>', 'Explicit project root folder')
   .option('--print-config', 'Print ready-to-paste MCP config snippets for AI clients')
+  .option('--live', 'Start the live bridge with the MCP server')
   .action(async (options) => {
     try {
       await runMcpCommand(options);
