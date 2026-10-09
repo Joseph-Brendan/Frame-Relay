@@ -70,8 +70,8 @@ component names, layer names and description lines the plugin expects.
 ## Step 3. Set up Frame-Relay in the app
 
 ```bash
-npm install -D @josephbrendan/frame-relay@beta
-npx @josephbrendan/frame-relay@beta init --yes
+npm install -D @frame-relay/cli@beta
+npx @frame-relay/cli@beta init --yes
 ```
 
 `init` looks at your project and writes `frame-relay.config.json`, the settings file. If the
@@ -84,7 +84,7 @@ Until the stable release, the package is published with the `beta` tag only.
 ## Step 4. Sync the kit
 
 ```bash
-npx @josephbrendan/frame-relay@beta sync --from ~/Downloads/frame-relay-kit-my-file-2026-10-09.zip
+npx @frame-relay/cli@beta sync --from ~/Downloads/frame-relay-kit-my-file-2026-10-09.zip
 ```
 
 `sync` unpacks the kit and writes into your project:
@@ -99,7 +99,7 @@ npx @josephbrendan/frame-relay@beta sync --from ~/Downloads/frame-relay-kit-my-f
 ## Step 5. Check everything
 
 ```bash
-npx @josephbrendan/frame-relay@beta doctor
+npx @frame-relay/cli@beta doctor
 ```
 
 `doctor` runs seven checks: Node version, config file, kit files, generated files, MCP configs,
@@ -127,7 +127,7 @@ calls `check_file`, which reports raw HTML buttons, hard-coded colors and arbitr
 You can run the same check yourself at any time:
 
 ```bash
-npx @josephbrendan/frame-relay@beta check
+npx @frame-relay/cli@beta check
 ```
 
 ## What each command does

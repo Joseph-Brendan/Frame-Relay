@@ -84,7 +84,7 @@ SECTION 5: CLI AND AGENT CONFIG
 - `frame-relay live` prints live.json's state, or "Live mode is not running. Ask your agent to start it, or run the MCP server with --live."
 - doctor reports whether the live ports are free.
 - The AGENTS.md block and .agents/rules/frame-relay.md add: "If the user mentions their Figma selection or says 'match this', call get_live_selection. If live mode isn't running, call start_live and show the user the code." Keep the AGENTS.md block under 40 lines.
-- OpenCode support: writeMcpConfigs also writes the project's opencode.json, merging into it and never removing other keys: { "$schema": "https://opencode.ai/config.json", "mcp": { "frame-relay": { "type": "local", "command": ["npx", "frame-relay", "mcp"], "enabled": true } } }. Use ["npx", "-y", "@josephbrendan/frame-relay", "mcp"] when the package isn't a devDependency. Add opencode: true to the config's agents settings. OpenCode reads AGENTS.md, so no extra rules file is needed.
+- OpenCode support: writeMcpConfigs also writes the project's opencode.json, merging into it and never removing other keys: { "$schema": "https://opencode.ai/config.json", "mcp": { "frame-relay": { "type": "local", "command": ["npx", "frame-relay", "mcp"], "enabled": true } } }. Use ["npx", "-y", "@frame-relay/cli", "mcp"] when the package isn't a devDependency. Add opencode: true to the config's agents settings. OpenCode reads AGENTS.md, so no extra rules file is needed.
 - `mcp --print-config` adds an OpenCode snippet.
 
 SECTION 6: PLUGIN

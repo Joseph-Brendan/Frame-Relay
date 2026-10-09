@@ -3,7 +3,7 @@
 This guide covers the npm package, the MCP Registry listing and the Figma Community submission. The
 owner runs the steps that need npm or Figma access.
 
-Current version: `0.1.0-beta.0` for `@josephbrendan/frame-relay`, with the `beta` dist-tag. The repo
+Current version: `0.1.0-beta.0` for `@frame-relay/cli`, with the `beta` dist-tag. The repo
 is in Changesets pre mode (`beta`), so the next versions will be `0.1.0-beta.1`, `0.1.0-beta.2`, and
 so on.
 
@@ -24,29 +24,35 @@ pnpm install --frozen-lockfile
 pnpm build
 cd packages/cli
 npm login
+npm whoami
 npm publish --access public --tag beta
 ```
+
+Confirm the organization before publishing. The package lives in the `frame-relay` npm
+organization, so you must be logged in as an account that belongs to it. `npm whoami` prints your
+username, and the organization page is https://www.npmjs.com/org/frame-relay. If `npm publish`
+fails with a 403, your account is not allowed to publish to that scope yet.
 
 What you should see:
 
 - `npm login` asks for your username, password and a one-time code if two-factor authentication is
   on.
-- `npm publish` prints a line like `+ @josephbrendan/frame-relay@0.1.0-beta.0` after the `prepack`
+- `npm publish` prints a line like `+ @frame-relay/cli@0.1.0-beta.0` after the `prepack`
   step copies the README and LICENSE into the package.
 
 Verify the publish:
 
 ```bash
-npm view @josephbrendan/frame-relay dist-tags
+npm view @frame-relay/cli dist-tags
 # { beta: '0.1.0-beta.0' }
 
-npx @josephbrendan/frame-relay@beta --version
+npx @frame-relay/cli@beta --version
 # frame-relay/0.1.0-beta.0
 ```
 
 ### 1.2 Connect trusted publishing on npmjs.com
 
-1. Open https://www.npmjs.com/package/@josephbrendan/frame-relay and sign in as the owner.
+1. Open https://www.npmjs.com/package/@frame-relay/cli and sign in as the owner.
 2. Go to **Settings**, then **Trusted publishing**, and click **Add trusted publisher**, then
    **GitHub Actions**.
 3. Fill in:
@@ -94,7 +100,7 @@ variable exists, the workflow still opens version PRs but never publishes.
    on npm yet with `npm publish --tag beta --provenance`.
 4. Trusted publishing uses a short-lived OIDC token, so no `NPM_TOKEN` secret is needed.
    Provenance (a public record of which workflow built the package) is generated automatically.
-5. The workflow also creates a git tag such as `@josephbrendan/frame-relay@0.1.0-beta.1`.
+5. The workflow also creates a git tag such as `@frame-relay/cli@0.1.0-beta.1`.
 
 The workflow upgrades npm to the latest version before publishing. Trusted publishing requires npm
 11.5.1 or newer and Node 22.14 or newer.
@@ -195,7 +201,7 @@ In Figma desktop: open **Plugins**, **Development**, **Import plugin from manife
 
 - **Lint** on a file with a component set.
 - **Export** to download a kit zip.
-- **Live**: start the MCP server with live mode (`npx @josephbrendan/frame-relay@beta mcp --live`),
+- **Live**: start the MCP server with live mode (`npx @frame-relay/cli@beta mcp --live`),
   ask your agent for `start_live`, and pair with the code.
 
 The manifest is already set up for submission:

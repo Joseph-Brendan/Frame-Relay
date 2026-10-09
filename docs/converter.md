@@ -1,6 +1,6 @@
 # Frame-Relay Converter Core
 
-`@josephbrendan/converter` is the core transformation engine of Frame-Relay. It transforms plain Figma snapshot trees into validated Kit Component Specs (`ComponentSpec`) and Figma variable collections into W3C Design Tokens Community Group (DTCG) token files.
+`@frame-relay/converter` is the core transformation engine of Frame-Relay. It transforms plain Figma snapshot trees into validated Kit Component Specs (`ComponentSpec`) and Figma variable collections into W3C Design Tokens Community Group (DTCG) token files.
 
 Both **Export Mode** (Figma plugin zip export) and **Live Mode** (WebSocket live bridge) consume this package.
 
@@ -125,7 +125,7 @@ Every warning contains `code`, `severity` (`error`, `warning`, `info`), `compone
 | `MIXED_RADIUS`                  | `warning` | Layer uses non-uniform corner radii.                                    | Use uniform corner radii bound to a radius token.                                                   |
 | `RAW_VALUE`                     | `warning` | Layout dimension or style is not bound to a variable.                   | Bind the property to a Figma variable or text/effect style.                                         |
 | `UNSUPPORTED_VARIABLE_TYPE`     | `warning` | Variable type cannot be represented as DTCG token (e.g. boolean).       | Use standard COLOR, FLOAT, or font family STRING variables.                                         |
-| `SCHEMA_VALIDATION_ERROR`       | `error`   | Spec or kit failed `@josephbrendan/schema` validation.                  | Fix schema validation issues detailed in the warning message.                                       |
+| `SCHEMA_VALIDATION_ERROR`       | `error`   | Spec or kit failed `@frame-relay/schema` validation.                    | Fix schema validation issues detailed in the warning message.                                       |
 
 ---
 

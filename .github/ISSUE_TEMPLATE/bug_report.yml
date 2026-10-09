@@ -36,7 +36,7 @@ body:
       label: Steps to reproduce
       description: List the commands or clicks that lead to the bug.
       placeholder: |
-        1. Run `npx @josephbrendan/frame-relay@beta sync`
+        1. Run `npx @frame-relay/cli@beta sync`
         2. ...
     validations:
       required: true

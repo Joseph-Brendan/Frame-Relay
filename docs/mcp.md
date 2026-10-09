@@ -237,7 +237,7 @@ When you run `frame-relay sync`, Frame-Relay automatically writes the local conf
   "mcpServers": {
     "frame-relay": {
       "command": "npx",
-      "args": ["-y", "@josephbrendan/frame-relay", "mcp"]
+      "args": ["-y", "@frame-relay/cli", "mcp"]
     }
   }
 }
@@ -262,7 +262,7 @@ To enable Frame-Relay globally across all workspaces, add the snippet to `~/.gem
   "mcpServers": {
     "frame-relay": {
       "command": "npx",
-      "args": ["-y", "@josephbrendan/frame-relay", "mcp"]
+      "args": ["-y", "@frame-relay/cli", "mcp"]
     }
   }
 }
@@ -277,7 +277,7 @@ To enable Frame-Relay globally across all workspaces, add the snippet to `~/.gem
   "mcpServers": {
     "frame-relay": {
       "command": "npx",
-      "args": ["-y", "@josephbrendan/frame-relay", "mcp"]
+      "args": ["-y", "@frame-relay/cli", "mcp"]
     }
   }
 }
@@ -294,14 +294,14 @@ keys or MCP servers:
   "mcp": {
     "frame-relay": {
       "type": "local",
-      "command": ["npx", "-y", "@josephbrendan/frame-relay", "mcp"],
+      "command": ["npx", "-y", "@frame-relay/cli", "mcp"],
       "enabled": true
     }
   }
 }
 ```
 
-When `@josephbrendan/frame-relay` is already a dependency of the project, the command becomes
+When `@frame-relay/cli` is already a dependency of the project, the command becomes
 `["npx", "frame-relay", "mcp"]` instead. OpenCode reads `AGENTS.md`, so `sync` does not write a
 separate rules file for it. Restart OpenCode (or reload the project) after the first sync.
 
@@ -345,7 +345,7 @@ frame-relay doctor
 You can test the MCP server interactively in your browser using the official MCP Inspector:
 
 ```bash
-npx @modelcontextprotocol/inspector npx @josephbrendan/frame-relay mcp
+npx @modelcontextprotocol/inspector npx @frame-relay/cli mcp
 ```
 
 Or test a local project root:

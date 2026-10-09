@@ -9,7 +9,7 @@ monorepo: TypeScript, ESM, Node >= 20. Package manager is pinned to `pnpm@10.6.1
   emit JSON Schema into `json-schema/v1`.
 - `packages/converter` — pure, deterministic Figma snapshot to kit conversion. No I/O, no Figma API.
 - `packages/plugin` — the Figma plugin. `src/main/` is the sandbox thread, `src/ui/` the iframe.
-- `packages/cli` (`@josephbrendan/frame-relay`) — `init`, `sync`, `check`, `doctor` and the stdio
+- `packages/cli` (`@frame-relay/cli`) — `init`, `sync`, `check`, `doctor` and the stdio
   MCP server (7 tools).
 - `examples/sample-kit` — hand-written kit used as a test fixture. `examples/demo-app` — Vite +
   React + Tailwind v4 app used by CLI and MCP tests.
