@@ -10,6 +10,7 @@ import {
   FrameRelayConfigSchema,
   writeConfig,
 } from '../config.js';
+import { resolveCommandCwd } from '../cwd.js';
 
 export interface InitOptions {
   cwd?: string;
@@ -19,7 +20,7 @@ export interface InitOptions {
 }
 
 export async function runInit(options: InitOptions = {}): Promise<void> {
-  const cwd = options.cwd ? join(process.cwd(), options.cwd) : process.cwd();
+  const cwd = resolveCommandCwd(options.cwd);
 
   p.intro(pc.cyan('Frame-Relay Init'));
 

@@ -4,6 +4,7 @@ import fg from 'fast-glob';
 import pc from 'picocolors';
 import { checkFile, CheckViolation } from '../check/index.js';
 import { loadConfig } from '../config.js';
+import { resolveCommandCwd } from '../cwd.js';
 
 export interface CheckOptions {
   cwd?: string;
@@ -15,7 +16,7 @@ export async function runCheck(
   paths: string[] = [],
   options: CheckOptions = {},
 ): Promise<CheckViolation[]> {
-  const cwd = options.cwd ? join(process.cwd(), options.cwd) : process.cwd();
+  const cwd = resolveCommandCwd(options.cwd);
   const { config } = loadConfig(cwd);
   const componentsDir = config?.componentsDir || 'src/components/ui';
 

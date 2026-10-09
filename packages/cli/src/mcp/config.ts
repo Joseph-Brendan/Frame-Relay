@@ -1,11 +1,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
-export const MCP_READY = true;
-
 export interface WriteMcpConfigsOptions {
   cwd: string;
-  enableMcpFlag?: boolean;
 }
 
 export interface McpServerDef {
@@ -122,24 +119,12 @@ export function mergeOpencodeConfigFile(filePath: string, entry: OpencodeServerD
   writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf-8');
 }
 
-export function writeMcpConfigs(
-  opts: string | WriteMcpConfigsOptions,
-  enableMcp?: boolean,
-): {
+export function writeMcpConfigs(opts: string | WriteMcpConfigsOptions): {
   skipped: boolean;
   message?: string;
   writtenFiles: string[];
 } {
   const cwd = typeof opts === 'string' ? opts : opts.cwd;
-  const enableMcpFlag = typeof opts === 'string' ? Boolean(enableMcp) : Boolean(opts.enableMcpFlag);
-
-  if (!MCP_READY && !enableMcpFlag) {
-    return {
-      skipped: true,
-      message: 'MCP setup arrives in the next release.',
-      writtenFiles: [],
-    };
-  }
 
   const entry = buildServerEntry(cwd);
   const targets = [

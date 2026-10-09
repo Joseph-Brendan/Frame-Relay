@@ -5,6 +5,7 @@ export function getVersion(): string {
 }
 
 export * from './config.js';
+export * from './cwd.js';
 export * from './kit/discovery.js';
 export * from './kit/lock.js';
 export * from './tokens/generate.js';

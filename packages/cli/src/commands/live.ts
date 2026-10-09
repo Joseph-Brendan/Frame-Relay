@@ -1,5 +1,6 @@
 import { resolveProjectRoot } from '../mcp/root.js';
 import { readLiveJson } from '../live/state.js';
+import { resolveCommandCwd } from '../cwd.js';
 
 export interface LiveCommandOptions {
   cwd?: string;
@@ -17,7 +18,7 @@ function formatExpiry(codeExpiresAt: string): string {
 
 /** Prints the state stored in .frame-relay/live.json, or how to start live mode. */
 export async function runLiveCommand(options: LiveCommandOptions = {}): Promise<void> {
-  const { root } = resolveProjectRoot(options.cwd);
+  const root = options.cwd ? resolveCommandCwd(options.cwd) : resolveProjectRoot().root;
   const state = readLiveJson(root);
 
   if (!state) {

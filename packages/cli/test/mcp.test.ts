@@ -17,7 +17,7 @@ describe('MCP Config Writer & --print-config', () => {
     fs.rmSync(tmpDir, { recursive: true, force: true });
   });
 
-  it('writeMcpConfigs writes configs by default now that MCP_READY is true', () => {
+  it('writeMcpConfigs writes every client config by default', () => {
     const res = writeMcpConfigs(tmpDir);
     expect(res.skipped).toBe(false);
     expect(res.writtenFiles.length).toBe(4);
