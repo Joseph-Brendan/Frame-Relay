@@ -5,7 +5,9 @@ import pc from 'picocolors';
 import { generateComponentsMarkdown } from '../agents/components-md.js';
 import { writeAgentRules } from '../agents/rules.js';
 import { generateComponentFiles } from '../codegen/index.js';
+import { formatGeneratedText } from '../codegen/format.js';
 import { detectEnvironment, loadConfig } from '../config.js';
+import { resolveCommandCwd } from '../cwd.js';
 import { findKitDir, readAndValidateKit, unzipKit } from '../kit/discovery.js';
 import { classifyFileChange, hashContent, loadLock, LockFile, saveLock } from '../kit/lock.js';
 import { ensureLiveJsonIgnored } from '../live/state.js';
@@ -34,7 +36,7 @@ export interface SyncSummary {
 }
 
 export async function runSync(options: SyncOptions = {}): Promise<SyncSummary> {
-  const cwd = options.cwd ? join(process.cwd(), options.cwd) : process.cwd();
+  const cwd = resolveCommandCwd(options.cwd);
 
   p.intro(pc.cyan('Frame-Relay Sync'));
 
@@ -116,8 +118,9 @@ export async function runSync(options: SyncOptions = {}): Promise<SyncSummary> {
   };
 
   // 5. Generate and write tokens
-  const tokensCss = generateTokensCss(loadedKit.tokens);
+  // Format at generation time so formatting the repo later cannot create a false conflict.
   const tokensFull = join(cwd, effectiveConfig.tokensFile);
+  const tokensCss = await formatGeneratedText(tokensFull, generateTokensCss(loadedKit.tokens));
   const tokensRel = effectiveConfig.tokensFile.replace(/\\/g, '/');
 
   const tokensAction = classifyFileChange(
@@ -241,7 +244,7 @@ export async function runSync(options: SyncOptions = {}): Promise<SyncSummary> {
   }
 
   // 8. MCP Config Writer
-  const mcpRes = writeMcpConfigs({ cwd, enableMcpFlag: options.mcp });
+  const mcpRes = writeMcpConfigs({ cwd });
   if (!mcpRes.skipped && mcpRes.writtenFiles.length > 0) {
     p.log.success(pc.green(`Updated MCP config files: ${mcpRes.writtenFiles.length}`));
     p.log.info(

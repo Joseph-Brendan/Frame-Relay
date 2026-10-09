@@ -28,7 +28,9 @@ cli
 
 // Command: sync
 cli
-  .command('sync', 'Sync a design kit into React components, Tailwind tokens, and agent rules')
+  .command('sync', 'Sync a design kit into React components, Tailwind tokens, and agent rules', {
+    allowUnknownOptions: true,
+  })
   .option('--from <zip>', 'Path to exported design kit zip file')
   .option('--kit <dir>', 'Path to kit directory containing frame-relay.json')
   .option('--force', 'Overwrite edited files and ignore schema validation errors')
@@ -36,7 +38,6 @@ cli
   .option('--yes', 'Skip prompts and accept defaults')
   .option('--dry-run', 'Show what would change without modifying files')
   .option('--verbose', 'Show detailed output')
-  .option('--mcp', 'Exercise MCP config generation (hidden test flag)')
   .action(async (options) => {
     try {
       await runSync(options);

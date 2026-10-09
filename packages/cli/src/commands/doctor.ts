@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import pc from 'picocolors';
 import { loadConfig } from '../config.js';
+import { resolveCommandCwd } from '../cwd.js';
 import { readAndValidateKit } from '../kit/discovery.js';
 import { checkLivePorts } from '../live/ports.js';
 import { createMcpServer } from '../mcp/server.js';
@@ -19,7 +20,7 @@ export interface DoctorOptions {
 }
 
 export async function runDoctor(options: DoctorOptions = {}): Promise<boolean> {
-  const cwd = resolve(options.cwd || process.cwd());
+  const cwd = resolveCommandCwd(options.cwd);
   const results: DoctorCheckResult[] = [];
 
   // 1. Node.js version (>= 20)
