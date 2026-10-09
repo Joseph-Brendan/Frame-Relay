@@ -12,11 +12,13 @@ The plugin operates with a strict process boundary:
    - Executes inside Figma's sandboxed environment with access to the `figma` runtime API.
    - Runs with `documentAccess: "dynamic-page"` using async traversal APIs (`loadAllPagesAsync`, `getNodeByIdAsync`, `setCurrentPageAsync`).
    - Copies Figma nodes into plain snapshot data structures (`snapshotNode`), reads variable collections, exports 2x PNG screenshots, and selects canvas layers.
+   - In live mode, watches `selectionchange` while the UI is connected, resolves the selected layer (component, variant, instance or frame), snapshots it, exports a PNG preview and forwards it to the UI. It never opens a network connection.
    - Never loads DOM or heavy external dependencies.
 
 2. **UI Thread (`src/ui/`)**:
    - Executes inside an iframe with full DOM access and native CSS variables matching Figma's theme colors.
    - Runs pure token and component conversion (`@josephbrendan/converter`), runs schema validation (`@josephbrendan/schema`), assembles kit files, and builds ZIP archives using `JSZip`.
+   - In live mode, **only this iframe opens the WebSocket** to the local MCP bridge and sends the converted selection.
    - Never accesses the `figma` API.
 
 3. **Message Protocol (`src/shared/messages.ts`)**:
@@ -44,10 +46,16 @@ The plugin operates with a strict process boundary:
   3. Validates the generated kit using `validateKit`. If schema validation errors exist, a clear banner highlights them while still permitting download.
   4. Downloads the archive as `frame-relay-kit-<file-name>-<YYYY-MM-DD>.zip`.
 
-### 3. Live Tab (Placeholder)
+### 3. Live Tab
 
-- Reserved for **Phase 7 (Live Mode)**.
-- Explains the local bridge architecture connecting to local WebSocket ports (`ws://localhost:47321`, `47322`, `47323`) to stream real-time design updates directly to AI agents.
+- **Purpose**: Share the current Figma selection with a local AI agent in real time ("match this").
+- **Workflow**:
+  1. The agent calls the `start_live` MCP tool and shows you a 6-digit pairing code.
+  2. Enter the code in the Live tab and click **Connect**. The tab tries the local ports `47321-47323` in order and stores a session token in `figma.clientStorage` for reconnects.
+  3. Select a single layer: a component or component set is converted to a component spec, a variant resolves to its set, an instance resolves to its main component, and anything else becomes a frame summary. A 2x PNG preview is attached (dropping to 1x/0.5x if larger than 4 MB).
+  4. The agent calls `get_live_selection` and receives the spec, preview, warnings and a diff against the last exported kit.
+  5. Click **Disconnect** to send `bye` and clear the token.
+- **Privacy**: Live mode only talks to Frame-Relay on your computer (`127.0.0.1`); nothing is uploaded. The manifest's `networkAccess` allows only `ws://localhost:47321-47323`.
 
 ---
 

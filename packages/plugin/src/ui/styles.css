@@ -587,3 +587,115 @@ body {
   color: var(--color-text);
   font-size: 13px;
 }
+
+/* Live Mode */
+.live-status-row {
+  display: flex;
+  align-items: center;
+}
+
+.live-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.live-status-pill.connected {
+  background-color: var(--color-success-bg);
+  border-color: var(--color-success-border);
+  color: var(--color-success-text);
+}
+
+.live-status-pill.connecting {
+  background-color: var(--color-info-bg);
+  border-color: var(--color-info-border);
+  color: var(--color-info-text);
+}
+
+.live-status-pill.error {
+  background-color: var(--color-danger-bg);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger-text);
+  white-space: normal;
+}
+
+.live-connect-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.live-code-input {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-family: var(--font-family);
+  letter-spacing: 3px;
+  text-align: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  outline: none;
+}
+
+.live-code-input:focus {
+  border-color: var(--color-primary);
+}
+
+.live-hint {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.live-hint-error {
+  color: var(--color-danger-text);
+}
+
+.live-selection {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.live-thumbnail {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-secondary);
+}
+
+.live-selection-name {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.live-selection-meta {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.live-privacy-note {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  line-height: 1.5;
+}

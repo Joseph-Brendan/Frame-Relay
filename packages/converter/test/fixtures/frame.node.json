@@ -1,0 +1,101 @@
+{
+  "id": "frame-hero",
+  "name": "Hero Card",
+  "type": "FRAME",
+  "layoutMode": "VERTICAL",
+  "itemSpacing": 12,
+  "paddingTop": 16,
+  "paddingRight": 16,
+  "paddingBottom": 16,
+  "paddingLeft": 16,
+  "primaryAxisAlignItems": "MIN",
+  "counterAxisAlignItems": "MIN",
+  "layoutSizingHorizontal": "FIXED",
+  "layoutSizingVertical": "FIXED",
+  "width": 320,
+  "height": 480,
+  "cornerRadius": 12,
+  "fills": [
+    {
+      "type": "SOLID",
+      "color": { "r": 0.972549, "g": 0.980392, "b": 0.988235 },
+      "opacity": 1
+    }
+  ],
+  "boundVariables": {
+    "itemSpacing": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-3" },
+    "paddingTop": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "paddingRight": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "paddingBottom": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "paddingLeft": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" },
+    "cornerRadius": { "type": "VARIABLE_ALIAS", "id": "VariableID:radius-md" }
+  },
+  "children": [
+    {
+      "id": "frame-hero-title",
+      "name": "title",
+      "type": "TEXT",
+      "characters": "Build faster",
+      "fontSize": 24,
+      "fontWeight": 600,
+      "fontName": { "family": "Inter", "style": "Semi Bold" },
+      "lineHeight": { "unit": "AUTO" },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.058824, "g": 0.090196, "b": 0.164706 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-900" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "frame-hero-body",
+      "name": "body",
+      "type": "TEXT",
+      "characters": "Design kits for agents.",
+      "fontSize": 14,
+      "fontWeight": 400,
+      "fontName": { "family": "Inter", "style": "Regular" },
+      "lineHeight": { "unit": "AUTO" },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": { "r": 0.392157, "g": 0.454902, "b": 0.545098 },
+          "boundVariables": {
+            "color": { "type": "VARIABLE_ALIAS", "id": "VariableID:color-neutral-500" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "frame-hero-cta",
+      "name": "cta",
+      "type": "INSTANCE",
+      "mainComponentName": "Button"
+    },
+    {
+      "id": "frame-hero-cta-2",
+      "name": "cta-secondary",
+      "type": "INSTANCE",
+      "mainComponentName": "Button"
+    },
+    {
+      "id": "frame-hero-badge",
+      "name": "badge",
+      "type": "INSTANCE",
+      "mainComponentName": "Badge"
+    },
+    {
+      "id": "frame-hero-icon",
+      "name": "icon-left",
+      "type": "FRAME",
+      "width": 16,
+      "height": 16,
+      "boundVariables": {
+        "width": { "type": "VARIABLE_ALIAS", "id": "VariableID:space-4" }
+      }
+    }
+  ]
+}

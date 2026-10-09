@@ -84,7 +84,7 @@ frame-relay sync [--from <zip>] [--kit <dir>] [--force] [--dry-run]
 3. **Design Tokens**: Writes `--fr-*` CSS variables, dark mode selectors, Tailwind v4 `@theme inline` block, and typography utilities. Injects `@import "./frame-relay-tokens.css";` into your CSS entry.
 4. **Component Codegen**: Generates CVA-powered React components in `componentsDir` along with `src/lib/cn.ts` and `index.ts`.
 5. **Safe Re-Sync**: Compares file hashes against `.frame-relay/lock.json`. Preserves user edits and writes conflicts to `<Name>.generated.tsx`.
-6. **Agent Rules**: Generates `.frame-relay/components.md`, updates `AGENTS.md` (under 40 lines), `.agents/rules/frame-relay.md`, `.cursor/rules/frame-relay.mdc`, and `CLAUDE.md`.
+6. **Agent Rules**: Generates `.frame-relay/components.md`, updates `AGENTS.md` (under 40 lines), `.agents/rules/frame-relay.md`, `.cursor/rules/frame-relay.mdc`, and `CLAUDE.md`, merges `opencode.json`, and adds `.frame-relay/live.json` to `.gitignore`.
 
 ### 3. `frame-relay check`
 
@@ -109,19 +109,42 @@ frame-relay check [paths...] [--json]
 
 ### 4. `frame-relay mcp`
 
-Runs the local Model Context Protocol (MCP) server over stdio for AI agent integration (Antigravity, Cursor, Claude Code).
+Runs the local Model Context Protocol (MCP) server over stdio for AI agent integration (Antigravity, Cursor, Claude Code, OpenCode).
 
 ```bash
-frame-relay mcp [--root <dir>] [--print-config]
+frame-relay mcp [--root <dir>] [--print-config] [--live]
 ```
 
 - `--root <dir>`: Explicit project root directory (otherwise resolved via `--root`, `FRAME_RELAY_ROOT`, or upward walk).
-- `--print-config`: Prints ready-to-paste JSON configuration snippets for Antigravity, Cursor, and Claude Code.
-- For complete documentation on all 7 MCP tools, resources, and client setup, see [docs/mcp.md](mcp.md).
+- `--print-config`: Prints ready-to-paste JSON configuration snippets for Antigravity, Cursor, Claude Code, and OpenCode.
+- `--live`: Starts the live-mode WebSocket bridge at startup. Agents can also start it on demand with the `start_live` tool.
+- For complete documentation on all 10 MCP tools, resources, client setup and live mode, see [docs/mcp.md](mcp.md) and [docs/live-mode.md](live-mode.md).
 
-### 5. `frame-relay doctor`
+### 5. `frame-relay live`
 
-Verifies project health, environment requirements, design kit integrity, generated files, and MCP server connectivity.
+Prints the state stored in `.frame-relay/live.json` while a live session is running.
+
+```bash
+frame-relay live
+```
+
+Example output:
+
+```text
+Frame-Relay live mode
+  Status:    running
+  Port:      47321
+  Paired:    no
+  Code:      123456 (expires in 8m 12s)
+  Started:   2026-10-09T13:00:00.000Z
+```
+
+When no session is running it prints:
+`Live mode is not running. Ask your agent to start it, or run the MCP server with --live.`
+
+### 6. `frame-relay doctor`
+
+Verifies project health, environment requirements, design kit integrity, generated files, live ports, and MCP server connectivity.
 
 ```bash
 frame-relay doctor [--cwd <dir>]
@@ -134,7 +157,8 @@ frame-relay doctor [--cwd <dir>]
 3. **Design Kit**: Confirms design kit files exist and pass validation.
 4. **Generated Files**: Verifies presence of components, token stylesheets, and utility helpers.
 5. **MCP Config Files**: Checks client configuration files (`.agents/mcp_config.json`, `.cursor/mcp.json`, `.mcp.json`).
-6. **MCP Server Startup**: Verifies `frame-relay mcp` initializes cleanly.
+6. **Live Ports**: Reports whether `127.0.0.1:47321-47323` are free for live mode.
+7. **MCP Server Startup**: Verifies `frame-relay mcp` initializes cleanly.
 
 ---
 
@@ -154,7 +178,8 @@ Created by `frame-relay init`:
   "agents": {
     "antigravity": true,
     "cursor": true,
-    "claude": true
+    "claude": true,
+    "opencode": true
   },
   "mcp": true
 }
@@ -202,9 +227,12 @@ my-project/
 ├── .cursor/
 │   └── rules/
 │       └── frame-relay.mdc         # Cursor MDC rules (alwaysApply: true)
+├── opencode.json                   # OpenCode MCP server (merged, other keys kept)
 ├── AGENTS.md                       # Core design rules (< 40 lines)
 └── CLAUDE.md                       # Claude Code instructions (@AGENTS.md)
 ```
+
+`.gitignore` also gains `.frame-relay/live.json`, so pairing codes are never committed.
 
 ---
 

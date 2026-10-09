@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path';
 import pc from 'picocolors';
 import { loadConfig } from '../config.js';
 import { readAndValidateKit } from '../kit/discovery.js';
+import { checkLivePorts } from '../live/ports.js';
 import { createMcpServer } from '../mcp/server.js';
 
 export interface DoctorCheckResult {
@@ -169,7 +170,27 @@ export async function runDoctor(options: DoctorOptions = {}): Promise<boolean> {
     });
   }
 
-  // 6. MCP Server Startup
+  // 6. Live Ports
+  const portStates = await checkLivePorts();
+  const portSummary = portStates
+    .map((state) => `${state.port} ${state.free ? 'free' : 'in use'}`)
+    .join(', ');
+  if (portStates.some((state) => state.free)) {
+    results.push({
+      name: 'Live Ports',
+      passed: true,
+      message: `Live ports on 127.0.0.1: ${portSummary}.`,
+    });
+  } else {
+    results.push({
+      name: 'Live Ports',
+      passed: false,
+      message: `All live ports are in use: ${portSummary}.`,
+      fix: 'Close the other Frame-Relay live session or the program using ports 47321-47323, then run doctor again.',
+    });
+  }
+
+  // 7. MCP Server Startup
   try {
     const serverInstance = await createMcpServer({ root: cwd, watch: false });
     await serverInstance.close();

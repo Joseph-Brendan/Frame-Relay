@@ -85,6 +85,7 @@ export interface NodeSnapshot {
   componentPropertyDefinitions?: Record<string, ComponentPropertyDefinitionSnapshot>;
   variantProperties?: Record<string, string>;
   componentPropertyReferences?: Record<string, string>;
+  mainComponentName?: string;
   children?: NodeSnapshot[];
   [key: string]: unknown;
 }

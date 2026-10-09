@@ -85,6 +85,34 @@ export interface ResizeWindowMessage {
   height: number;
 }
 
+// -------------------------------------------------------------
+// Live mode: UI Thread -> Main Thread
+// -------------------------------------------------------------
+
+export interface LiveSetActiveMessage {
+  version: typeof PROTOCOL_VERSION;
+  type: 'LIVE_SET_ACTIVE';
+  active: boolean;
+}
+
+export interface LiveGetTokensMessage {
+  version: typeof PROTOCOL_VERSION;
+  type: 'LIVE_GET_TOKENS';
+}
+
+export interface LiveSetTokenMessage {
+  version: typeof PROTOCOL_VERSION;
+  type: 'LIVE_SET_TOKEN';
+  port: number;
+  token: string;
+}
+
+export interface LiveClearTokenMessage {
+  version: typeof PROTOCOL_VERSION;
+  type: 'LIVE_CLEAR_TOKEN';
+  port: number;
+}
+
 export type UIToMainMessage =
   | InitRequestMessage
   | SetSettingsMessage
@@ -95,7 +123,11 @@ export type UIToMainMessage =
   | CancelOperationMessage
   | SelectNodeMessage
   | NotifyMessage
-  | ResizeWindowMessage;
+  | ResizeWindowMessage
+  | LiveSetActiveMessage
+  | LiveGetTokensMessage
+  | LiveSetTokenMessage
+  | LiveClearTokenMessage;
 
 // -------------------------------------------------------------
 // Messages from Main Thread -> UI Thread
@@ -163,6 +195,42 @@ export interface ErrorMessage {
   message: string;
 }
 
+// -------------------------------------------------------------
+// Live mode: Main Thread -> UI Thread
+// -------------------------------------------------------------
+
+export interface LiveTokensMessage {
+  version: typeof PROTOCOL_VERSION;
+  type: 'LIVE_TOKENS';
+  /** Stored session tokens keyed by port number, e.g. { "47321": "abc123" } */
+  tokens: Record<string, string>;
+}
+
+/**
+ * Everything the UI needs to convert one live selection: the node snapshot plus the variables,
+ * styles and PNG preview resolved by the main thread.
+ */
+export interface LiveSelectionPayload {
+  kind: 'component' | 'frame';
+  snapshot: NodeSnapshot;
+  variantProperties?: Record<string, string>;
+  collections: VariableCollectionSnapshot[];
+  variables: VariableSnapshot[];
+  styles: StyleIndex;
+  imageBytes: number[] | null;
+  imageScale: number | null;
+  pageName: string;
+  fileName: string;
+}
+
+export interface LiveSelectionEventMessage {
+  version: typeof PROTOCOL_VERSION;
+  type: 'LIVE_SELECTION';
+  /** Null when nothing (or more than one layer) is selected. */
+  selection: LiveSelectionPayload | null;
+  error?: string;
+}
+
 export type MainToUIMessage =
   | InitResponseMessage
   | ProgressMessage
@@ -171,7 +239,9 @@ export type MainToUIMessage =
   | ScreenshotChunkMessage
   | ScreenshotCompleteMessage
   | OperationCancelledMessage
-  | ErrorMessage;
+  | ErrorMessage
+  | LiveTokensMessage
+  | LiveSelectionEventMessage;
 
 export type PluginMessage = UIToMainMessage | MainToUIMessage;
 
@@ -198,6 +268,10 @@ export function isUIToMainMessage(val: unknown): val is UIToMainMessage {
     'SELECT_NODE',
     'NOTIFY',
     'RESIZE_WINDOW',
+    'LIVE_SET_ACTIVE',
+    'LIVE_GET_TOKENS',
+    'LIVE_SET_TOKEN',
+    'LIVE_CLEAR_TOKEN',
   ];
   return uiTypes.includes(val.type);
 }
@@ -213,6 +287,8 @@ export function isMainToUIMessage(val: unknown): val is MainToUIMessage {
     'SCREENSHOT_COMPLETE',
     'OPERATION_CANCELLED',
     'ERROR',
+    'LIVE_TOKENS',
+    'LIVE_SELECTION',
   ];
   return mainTypes.includes(val.type);
 }

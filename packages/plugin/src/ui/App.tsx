@@ -464,7 +464,7 @@ export function App(): JSX.Element {
           className={`tab-btn ${activeTab === 'live' ? 'active' : ''}`}
           onClick={() => setActiveTab('live')}
         >
-          Live <span className="badge-tag">Phase 7</span>
+          Live
         </button>
       </nav>
 
@@ -501,7 +501,7 @@ export function App(): JSX.Element {
         />
       )}
 
-      {activeTab === 'live' && <LiveTab />}
+      {activeTab === 'live' && <LiveTab fileName={fileName} />}
 
       <SettingsModal
         isOpen={isSettingsOpen}

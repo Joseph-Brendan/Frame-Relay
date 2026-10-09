@@ -6,9 +6,11 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { ComponentSpec } from '@josephbrendan/schema';
 import { checkFile, CheckViolation } from '../check/index.js';
 import { VERSION } from '../index.js';
+import { LiveBridge, formatAge, LiveSelectionRecord } from '../live/bridge.js';
+import { diffComponentSpecs } from '../live/diff.js';
 import { KitCache } from './cache.js';
 
-export function registerMcpTools(server: McpServer, cache: KitCache): void {
+export function registerMcpTools(server: McpServer, cache: KitCache, live: LiveBridge): void {
   function getKitOrNoKitMessage() {
     const kit = cache.getActiveKit();
     if (!kit) {
@@ -53,6 +55,13 @@ export function registerMcpTools(server: McpServer, cache: KitCache): void {
       const modes =
         kit.manifest.modes && kit.manifest.modes.length > 0 ? kit.manifest.modes : ['light'];
 
+      const liveStatus = live.getStatus();
+      const liveLine = !liveStatus.running
+        ? 'off (export-based kit)'
+        : liveStatus.paired
+          ? `on (port ${liveStatus.port}, connected to ${liveStatus.fileName ?? 'Figma'})`
+          : `on (port ${liveStatus.port}, waiting for the plugin to pair)`;
+
       const infoData = {
         projectRoot: cache.root,
         kitName: kit.manifest.name,
@@ -64,7 +73,14 @@ export function registerMcpTools(server: McpServer, cache: KitCache): void {
         componentsDir,
         importPathPrefix: importPrefix,
         frameRelayVersion: VERSION,
-        liveMode: 'off',
+        liveMode: liveStatus.running ? 'on' : 'off',
+        live: {
+          running: liveStatus.running,
+          port: liveStatus.port,
+          paired: liveStatus.paired,
+          fileName: liveStatus.fileName,
+          lastSelectionName: liveStatus.lastSelection?.name ?? null,
+        },
       };
 
       const markdown = [
@@ -79,7 +95,7 @@ export function registerMcpTools(server: McpServer, cache: KitCache): void {
         `- **Components Directory**: \`${infoData.componentsDir}\``,
         `- **Import Prefix**: \`${infoData.importPathPrefix}\``,
         `- **Frame-Relay CLI Version**: \`${infoData.frameRelayVersion}\``,
-        `- **Live Mode**: off (export-based kit)`,
+        `- **Live Mode**: ${liveLine}`,
       ].join('\n');
 
       return {
@@ -339,9 +355,9 @@ export function registerMcpTools(server: McpServer, cache: KitCache): void {
 
         let val = typeof t.$value === 'string' ? t.$value : JSON.stringify(t.$value);
         if (mode && t.$extensions && typeof t.$extensions === 'object') {
-          const figmaExt = (t.$extensions as Record<string, unknown>)['com.figma'] as
+          const frameRelayExt = (t.$extensions as Record<string, unknown>)['frame-relay'] as
             Record<string, unknown> | undefined;
-          const modeValues = figmaExt?.modes as Record<string, unknown> | undefined;
+          const modeValues = frameRelayExt?.modes as Record<string, unknown> | undefined;
           if (modeValues && modeValues[mode] !== undefined) {
             val = String(modeValues[mode]);
           }
@@ -638,21 +654,324 @@ export function registerMcpTools(server: McpServer, cache: KitCache): void {
     },
   );
 
-  // 7. get_live_selection
-  server.registerTool(
-    'get_live_selection',
-    {
-      description: 'Inspect the current Figma selection in live mode (WebSocket bridge).',
-    },
-    async () => {
+  function pairingSteps(code: string | null): string {
+    return code
+      ? `Open the Frame-Relay plugin in Figma, go to the Live tab, enter code ${code}, and click Connect.`
+      : 'Open the Frame-Relay plugin in Figma, go to the Live tab, and click Connect.';
+  }
+
+  function fallbackKitResult(fallbackName: string) {
+    const kitCheck = getKitOrNoKitMessage();
+    if (!kitCheck.hasKit) return kitCheck.noKitResult;
+
+    const found = cache.findComponent(fallbackName);
+    if (!found) {
+      const similar = cache.findSimilarComponentNames(fallbackName);
+      const suggestion = similar.length > 0 ? ` Did you mean "${similar[0]}"?` : '';
       return {
         content: [
           {
-            type: 'text',
-            text: 'Live mode is not available in this version. Use get_component and get_screenshot with the exported kit.',
+            type: 'text' as const,
+            text: formatWithWarning(
+              `Live mode has no selection, and the exported kit has no component named "${fallbackName}".${suggestion} Call list_components to see every component.`,
+            ),
           },
         ],
+        structuredContent: { source: 'exported-kit', component: null, spec: null },
       };
+    }
+
+    const exportedAt = cache.getActiveKit()?.manifest.exportedAt ?? 'unknown';
+    const text = [
+      `Live mode has no selection yet, so here is the exported spec for "${found.spec.name}" from the last kit export.`,
+      '',
+      `- **Source**: exported kit \`${cache.kitDir ?? cache.root}\``,
+      `- **Exported at**: ${exportedAt}`,
+      '',
+      '```json',
+      JSON.stringify(found.spec, null, 2),
+      '```',
+    ].join('\n');
+
+    return {
+      content: [{ type: 'text' as const, text: formatWithWarning(text) }],
+      structuredContent: { source: 'exported-kit', component: found.spec.name, spec: found.spec },
+    };
+  }
+
+  function selectionResult(record: LiveSelectionRecord) {
+    const message = record.message;
+    const lines = [
+      `# Live Selection: ${message.meta.name}`,
+      '',
+      `- **Kind**: ${message.kind}`,
+      `- **Figma file**: ${message.meta.fileName}`,
+      `- **Page**: ${message.meta.pageName}`,
+      `- **Node**: ${message.meta.nodeId} (${message.meta.nodeType})`,
+      '',
+      '## Spec',
+      '```json',
+      JSON.stringify(message.spec, null, 2),
+      '```',
+      '',
+      '## Warnings',
+      ...(message.warnings.length > 0
+        ? message.warnings.map((w) => `- [${w.severity}] ${w.code}: ${w.message}`)
+        : ['None.']),
+    ];
+
+    let differences: string[] = [];
+    let matchedKitComponent: string | null = null;
+
+    if (message.kind === 'component') {
+      const found = cache.findComponent(message.spec.name);
+      if (found) {
+        matchedKitComponent = found.spec.name;
+        differences = diffComponentSpecs(message.spec, found.spec);
+        lines.push('', '## Diff vs exported kit');
+        if (differences.length > 0) {
+          lines.push(
+            ...differences.map((d) => `- ${d}`),
+            '',
+            'Figma has changed since the last export. Re-export the kit and run sync.',
+          );
+        } else {
+          lines.push('No differences. This selection matches the exported kit.');
+        }
+      } else {
+        lines.push(
+          '',
+          `"${message.spec.name}" is not in the exported kit yet. Re-export the kit and run sync to add it.`,
+        );
+      }
+    }
+
+    const content: Array<
+      { type: 'text'; text: string } | { type: 'image'; data: string; mimeType: string }
+    > = [{ type: 'text', text: formatWithWarning(lines.join('\n')) }];
+    if (message.image) {
+      content.push({ type: 'image', data: message.image, mimeType: 'image/png' });
+    }
+
+    return {
+      content,
+      structuredContent: {
+        meta: message.meta,
+        kind: message.kind,
+        spec: message.spec,
+        warnings: message.warnings,
+        differences,
+        matchedKitComponent,
+      },
+    };
+  }
+
+  // 7. start_live
+  server.registerTool(
+    'start_live',
+    {
+      description:
+        'Call when the user wants live mode or mentions their Figma selection. Starts the local bridge and returns the pairing code to show the user.',
+    },
+    async () => {
+      if (!live.isRunning()) {
+        try {
+          await live.start();
+        } catch (err) {
+          const detail = err instanceof Error ? err.message : String(err);
+          return {
+            content: [
+              {
+                type: 'text' as const,
+                text: `${detail}\n\nFix: close the program using the port or stop the old MCP server, then call start_live again.`,
+              },
+            ],
+            structuredContent: { running: false, error: detail },
+          };
+        }
+      }
+
+      const status = live.getStatus();
+      if (status.paired) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: `Live mode is already running on 127.0.0.1:${status.port} and connected to "${status.fileName ?? 'Figma'}". Ask the user to select a layer, then call get_live_selection.`,
+            },
+          ],
+          structuredContent: { ...status, steps: null },
+        };
+      }
+
+      const steps = pairingSteps(status.code);
+      const text = [
+        '# Live Mode Started',
+        '',
+        `- **Port**: ${status.port}`,
+        `- **Pairing code**: \`${status.code}\``,
+        '',
+        'Show this to the user:',
+        '',
+        `> ${steps}`,
+      ].join('\n');
+
+      return {
+        content: [{ type: 'text' as const, text: formatWithWarning(text) }],
+        structuredContent: {
+          running: true,
+          port: status.port,
+          code: status.code,
+          codeExpiresAt: status.codeExpiresAt,
+          paired: false,
+          steps,
+        },
+      };
+    },
+  );
+
+  // 8. stop_live
+  server.registerTool(
+    'stop_live',
+    {
+      description:
+        'Call when the user is done with live mode. Stops the bridge and clears the paired session.',
+    },
+    async () => {
+      const wasRunning = live.isRunning();
+      await live.stop();
+      return {
+        content: [
+          {
+            type: 'text' as const,
+            text: wasRunning
+              ? 'Live mode stopped. The pairing code and session token are no longer valid. Call start_live to start again.'
+              : 'Live mode was not running.',
+          },
+        ],
+        structuredContent: { running: false },
+      };
+    },
+  );
+
+  // 9. get_live_status
+  server.registerTool(
+    'get_live_status',
+    {
+      description:
+        'Call to check whether live mode is running, whether a plugin is paired, and when the last selection arrived.',
+    },
+    async () => {
+      const status = live.getStatus();
+      if (!status.running) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: 'Live mode is not running. Call start_live to start it, then show the user the pairing code.',
+            },
+          ],
+          structuredContent: { ...status },
+        };
+      }
+
+      const lines = [
+        '# Live Mode Status',
+        '',
+        '- **Running**: yes',
+        `- **Port**: ${status.port}`,
+        `- **Paired**: ${status.paired ? 'yes' : 'no'}`,
+      ];
+      if (status.paired) {
+        lines.push(`- **Connected file**: ${status.fileName ?? 'unknown'}`);
+      } else {
+        lines.push(`- **Pairing code**: \`${status.code}\``);
+      }
+      if (status.lastSelection) {
+        lines.push(
+          `- **Last selection**: ${status.lastSelection.name} (${status.lastSelection.kind}, ${formatAge(status.lastSelection.ageMs)})`,
+        );
+      } else {
+        lines.push('- **Last selection**: none yet');
+      }
+
+      return {
+        content: [{ type: 'text' as const, text: formatWithWarning(lines.join('\n')) }],
+        structuredContent: { ...status },
+      };
+    },
+  );
+
+  // 10. get_live_selection
+  server.registerTool(
+    'get_live_selection',
+    {
+      description:
+        'Call when the user says "match this" or refers to their Figma selection. Returns the selected layer plus differences from the exported kit.',
+      inputSchema: {
+        fallbackName: z
+          .string()
+          .optional()
+          .describe(
+            'Component name from the exported kit to return when live mode has no selection',
+          ),
+      },
+    },
+    async ({ fallbackName }) => {
+      const status = live.getStatus();
+
+      if (!status.running) {
+        if (fallbackName) return fallbackKitResult(fallbackName);
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: 'Live mode is not running. Call start_live, show the user the pairing code, and ask them to connect the Frame-Relay plugin.',
+            },
+          ],
+          structuredContent: { running: false, paired: false },
+        };
+      }
+
+      if (!status.paired) {
+        const steps = pairingSteps(status.code);
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: `Live mode is running on port ${status.port}, but no Figma plugin has paired yet.\n\n${steps}\n\nIf the code expired, call start_live for a fresh code.`,
+            },
+          ],
+          structuredContent: {
+            running: true,
+            paired: false,
+            port: status.port,
+            code: status.code,
+            steps,
+          },
+        };
+      }
+
+      const record = live.getSelectionRecord();
+      if (!record) {
+        if (fallbackName) return fallbackKitResult(fallbackName);
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: `A plugin is connected (${status.fileName ?? 'Figma'}) but no layer has been shared yet. Ask the user to select a single layer in Figma; the plugin sends it automatically.`,
+            },
+          ],
+          structuredContent: {
+            running: true,
+            paired: true,
+            fileName: status.fileName,
+            selection: null,
+          },
+        };
+      }
+
+      return selectionResult(record);
     },
   );
 }
