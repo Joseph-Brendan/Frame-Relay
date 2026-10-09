@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: If you use Frame-Relay in your work, please cite it as below.
+title: Frame-Relay
+abstract: Turn your Figma components into a design kit your AI coding agent follows.
+type: software
+authors:
+  - family-names: Brendan
+    given-names: Joseph
+repository-code: https://github.com/Joseph-Brendan/Frame-Relay
+url: https://github.com/Joseph-Brendan/Frame-Relay
+license: MIT
+version: 0.1.0-beta
+keywords:
+  - figma
+  - design system
+  - design tokens
+  - ai agents
+  - mcp
