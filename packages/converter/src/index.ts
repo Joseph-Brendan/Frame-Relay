@@ -6,4 +6,5 @@ export * from './layout.js';
 export * from './anatomy.js';
 export * from './description.js';
 export * from './variants.js';
+export * from './summarize.js';
 export * from './convert.js';

@@ -9,6 +9,7 @@ import {
   convertVariables,
   NodeSnapshot,
   StyleIndex,
+  summarizeFrame,
 } from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -321,6 +322,53 @@ describe('Real Dump Fixture Tests', () => {
 
       const elapsedMs = performance.now() - startTime;
       expect(elapsedMs).toBeLessThan(5000);
+    });
+  });
+
+  describe('Live frame summaries (summarizeFrame)', () => {
+    const dumpFiles = [
+      '1-clean-design-system.json',
+      '2-community-kit.json',
+      '3-messy.json',
+      '4-large-library.json',
+    ];
+
+    it('summarizes every real dump component deterministically without throwing', () => {
+      for (const file of dumpFiles) {
+        const dump = loadJson<RealDumpFile>(join(realFixturesDir, file));
+        const { variableIndex } = convertVariables({
+          collections: dump.collections ?? [],
+          variables: dump.variables ?? [],
+        });
+
+        for (const comp of dump.components) {
+          const first = summarizeFrame(comp, variableIndex, dump.styles);
+          const second = summarizeFrame(comp, variableIndex, dump.styles);
+
+          expect(JSON.stringify(first)).toBe(JSON.stringify(second));
+          expect(typeof first.name).toBe('string');
+          expect(first.size.width).toBe(typeof comp.width === 'number' ? comp.width : 0);
+          expect(first.childCount).toBe(comp.children?.length ?? 0);
+          expect(first.componentInstances).toEqual([]);
+          expect(Array.isArray(first.tokenReferences)).toBe(true);
+          expect(Array.isArray(first.rawValues)).toBe(true);
+        }
+      }
+    });
+
+    it('File 1 Button summary reports the exported token references', () => {
+      const dump1 = loadJson<RealDumpFile>(join(realFixturesDir, '1-clean-design-system.json'));
+      const { variableIndex } = convertVariables({
+        collections: dump1.collections,
+        variables: dump1.variables,
+      });
+
+      const buttonNode = dump1.components.find((c) => c.name === 'Button')!;
+      const summary = summarizeFrame(buttonNode, variableIndex, dump1.styles);
+
+      expect(summary.name).toBe('Button');
+      expect(summary.tokenReferences).toContain('{primary-color}');
+      expect(summary.tokenReferences).toContain('{corner}');
     });
   });
 });
