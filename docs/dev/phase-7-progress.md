@@ -36,19 +36,19 @@ tick items as they land instead of rewriting history.
 
 ## Stage 3: plugin Live tab
 
-- [ ] Main thread `selectionchange`, debounced 300ms, only while connected
-- [ ] Selection resolver: component set/component, variant in a set, instance via `getMainComponentAsync`, anything else as a frame
-- [ ] PNG export scale 2, retry at 1 then 0.5 when over 4 MB
-- [ ] Empty selection message when nothing or several layers are selected
-- [ ] UI Live tab: 6-digit input, Connect, status pill (Disconnected, Connecting, Connected to `<project>`, Error)
-- [ ] Port trying with hello + pair, short timeout, move on after connection failure/BAD_CODE, stop at `TOO_MANY_ATTEMPTS`
-- [ ] Token per port via main thread `clientStorage`, resume first on reopen or after a drop
-- [ ] Reconnect backoff 1, 2, 4, 8, then every 30 seconds
-- [ ] Run `convertComponent` or `summarizeFrame` in the UI, then send the selection
-- [ ] Last selection name + thumbnail, Disconnect (sends `bye`, clears token)
-- [ ] Privacy note shown in the tab
-- [ ] Manifest `networkAccess` unchanged (or report to owner if it must change)
-- [ ] Plugin tests: selection resolver with fake nodes, port trying and reconnect with a mocked WebSocket
+- [x] Main thread `selectionchange`, debounced 300ms, only while connected
+- [x] Selection resolver: component set/component, variant in a set, instance via `getMainComponentAsync`, anything else as a frame
+- [x] PNG export scale 2, retry at 1 then 0.5 when over 4 MB
+- [x] Empty selection message when nothing or several layers are selected
+- [x] UI Live tab: 6-digit input, Connect, status pill (Disconnected, Connecting, Connected to `<project>`, Error)
+- [x] Port trying with hello + pair, short timeout, move on after connection failure/BAD_CODE, stop at `TOO_MANY_ATTEMPTS`
+- [x] Token per port via main thread `clientStorage`, resume first on reopen or after a drop
+- [x] Reconnect backoff 1, 2, 4, 8, then every 30 seconds
+- [x] Run `convertComponent` or `summarizeFrame` in the UI, then send the selection
+- [x] Last selection name + thumbnail, Disconnect (sends `bye`, clears token)
+- [x] Privacy note shown in the tab
+- [x] Manifest `networkAccess` unchanged (or report to owner if it must change)
+- [x] Plugin tests: selection resolver with fake nodes, port trying and reconnect with a mocked WebSocket
 
 ## Stage 4: end-to-end tests, docs and PR
 
@@ -149,3 +149,35 @@ Append new entries at the end; do not rewrite earlier ones.
   page Origin is rejected with HTTP 401, so do not add an Origin header manually.
 - Errors are always `{ v: 1, type: "error", code, message }` with plain-English `message`; display
   the message and use `code` for control flow.
+
+### Stage 3 (2026-10-09)
+
+- `manifest.json` did **not** change. `networkAccess.allowedDomains` already lists
+  `ws://localhost:47321-47323` with a reasoning string, and `documentAccess` is already
+  `dynamic-page`. The UI connects to `ws://localhost:<port>` (not `ws://127.0.0.1`) so the
+  allowlist matches; the bridge itself still binds `127.0.0.1` only.
+- Main thread never touches the network: `dist/code.js` has zero `WebSocket` references and the
+  bundle stays an IIFE with no imports/exports, top-level await or Node globals. Only
+  `src/ui/live/client.ts` creates the socket.
+- The main thread sends a `LIVE_SELECTION` event carrying the snapshot **plus** variables, styles
+  and a PNG preview. The UI then runs `convertVariables` + `convertComponent`/`summarizeFrame`, so
+  no conversion or token-mapping logic is duplicated in the plugin bridge.
+- Resolution rules live in `src/main/live-resolve.ts` (pure, fake-node testable): variant -> set
+  (variant properties remembered), instance -> main component/set via `getMainComponentAsync`
+  (frame fallback when null or throwing), everything else -> frame. Multiple/zero layers -> a
+  `LIVE_SELECTION` event with `selection: null`; the UI shows "Select one layer to share it live".
+- `snapshotNode` now records `mainComponentName` on INSTANCE nodes, closing the Stage 1 follow-up,
+  so frame summaries list the components used.
+- PNG ladder: main exports at scale 2 and retries at 1 then 0.5 when a render is over 4 MiB. The
+  result is sent as `number[]`; the UI base64-encodes it. Worst case stays under the 6 MiB
+  `MAX_MESSAGE_BYTES` server cap.
+- Token storage is one `figma.clientStorage` record (`frame-relay-live-tokens`) keyed by port. The
+  UI persists/clears through the main thread; Disconnect clears only the connected port's token.
+- `LiveClient` connect only advances to the next port for connection failures and `BAD_CODE`.
+  `TOO_MANY_ATTEMPTS` and other server errors (`CODE_EXPIRED`, `VERSION_MISMATCH`, ...) stop
+  immediately and show the server's plain-English message. Reconnect after a drop only attempts
+  `resume` with saved tokens (no automatic re-pairing) with backoff 1s, 2s, 4s, 8s, then 30s.
+- The Live tab dropped its "Phase 7" placeholder badge; the old placeholder copy is gone.
+- Tests: 9 resolver tests with fake nodes, 13 client tests with a mocked `WebSocket` (including the
+  exact backoff sequence), 2 snapshot tests for `mainComponentName`, and the live UI/main messages
+  added to the typed message round-trip test.
