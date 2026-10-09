@@ -99,7 +99,7 @@ For every variant combination and state, the converter yields a `ScreenshotJob`:
 ```
 
 The naming convention strictly follows:
-`screenshots/<Component>--<variant values joined by ->--<State>.png`
+`screenshots/<Component>--<variant values joined by a hyphen>--<State>.png`
 
 ---
 
