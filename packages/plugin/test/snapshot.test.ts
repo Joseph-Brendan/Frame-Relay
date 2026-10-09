@@ -159,4 +159,30 @@ describe('snapshotNode', () => {
     expect(snapshot.children![0].id).toBe('child-1');
     expect(snapshot.children![0].characters).toBe('Submit');
   });
+
+  it('captures the main component name on INSTANCE nodes for live summaries', () => {
+    const instanceNode = {
+      id: 'inst-1',
+      name: 'Button instance',
+      type: 'INSTANCE',
+      visible: true,
+      mainComponent: { id: 'comp-1', name: 'Button', type: 'COMPONENT' },
+    } as unknown as InstanceNode;
+
+    const snapshot = snapshotNode(instanceNode);
+    expect(snapshot.mainComponentName).toBe('Button');
+  });
+
+  it('omits mainComponentName when the instance has no main component', () => {
+    const instanceNode = {
+      id: 'inst-2',
+      name: 'Detached instance',
+      type: 'INSTANCE',
+      visible: true,
+      mainComponent: null,
+    } as unknown as InstanceNode;
+
+    const snapshot = snapshotNode(instanceNode);
+    expect(snapshot.mainComponentName).toBeUndefined();
+  });
 });

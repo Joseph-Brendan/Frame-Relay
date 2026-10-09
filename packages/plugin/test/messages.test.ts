@@ -61,6 +61,26 @@ describe('Message Protocol', () => {
       width: 480,
       height: 640,
     },
+    {
+      version: PROTOCOL_VERSION,
+      type: 'LIVE_SET_ACTIVE',
+      active: true,
+    },
+    {
+      version: PROTOCOL_VERSION,
+      type: 'LIVE_GET_TOKENS',
+    },
+    {
+      version: PROTOCOL_VERSION,
+      type: 'LIVE_SET_TOKEN',
+      port: 47321,
+      token: 'session-token',
+    },
+    {
+      version: PROTOCOL_VERSION,
+      type: 'LIVE_CLEAR_TOKEN',
+      port: 47321,
+    },
   ];
 
   const mainMessages: MainToUIMessage[] = [
@@ -133,6 +153,48 @@ describe('Message Protocol', () => {
       version: PROTOCOL_VERSION,
       type: 'ERROR',
       message: 'Failed to access node',
+    },
+    {
+      version: PROTOCOL_VERSION,
+      type: 'LIVE_TOKENS',
+      tokens: { '47321': 'session-token' },
+    },
+    {
+      version: PROTOCOL_VERSION,
+      type: 'LIVE_SELECTION',
+      selection: {
+        kind: 'component',
+        snapshot: { id: '1:2', name: 'Button', type: 'COMPONENT_SET', visible: true },
+        variantProperties: { Variant: 'Primary' },
+        collections: [
+          {
+            id: 'col-1',
+            name: 'Tokens',
+            modes: [{ modeId: 'm1', name: 'Light' }],
+            defaultModeId: 'm1',
+          },
+        ],
+        variables: [
+          {
+            id: 'v1',
+            name: 'color/primary',
+            resolvedType: 'COLOR',
+            valuesByMode: { m1: { r: 0.1, g: 0.2, b: 0.8 } },
+          },
+        ],
+        styles: {
+          s1: { name: 'Heading/H1', tokenPath: 'heading.h1' },
+        },
+        imageBytes: [137, 80, 78, 71],
+        imageScale: 2,
+        pageName: 'Components',
+        fileName: 'Design System',
+      },
+    },
+    {
+      version: PROTOCOL_VERSION,
+      type: 'LIVE_SELECTION',
+      selection: null,
     },
   ];
 
